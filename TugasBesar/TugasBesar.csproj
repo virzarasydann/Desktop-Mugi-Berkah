@@ -66,6 +66,24 @@
     <Compile Include="Views\Pegawai\Kategori\ViewKategori.Designer.cs">
       <DependentUpon>ViewKategori.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pegawai\Operasional\ViewOperasional.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Pegawai\Operasional\ViewOperasional.Designer.cs">
+      <DependentUpon>ViewOperasional.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pegawai\Produk\ViewProduk.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Pegawai\Produk\ViewProduk.Designer.cs">
+      <DependentUpon>ViewProduk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pegawai\Riwayat\ViewRiwayat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Pegawai\Riwayat\ViewRiwayat.Designer.cs">
+      <DependentUpon>ViewRiwayat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pegawai\Transaksi\ViewTransaksi.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -96,6 +114,15 @@
     <EmbeddedResource Include="Views\Pegawai\Kategori\ViewKategori.resx">
       <DependentUpon>ViewKategori.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Pegawai\Operasional\ViewOperasional.resx">
+      <DependentUpon>ViewOperasional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Pegawai\Produk\ViewProduk.resx">
+      <DependentUpon>ViewProduk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Pegawai\Riwayat\ViewRiwayat.resx">
+      <DependentUpon>ViewRiwayat.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Pegawai\Transaksi\ViewTransaksi.resx">
       <DependentUpon>ViewTransaksi.cs</DependentUpon>
     </EmbeddedResource>
@@ -119,7 +146,6 @@
     <Folder Include="Models\" />
     <Folder Include="Services\" />
     <Folder Include="Views\Admin\" />
-    <Folder Include="Views\Pegawai\Produk\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
