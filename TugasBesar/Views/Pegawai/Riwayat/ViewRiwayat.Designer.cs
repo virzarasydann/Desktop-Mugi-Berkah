@@ -1,6 +1,6 @@
-﻿namespace TugasBesar.Views.Pegawai.Kategori
+﻿namespace TugasBesar.Views.Pegawai.Riwayat
 {
-    partial class ViewKategori
+    partial class ViewRiwayat
     {
         /// <summary> 
         /// Required designer variable.
@@ -36,18 +36,18 @@
             this.btnOperasional = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnSetText = new System.Windows.Forms.Button();
-            this.tbNamaKategori = new System.Windows.Forms.TextBox();
-            this.TableKategori = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.btnEditKategori = new System.Windows.Forms.Button();
-            this.btnHapusKategori = new System.Windows.Forms.Button();
-            this.btnTambahKategori = new System.Windows.Forms.Button();
+            this.tbTotalTransaksi = new System.Windows.Forms.TextBox();
+            this.tbTotalPendapatan = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
-            this.TableKategori.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flowLayoutPanel1
@@ -60,7 +60,7 @@
             this.flowLayoutPanel1.Location = new System.Drawing.Point(222, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(901, 69);
-            this.flowLayoutPanel1.TabIndex = 1;
+            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // btnTransaksi
             // 
@@ -118,131 +118,133 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(46, 93);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(79, 20);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Kategori";
+            this.label1.Size = new System.Drawing.Size(163, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Riwayat Transaksi";
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.btnSetText);
-            this.panel1.Controls.Add(this.tbNamaKategori);
-            this.panel1.Controls.Add(this.TableKategori);
+            this.panel1.Controls.Add(this.tableLayoutPanel1);
+            this.panel1.Controls.Add(this.tbTotalPendapatan);
+            this.panel1.Controls.Add(this.label3);
+            this.panel1.Controls.Add(this.tbTotalTransaksi);
             this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.btnEditKategori);
-            this.panel1.Controls.Add(this.btnHapusKategori);
-            this.panel1.Controls.Add(this.btnTambahKategori);
-            this.panel1.Location = new System.Drawing.Point(0, 152);
+            this.panel1.Location = new System.Drawing.Point(0, 157);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1404, 713);
-            this.panel1.TabIndex = 3;
-            // 
-            // btnSetText
-            // 
-            this.btnSetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetText.Location = new System.Drawing.Point(765, 260);
-            this.btnSetText.Name = "btnSetText";
-            this.btnSetText.Size = new System.Drawing.Size(112, 33);
-            this.btnSetText.TabIndex = 8;
-            this.btnSetText.Text = "Set Text";
-            this.btnSetText.UseVisualStyleBackColor = true;
-            // 
-            // tbNamaKategori
-            // 
-            this.tbNamaKategori.Location = new System.Drawing.Point(63, 160);
-            this.tbNamaKategori.Multiline = true;
-            this.tbNamaKategori.Name = "tbNamaKategori";
-            this.tbNamaKategori.Size = new System.Drawing.Size(224, 42);
-            this.tbNamaKategori.TabIndex = 7;
-            // 
-            // TableKategori
-            // 
-            this.TableKategori.ColumnCount = 2;
-            this.TableKategori.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.8088F));
-            this.TableKategori.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.1912F));
-            this.TableKategori.Controls.Add(this.label4, 1, 0);
-            this.TableKategori.Controls.Add(this.label3, 0, 0);
-            this.TableKategori.Location = new System.Drawing.Point(164, 311);
-            this.TableKategori.Name = "TableKategori";
-            this.TableKategori.RowCount = 2;
-            this.TableKategori.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.746356F));
-            this.TableKategori.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.25365F));
-            this.TableKategori.Size = new System.Drawing.Size(659, 343);
-            this.TableKategori.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(93, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 20);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Nama Kategori";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "No";
+            this.panel1.Size = new System.Drawing.Size(1404, 708);
+            this.panel1.TabIndex = 4;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(59, 136);
+            this.label2.Location = new System.Drawing.Point(58, 42);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(133, 20);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "Nama Kategori";
+            this.label2.Size = new System.Drawing.Size(139, 20);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Total Transaksi";
             // 
-            // btnEditKategori
+            // tbTotalTransaksi
             // 
-            this.btnEditKategori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditKategori.Location = new System.Drawing.Point(728, 32);
-            this.btnEditKategori.Name = "btnEditKategori";
-            this.btnEditKategori.Size = new System.Drawing.Size(184, 45);
-            this.btnEditKategori.TabIndex = 4;
-            this.btnEditKategori.Text = "Edit Kategori";
-            this.btnEditKategori.UseVisualStyleBackColor = true;
+            this.tbTotalTransaksi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTotalTransaksi.Location = new System.Drawing.Point(62, 65);
+            this.tbTotalTransaksi.Multiline = true;
+            this.tbTotalTransaksi.Name = "tbTotalTransaksi";
+            this.tbTotalTransaksi.Size = new System.Drawing.Size(217, 46);
+            this.tbTotalTransaksi.TabIndex = 1;
             // 
-            // btnHapusKategori
+            // tbTotalPendapatan
             // 
-            this.btnHapusKategori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHapusKategori.Location = new System.Drawing.Point(935, 32);
-            this.btnHapusKategori.Name = "btnHapusKategori";
-            this.btnHapusKategori.Size = new System.Drawing.Size(184, 45);
-            this.btnHapusKategori.TabIndex = 3;
-            this.btnHapusKategori.Text = "Hapus Kategori";
-            this.btnHapusKategori.UseVisualStyleBackColor = true;
+            this.tbTotalPendapatan.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbTotalPendapatan.Location = new System.Drawing.Point(352, 65);
+            this.tbTotalPendapatan.Multiline = true;
+            this.tbTotalPendapatan.Name = "tbTotalPendapatan";
+            this.tbTotalPendapatan.Size = new System.Drawing.Size(217, 46);
+            this.tbTotalPendapatan.TabIndex = 3;
             // 
-            // btnTambahKategori
+            // label3
             // 
-            this.btnTambahKategori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTambahKategori.Location = new System.Drawing.Point(528, 32);
-            this.btnTambahKategori.Name = "btnTambahKategori";
-            this.btnTambahKategori.Size = new System.Drawing.Size(184, 45);
-            this.btnTambahKategori.TabIndex = 0;
-            this.btnTambahKategori.Text = "Tambah Kategori";
-            this.btnTambahKategori.UseVisualStyleBackColor = true;
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(348, 42);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(155, 20);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Total Pendapatan";
             // 
-            // ViewKategori
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 4;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 19.76048F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80.23952F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 277F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 306F));
+            this.tableLayoutPanel1.Controls.Add(this.label7, 3, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label4, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(58, 170);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10.32746F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 89.67255F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(918, 397);
+            this.tableLayoutPanel1.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(3, 0);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(32, 20);
+            this.label4.TabIndex = 0;
+            this.label4.Text = "No";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(69, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(24, 20);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "Id";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(337, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 20);
+            this.label6.TabIndex = 2;
+            this.label6.Text = "Total Harga";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(614, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 20);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Tanggal";
+            // 
+            // ViewRiwayat
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "ViewKategori";
+            this.Name = "ViewRiwayat";
             this.Size = new System.Drawing.Size(1404, 865);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.TableKategori.ResumeLayout(false);
-            this.TableKategori.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,14 +260,14 @@
         private System.Windows.Forms.Button btnOperasional;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnEditKategori;
-        private System.Windows.Forms.Button btnHapusKategori;
-        private System.Windows.Forms.Button btnTambahKategori;
-        private System.Windows.Forms.TextBox tbNamaKategori;
-        private System.Windows.Forms.TableLayoutPanel TableKategori;
+        private System.Windows.Forms.TextBox tbTotalTransaksi;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox tbTotalPendapatan;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Button btnSetText;
     }
 }
