@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TugasBesar.Views.Pegawai.Transaksi;
 
 namespace TugasBesar.Views.Pegawai
 {
@@ -16,7 +17,7 @@ namespace TugasBesar.Views.Pegawai
         public BaseFormPegawai()
         {
             InitializeComponent();
-            PindahLayar(new UserControl1());
+            PindahLayar(new ViewTransaksi());
         }
 
         private void button1_Click(object sender, EventArgs e)

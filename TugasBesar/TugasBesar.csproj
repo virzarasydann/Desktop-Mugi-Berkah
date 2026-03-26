@@ -83,6 +83,11 @@
     </Compile>
     <Compile Include="Views\Pegawai\Riwayat\ViewRiwayat.Designer.cs">
       <DependentUpon>ViewRiwayat.cs</DependentUpon>
+    <Compile Include="Views\Pegawai\Transaksi\UserControlView.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Views\Pegawai\Transaksi\UserControlView.Designer.cs">
+      <DependentUpon>UserControlView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Pegawai\Transaksi\ViewTransaksi.cs">
       <SubType>UserControl</SubType>
@@ -122,6 +127,8 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Pegawai\Riwayat\ViewRiwayat.resx">
       <DependentUpon>ViewRiwayat.cs</DependentUpon>
+    <EmbeddedResource Include="Views\Pegawai\Transaksi\UserControlView.resx">
+      <DependentUpon>UserControlView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Pegawai\Transaksi\ViewTransaksi.resx">
       <DependentUpon>ViewTransaksi.cs</DependentUpon>
