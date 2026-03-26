@@ -31,5 +31,15 @@ namespace TugasBesar.Views.Pegawai.Transaksi
         {
 
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void ViewTransaksi_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
