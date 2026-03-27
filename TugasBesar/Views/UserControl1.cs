@@ -19,16 +19,16 @@ namespace TugasBesar.Views
 
         private void UserControl1_Load(object sender, EventArgs e)
         {
-            for (int i = 1; i <= 10; i++)
-            {
-                Label labelProduk = new Label();
-                labelProduk.Text = "Nama Produk " + i;
-                labelProduk.AutoSize = true; // Agar ukuran label menyesuaikan panjang teks
-                labelProduk.Margin = new Padding(10); // Memberi jarak antar label
+            //for (int i = 1; i <= 10; i++)
+            //{
+            //    Label labelProduk = new Label();
+            //    labelProduk.Text = "Nama Produk " + i;
+            //    labelProduk.AutoSize = true; // Agar ukuran label menyesuaikan panjang teks
+            //    labelProduk.Margin = new Padding(10); // Memberi jarak antar label
 
                 
-                panelProduk.Controls.Add(labelProduk);
-            }
+            //    panelProduk.Controls.Add(labelProduk);
+            //}
         }
 
         private void label1_Click(object sender, EventArgs e)
