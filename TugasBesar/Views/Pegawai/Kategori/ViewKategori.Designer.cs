@@ -28,12 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnTransaksi = new System.Windows.Forms.Button();
-            this.btnProduk = new System.Windows.Forms.Button();
-            this.btnKategori = new System.Windows.Forms.Button();
-            this.btnRiwayat = new System.Windows.Forms.Button();
-            this.btnOperasional = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSetText = new System.Windows.Forms.Button();
@@ -45,72 +39,9 @@
             this.btnEditKategori = new System.Windows.Forms.Button();
             this.btnHapusKategori = new System.Windows.Forms.Button();
             this.btnTambahKategori = new System.Windows.Forms.Button();
-            this.flowLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.TableKategori.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.Controls.Add(this.btnTransaksi);
-            this.flowLayoutPanel1.Controls.Add(this.btnProduk);
-            this.flowLayoutPanel1.Controls.Add(this.btnKategori);
-            this.flowLayoutPanel1.Controls.Add(this.btnRiwayat);
-            this.flowLayoutPanel1.Controls.Add(this.btnOperasional);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(222, 0);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(901, 69);
-            this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // btnTransaksi
-            // 
-            this.btnTransaksi.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTransaksi.Location = new System.Drawing.Point(3, 3);
-            this.btnTransaksi.Name = "btnTransaksi";
-            this.btnTransaksi.Size = new System.Drawing.Size(174, 53);
-            this.btnTransaksi.TabIndex = 0;
-            this.btnTransaksi.Text = "Transaksi";
-            this.btnTransaksi.UseVisualStyleBackColor = true;
-            // 
-            // btnProduk
-            // 
-            this.btnProduk.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProduk.Location = new System.Drawing.Point(183, 3);
-            this.btnProduk.Name = "btnProduk";
-            this.btnProduk.Size = new System.Drawing.Size(174, 53);
-            this.btnProduk.TabIndex = 1;
-            this.btnProduk.Text = "Produk";
-            this.btnProduk.UseVisualStyleBackColor = true;
-            // 
-            // btnKategori
-            // 
-            this.btnKategori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnKategori.Location = new System.Drawing.Point(363, 3);
-            this.btnKategori.Name = "btnKategori";
-            this.btnKategori.Size = new System.Drawing.Size(174, 53);
-            this.btnKategori.TabIndex = 2;
-            this.btnKategori.Text = "Kategori";
-            this.btnKategori.UseVisualStyleBackColor = true;
-            // 
-            // btnRiwayat
-            // 
-            this.btnRiwayat.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRiwayat.Location = new System.Drawing.Point(543, 3);
-            this.btnRiwayat.Name = "btnRiwayat";
-            this.btnRiwayat.Size = new System.Drawing.Size(174, 53);
-            this.btnRiwayat.TabIndex = 3;
-            this.btnRiwayat.Text = "Riwayat";
-            this.btnRiwayat.UseVisualStyleBackColor = true;
-            // 
-            // btnOperasional
-            // 
-            this.btnOperasional.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnOperasional.Location = new System.Drawing.Point(723, 3);
-            this.btnOperasional.Name = "btnOperasional";
-            this.btnOperasional.Size = new System.Drawing.Size(174, 53);
-            this.btnOperasional.TabIndex = 4;
-            this.btnOperasional.Text = "Operasional";
-            this.btnOperasional.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -131,9 +62,10 @@
             this.panel1.Controls.Add(this.btnEditKategori);
             this.panel1.Controls.Add(this.btnHapusKategori);
             this.panel1.Controls.Add(this.btnTambahKategori);
-            this.panel1.Location = new System.Drawing.Point(0, 152);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1404, 713);
+            this.panel1.Size = new System.Drawing.Size(1404, 865);
             this.panel1.TabIndex = 3;
             // 
             // btnSetText
@@ -231,14 +163,12 @@
             // 
             // ViewKategori
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "ViewKategori";
             this.Size = new System.Drawing.Size(1404, 865);
-            this.flowLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.TableKategori.ResumeLayout(false);
@@ -249,13 +179,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button btnTransaksi;
-        private System.Windows.Forms.Button btnProduk;
-        private System.Windows.Forms.Button btnKategori;
-        private System.Windows.Forms.Button btnRiwayat;
-        private System.Windows.Forms.Button btnOperasional;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button btnEditKategori;
