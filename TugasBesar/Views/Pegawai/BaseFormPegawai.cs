@@ -8,7 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Views.Pegawai.Transaksi;
-
+using TugasBesar.Views.Pegawai.Produk;
+using TugasBesar.Views.Pegawai.Kategori;
+using TugasBesar.Views.Pegawai.Operasional;
 namespace TugasBesar.Views.Pegawai
 {
     public partial class BaseFormPegawai : Form
@@ -22,7 +24,7 @@ namespace TugasBesar.Views.Pegawai
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            PindahLayar(new ViewProduk());
         }
         private void PindahLayar(UserControl layar)
         {
@@ -33,6 +35,21 @@ namespace TugasBesar.Views.Pegawai
         private void BaseFormPegawai_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonTransaksi_Click(object sender, EventArgs e)
+        {
+            PindahLayar(new ViewTransaksi());
+        }
+
+        private void buttonKategori_Click(object sender, EventArgs e)
+        {
+            PindahLayar(new ViewKategori());
+        }
+
+        private void buttonOperasional_Click(object sender, EventArgs e)
+        {
+            PindahLayar(new ViewOperasional());
         }
     }
 }
