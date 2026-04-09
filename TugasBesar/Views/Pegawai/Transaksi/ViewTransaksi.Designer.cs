@@ -46,6 +46,10 @@
             this.panelListKeranjang = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panelListProduk = new System.Windows.Forms.FlowLayoutPanel();
+            this.tbStatus = new System.Windows.Forms.TextBox();
+            this.labelStatus = new System.Windows.Forms.Label();
+            this.btnLunas = new System.Windows.Forms.Button();
+            this.btnBelumLunas = new System.Windows.Forms.Button();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -65,6 +69,10 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.btnBelumLunas);
+            this.panel2.Controls.Add(this.btnLunas);
+            this.panel2.Controls.Add(this.labelStatus);
+            this.panel2.Controls.Add(this.tbStatus);
             this.panel2.Controls.Add(this.btnProsesPembayaran);
             this.panel2.Controls.Add(this.tbTotal);
             this.panel2.Controls.Add(this.tbUangKembalian);
@@ -81,13 +89,13 @@
             this.panel2.Location = new System.Drawing.Point(525, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(528, 394);
+            this.panel2.Size = new System.Drawing.Size(528, 447);
             this.panel2.TabIndex = 3;
             // 
             // btnProsesPembayaran
             // 
             this.btnProsesPembayaran.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProsesPembayaran.Location = new System.Drawing.Point(197, 332);
+            this.btnProsesPembayaran.Location = new System.Drawing.Point(197, 384);
             this.btnProsesPembayaran.Margin = new System.Windows.Forms.Padding(2);
             this.btnProsesPembayaran.Name = "btnProsesPembayaran";
             this.btnProsesPembayaran.Size = new System.Drawing.Size(139, 31);
@@ -217,10 +225,10 @@
             this.panel3.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.panel3.Controls.Add(this.panelListKeranjang);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(525, 394);
+            this.panel3.Location = new System.Drawing.Point(525, 447);
             this.panel3.Margin = new System.Windows.Forms.Padding(2);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(528, 309);
+            this.panel3.Size = new System.Drawing.Size(528, 256);
             this.panel3.TabIndex = 4;
             // 
             // panelListKeranjang
@@ -231,7 +239,7 @@
             this.panelListKeranjang.AutoScroll = true;
             this.panelListKeranjang.Location = new System.Drawing.Point(56, 21);
             this.panelListKeranjang.Name = "panelListKeranjang";
-            this.panelListKeranjang.Size = new System.Drawing.Size(458, 273);
+            this.panelListKeranjang.Size = new System.Drawing.Size(458, 220);
             this.panelListKeranjang.TabIndex = 3;
             this.panelListKeranjang.Paint += new System.Windows.Forms.PaintEventHandler(this.panelListKeranjang_Paint);
             // 
@@ -255,6 +263,51 @@
             this.panelListProduk.Size = new System.Drawing.Size(396, 314);
             this.panelListProduk.TabIndex = 1;
             this.panelListProduk.Paint += new System.Windows.Forms.PaintEventHandler(this.panelListProduk_Paint);
+            // 
+            // tbStatus
+            // 
+            this.tbStatus.Enabled = false;
+            this.tbStatus.Location = new System.Drawing.Point(198, 334);
+            this.tbStatus.Margin = new System.Windows.Forms.Padding(2);
+            this.tbStatus.Multiline = true;
+            this.tbStatus.Name = "tbStatus";
+            this.tbStatus.Size = new System.Drawing.Size(158, 37);
+            this.tbStatus.TabIndex = 17;
+            // 
+            // labelStatus
+            // 
+            this.labelStatus.AutoSize = true;
+            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelStatus.Location = new System.Drawing.Point(195, 315);
+            this.labelStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.labelStatus.Name = "labelStatus";
+            this.labelStatus.Size = new System.Drawing.Size(54, 17);
+            this.labelStatus.TabIndex = 18;
+            this.labelStatus.Text = "Status";
+            // 
+            // btnLunas
+            // 
+            this.btnLunas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLunas.Location = new System.Drawing.Point(360, 334);
+            this.btnLunas.Margin = new System.Windows.Forms.Padding(2);
+            this.btnLunas.Name = "btnLunas";
+            this.btnLunas.Size = new System.Drawing.Size(73, 48);
+            this.btnLunas.TabIndex = 19;
+            this.btnLunas.Text = "Lunas";
+            this.btnLunas.UseVisualStyleBackColor = true;
+            this.btnLunas.Click += new System.EventHandler(this.btnLunas_Click);
+            // 
+            // btnBelumLunas
+            // 
+            this.btnBelumLunas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBelumLunas.Location = new System.Drawing.Point(437, 334);
+            this.btnBelumLunas.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBelumLunas.Name = "btnBelumLunas";
+            this.btnBelumLunas.Size = new System.Drawing.Size(73, 48);
+            this.btnBelumLunas.TabIndex = 20;
+            this.btnBelumLunas.Text = "Belum Lunas";
+            this.btnBelumLunas.UseVisualStyleBackColor = true;
+            this.btnBelumLunas.Click += new System.EventHandler(this.btnBelumLunas_Click);
             // 
             // ViewTransaksi
             // 
@@ -296,5 +349,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel panelListProduk;
         private System.Windows.Forms.FlowLayoutPanel panelListKeranjang;
+        private System.Windows.Forms.TextBox tbStatus;
+        private System.Windows.Forms.Label labelStatus;
+        private System.Windows.Forms.Button btnLunas;
+        private System.Windows.Forms.Button btnBelumLunas;
     }
 }

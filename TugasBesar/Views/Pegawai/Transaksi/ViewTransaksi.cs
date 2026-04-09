@@ -16,7 +16,8 @@ namespace TugasBesar.Views.Pegawai.Transaksi
         Kosong,
         InputBarang,
         Pembayaran,
-        Selesai
+        SiapProses
+
     }
     public partial class ViewTransaksi : UserControl
     {
@@ -132,8 +133,13 @@ namespace TugasBesar.Views.Pegawai.Transaksi
                 case StatusTransaksi.Kosong:
                     tbUangKembalian.Enabled = false;
                     tbUangDiterima.Enabled = false;
-                    btnProsesPembayaran.Enabled = false;
                     tbTotal.Enabled = false;
+                    tbStatus.Enabled = false;
+
+                    btnProsesPembayaran.Enabled = false;
+                    btnLunas.Enabled = false;
+
+                    btnBelumLunas.Enabled = false;
                     panelListProduk.Enabled = true;
                     break;
 
@@ -141,17 +147,24 @@ namespace TugasBesar.Views.Pegawai.Transaksi
                     tbUangDiterima.Enabled = true;
                     
                     btnProsesPembayaran.Enabled = false;
+
                     panelListProduk.Enabled = true;
                     break;
 
                 case StatusTransaksi.Pembayaran:
-                    
-                    btnProsesPembayaran.Enabled = true;
+                   
+                    btnProsesPembayaran.Enabled = false; 
 
-                    
+                    btnLunas.Enabled = true;             
+                    btnBelumLunas.Enabled = true;       
                     break;
 
-                
+                case StatusTransaksi.SiapProses:
+                   
+                    btnProsesPembayaran.Enabled = true;  
+                    break;
+
+
             }
         }
         private void label4_Click(object sender, EventArgs e)
@@ -264,6 +277,18 @@ namespace TugasBesar.Views.Pegawai.Transaksi
                 
                 e.Handled = true;
             }
+        }
+
+        private void btnLunas_Click(object sender, EventArgs e)
+        {
+            tbStatus.Text = "Lunas";
+            UbahStatus(StatusTransaksi.SiapProses);
+        }
+
+        private void btnBelumLunas_Click(object sender, EventArgs e)
+        {
+            tbStatus.Text = "Belum Lunas";
+            UbahStatus(StatusTransaksi.SiapProses);
         }
     }
 }
