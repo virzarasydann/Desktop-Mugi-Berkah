@@ -49,6 +49,7 @@
     <Compile Include="Models\ProdukModels.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataGeneric.cs" />
     <Compile Include="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,9 +172,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\WhatsApp Image 2026-04-05 at 23.25.17.jpeg" />
   </ItemGroup>

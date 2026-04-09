@@ -9,8 +9,9 @@ namespace TugasBesar.Models
     public class ProdukModels
     {
         public string Nama { get; set; }
+        public string Kategori { get; set; }
         public int Harga { get; set; }
 
-       
+
     }
 }
