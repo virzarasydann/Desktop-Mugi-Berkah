@@ -30,10 +30,6 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.btnSetTex = new System.Windows.Forms.Button();
             this.tbHargaProduk = new System.Windows.Forms.TextBox();
             this.cmbKategoriProduk = new System.Windows.Forms.ComboBox();
@@ -44,6 +40,10 @@
             this.btnHapusProduk = new System.Windows.Forms.Button();
             this.btnEditProduk = new System.Windows.Forms.Button();
             this.btnTambahProduk = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -77,54 +77,6 @@
             this.panel1.Size = new System.Drawing.Size(1404, 865);
             this.panel1.TabIndex = 5;
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.8428F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.1572F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tableLayoutPanel1.Controls.Add(this.label7, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(240, 432);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.68254F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.31746F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(713, 252);
-            this.tableLayoutPanel1.TabIndex = 10;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(461, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(124, 20);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Harga Produk";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(158, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(143, 20);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Kategori Produk";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(121, 20);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Nama Produk";
-            // 
             // btnSetTex
             // 
             this.btnSetTex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -134,6 +86,7 @@
             this.btnSetTex.TabIndex = 9;
             this.btnSetTex.Text = "Set Tex";
             this.btnSetTex.UseVisualStyleBackColor = true;
+            this.btnSetTex.Click += new System.EventHandler(this.btnSetTex_Click);
             // 
             // tbHargaProduk
             // 
@@ -142,6 +95,7 @@
             this.tbHargaProduk.Name = "tbHargaProduk";
             this.tbHargaProduk.Size = new System.Drawing.Size(264, 45);
             this.tbHargaProduk.TabIndex = 8;
+            this.tbHargaProduk.TextChanged += new System.EventHandler(this.tbHargaProduk_TextChanged);
             // 
             // cmbKategoriProduk
             // 
@@ -151,6 +105,7 @@
             this.cmbKategoriProduk.Name = "cmbKategoriProduk";
             this.cmbKategoriProduk.Size = new System.Drawing.Size(153, 24);
             this.cmbKategoriProduk.TabIndex = 7;
+            this.cmbKategoriProduk.SelectedIndexChanged += new System.EventHandler(this.cmbKategoriProduk_SelectedIndexChanged);
             // 
             // tbNamaProduk
             // 
@@ -159,6 +114,7 @@
             this.tbNamaProduk.Name = "tbNamaProduk";
             this.tbNamaProduk.Size = new System.Drawing.Size(264, 43);
             this.tbNamaProduk.TabIndex = 6;
+            this.tbNamaProduk.TextChanged += new System.EventHandler(this.tbNamaProduk_TextChanged);
             // 
             // label4
             // 
@@ -210,6 +166,7 @@
             this.btnEditProduk.TabIndex = 1;
             this.btnEditProduk.Text = "Edit Produk";
             this.btnEditProduk.UseVisualStyleBackColor = true;
+            this.btnEditProduk.Click += new System.EventHandler(this.btnEditProduk_Click);
             // 
             // btnTambahProduk
             // 
@@ -220,6 +177,56 @@
             this.btnTambahProduk.TabIndex = 0;
             this.btnTambahProduk.Text = "Tambah Produk";
             this.btnTambahProduk.UseVisualStyleBackColor = true;
+            this.btnTambahProduk.Click += new System.EventHandler(this.btnTambahProduk_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(3, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(121, 20);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Nama Produk";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(158, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(143, 20);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Kategori Produk";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(461, 0);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(124, 20);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Harga Produk";
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.8428F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.1572F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
+            this.tableLayoutPanel1.Controls.Add(this.label7, 2, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(240, 432);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.68254F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.31746F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(713, 252);
+            this.tableLayoutPanel1.TabIndex = 10;
+            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
             // ViewProduk
             // 
@@ -250,10 +257,10 @@
         private System.Windows.Forms.TextBox tbNamaProduk;
         private System.Windows.Forms.TextBox tbHargaProduk;
         private System.Windows.Forms.ComboBox cmbKategoriProduk;
+        private System.Windows.Forms.Button btnSetTex;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button btnSetTex;
     }
 }
