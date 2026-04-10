@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace TugasBesar.Models
 {
-    public class ProdukModels
+    public class KategoriModels
     {
         public string Nama { get; set; }
-        public string Kategori { get; set; }
-        public int Harga { get; set; }
-
-
     }
-
-  
 }

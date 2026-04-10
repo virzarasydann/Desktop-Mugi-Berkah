@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TugasBesar.Models;
 
 namespace TugasBesar.Services
 {
@@ -31,5 +32,10 @@ namespace TugasBesar.Services
             if (index >= 0 && index < data.Count)
                 data[index] = item;
         }
+    }
+    public static class DataManager
+    {
+        public static DataGeneric<KategoriModels> Kategori = new DataGeneric<KategoriModels>();
+        public static DataGeneric<ProdukModels> Produk = new DataGeneric<ProdukModels>();
     }
 }
