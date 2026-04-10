@@ -30,17 +30,15 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.dgvKategori = new System.Windows.Forms.DataGridView();
             this.btnSetText = new System.Windows.Forms.Button();
             this.tbNamaKategori = new System.Windows.Forms.TextBox();
-            this.TableKategori = new System.Windows.Forms.TableLayoutPanel();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnEditKategori = new System.Windows.Forms.Button();
             this.btnHapusKategori = new System.Windows.Forms.Button();
             this.btnTambahKategori = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
-            this.TableKategori.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKategori)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -55,9 +53,9 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.dgvKategori);
             this.panel1.Controls.Add(this.btnSetText);
             this.panel1.Controls.Add(this.tbNamaKategori);
-            this.panel1.Controls.Add(this.TableKategori);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.btnEditKategori);
             this.panel1.Controls.Add(this.btnHapusKategori);
@@ -68,6 +66,17 @@
             this.panel1.Size = new System.Drawing.Size(1404, 865);
             this.panel1.TabIndex = 3;
             // 
+            // dgvKategori
+            // 
+            this.dgvKategori.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvKategori.Location = new System.Drawing.Point(367, 350);
+            this.dgvKategori.Name = "dgvKategori";
+            this.dgvKategori.RowHeadersWidth = 51;
+            this.dgvKategori.RowTemplate.Height = 24;
+            this.dgvKategori.Size = new System.Drawing.Size(704, 240);
+            this.dgvKategori.TabIndex = 9;
+            this.dgvKategori.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKategori_CellContentClick);
+            // 
             // btnSetText
             // 
             this.btnSetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -77,6 +86,7 @@
             this.btnSetText.TabIndex = 8;
             this.btnSetText.Text = "Set Text";
             this.btnSetText.UseVisualStyleBackColor = true;
+            this.btnSetText.Click += new System.EventHandler(this.btnSetText_Click);
             // 
             // tbNamaKategori
             // 
@@ -85,41 +95,7 @@
             this.tbNamaKategori.Name = "tbNamaKategori";
             this.tbNamaKategori.Size = new System.Drawing.Size(224, 42);
             this.tbNamaKategori.TabIndex = 7;
-            // 
-            // TableKategori
-            // 
-            this.TableKategori.ColumnCount = 2;
-            this.TableKategori.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.8088F));
-            this.TableKategori.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 86.1912F));
-            this.TableKategori.Controls.Add(this.label4, 1, 0);
-            this.TableKategori.Controls.Add(this.label3, 0, 0);
-            this.TableKategori.Location = new System.Drawing.Point(164, 311);
-            this.TableKategori.Name = "TableKategori";
-            this.TableKategori.RowCount = 2;
-            this.TableKategori.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 8.746356F));
-            this.TableKategori.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 91.25365F));
-            this.TableKategori.Size = new System.Drawing.Size(659, 343);
-            this.TableKategori.TabIndex = 6;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(93, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(133, 20);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Nama Kategori";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(3, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(32, 20);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "No";
+            this.tbNamaKategori.TextChanged += new System.EventHandler(this.tbNamaKategori_TextChanged);
             // 
             // label2
             // 
@@ -140,6 +116,7 @@
             this.btnEditKategori.TabIndex = 4;
             this.btnEditKategori.Text = "Edit Kategori";
             this.btnEditKategori.UseVisualStyleBackColor = true;
+            this.btnEditKategori.Click += new System.EventHandler(this.btnEditKategori_Click);
             // 
             // btnHapusKategori
             // 
@@ -150,6 +127,7 @@
             this.btnHapusKategori.TabIndex = 3;
             this.btnHapusKategori.Text = "Hapus Kategori";
             this.btnHapusKategori.UseVisualStyleBackColor = true;
+            this.btnHapusKategori.Click += new System.EventHandler(this.btnHapusKategori_Click);
             // 
             // btnTambahKategori
             // 
@@ -160,6 +138,7 @@
             this.btnTambahKategori.TabIndex = 0;
             this.btnTambahKategori.Text = "Tambah Kategori";
             this.btnTambahKategori.UseVisualStyleBackColor = true;
+            this.btnTambahKategori.Click += new System.EventHandler(this.btnTambahKategori_Click);
             // 
             // ViewKategori
             // 
@@ -171,8 +150,7 @@
             this.Size = new System.Drawing.Size(1404, 865);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.TableKategori.ResumeLayout(false);
-            this.TableKategori.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvKategori)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -185,10 +163,8 @@
         private System.Windows.Forms.Button btnHapusKategori;
         private System.Windows.Forms.Button btnTambahKategori;
         private System.Windows.Forms.TextBox tbNamaKategori;
-        private System.Windows.Forms.TableLayoutPanel TableKategori;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btnSetText;
+        private System.Windows.Forms.DataGridView dgvKategori;
     }
 }

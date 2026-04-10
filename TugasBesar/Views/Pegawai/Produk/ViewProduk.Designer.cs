@@ -40,12 +40,9 @@
             this.btnHapusProduk = new System.Windows.Forms.Button();
             this.btnEditProduk = new System.Windows.Forms.Button();
             this.btnTambahProduk = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.dgvProduk = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProduk)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -60,7 +57,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.tableLayoutPanel1);
+            this.panel1.Controls.Add(this.dgvProduk);
             this.panel1.Controls.Add(this.btnSetTex);
             this.panel1.Controls.Add(this.tbHargaProduk);
             this.panel1.Controls.Add(this.cmbKategoriProduk);
@@ -179,54 +176,17 @@
             this.btnTambahProduk.UseVisualStyleBackColor = true;
             this.btnTambahProduk.Click += new System.EventHandler(this.btnTambahProduk_Click);
             // 
-            // label5
+            // dgvProduk
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(3, 0);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(121, 20);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Nama Produk";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(158, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(143, 20);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Kategori Produk";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(461, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(124, 20);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Harga Produk";
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.8428F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 66.1572F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 255F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 245F));
-            this.tableLayoutPanel1.Controls.Add(this.label7, 2, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label6, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.label5, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(240, 432);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 14.68254F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 85.31746F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(713, 252);
-            this.tableLayoutPanel1.TabIndex = 10;
-            this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
+            this.dgvProduk.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvProduk.ColumnHeadersHeight = 29;
+            this.dgvProduk.Location = new System.Drawing.Point(373, 391);
+            this.dgvProduk.Name = "dgvProduk";
+            this.dgvProduk.RowHeadersWidth = 51;
+            this.dgvProduk.RowTemplate.Height = 24;
+            this.dgvProduk.Size = new System.Drawing.Size(811, 337);
+            this.dgvProduk.TabIndex = 10;
+            this.dgvProduk.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduk_CellContentClick);
             // 
             // ViewProduk
             // 
@@ -238,8 +198,7 @@
             this.Size = new System.Drawing.Size(1404, 865);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvProduk)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -258,9 +217,6 @@
         private System.Windows.Forms.TextBox tbHargaProduk;
         private System.Windows.Forms.ComboBox cmbKategoriProduk;
         private System.Windows.Forms.Button btnSetTex;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.DataGridView dgvProduk;
     }
 }

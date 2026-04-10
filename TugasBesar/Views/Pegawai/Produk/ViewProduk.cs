@@ -14,28 +14,53 @@ namespace TugasBesar.Views.Pegawai.Produk
 {
     public partial class ViewProduk : UserControl
     {
-        DataGeneric<ProdukModels> dataProduk = new DataGeneric<ProdukModels>();
+        DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
         int selectedIndex = -1;
         public ViewProduk()
         {
             InitializeComponent();
+
+            dgvProduk.CellClick += dgvProduk_CellClick;
+
+            TambahKolomButton();
+            LoadKategori();
+            TampilkanData();
         }
+
+        private void TambahKolomButton()
+        {
+            if (!dgvProduk.Columns.Contains("Aksi"))
+            {
+                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+                btn.Name = "Aksi";
+                btn.HeaderText = "Aksi";
+                btn.UseColumnTextForButtonValue = false;
+
+                btn.DefaultCellStyle.NullValue = "Edit";
+
+                dgvProduk.Columns.Add(btn);
+            }
+        }
+
+        private void ViewProduk_Enter(object sender, EventArgs e)
+        {
+            LoadKategori();
+            TampilkanData();
+        }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
-            selectedIndex = 0;
-
-            if (dataProduk.GetAll().Count == 0)
+            if (selectedIndex < 0)
             {
-                MessageBox.Show("Data kosong!");
+                MessageBox.Show("Pilih data dulu!");
                 return;
             }
 
             dataProduk.RemoveAt(selectedIndex);
 
-            MessageBox.Show("Produk berhasil dihapus!");
-
             TampilkanData();
+            ClearInput();
         }
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
@@ -63,41 +88,27 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             dataProduk.Add(produk);
 
-            MessageBox.Show("Produk berhasil ditambahkan!");
-
             TampilkanData();
             ClearInput();
         }
 
         private void btnEditProduk_Click(object sender, EventArgs e)
         {
-            selectedIndex = 0;
 
-            if (dataProduk.GetAll().Count == 0)
+            if (selectedIndex < 0)
             {
-                MessageBox.Show("Data kosong!");
+                MessageBox.Show("Pilih data dulu!");
                 return;
             }
 
-            if (!int.TryParse(tbHargaProduk.Text, out int harga))
+            var data = dataProduk.GetAll()[selectedIndex];
+
+            FormEditProduk form = new FormEditProduk(data);
+
+            if (form.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Harga harus angka!");
-                return;
+                TampilkanData();
             }
-
-            ProdukModels produk = new ProdukModels()
-            {
-                Nama = tbNamaProduk.Text,
-                Kategori = cmbKategoriProduk.Text,
-                Harga = harga
-            };
-
-            dataProduk.Update(selectedIndex, produk);
-
-            MessageBox.Show("Produk berhasil diupdate!");
-
-            TampilkanData();
-            ClearInput();
         }
 
         private void btnSetTex_Click(object sender, EventArgs e)
@@ -109,24 +120,22 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void TampilkanData()
         {
-            tableLayoutPanel1.Controls.Clear();
+            dgvProduk.DataSource = null;
 
             var list = dataProduk.GetAll();
-            tableLayoutPanel1.RowCount = list.Count + 1;
 
-            tableLayoutPanel1.Controls.Add(new Label() { Text = "Nama Produk", AutoSize = true }, 0, 0);
-            tableLayoutPanel1.Controls.Add(new Label() { Text = "Kategori Produk", AutoSize = true }, 1, 0);
-            tableLayoutPanel1.Controls.Add(new Label() { Text = "Harga Produk", AutoSize = true }, 2, 0);
-
-            int row = 1;
-
-            foreach (var item in list)
+            if (list.Count == 0)
             {
-                tableLayoutPanel1.Controls.Add(new Label() { Text = item.Nama }, 0, row);
-                tableLayoutPanel1.Controls.Add(new Label() { Text = item.Kategori }, 1, row);
-                tableLayoutPanel1.Controls.Add(new Label() { Text = item.Harga.ToString() }, 2, row);
-                row++;
+                dgvProduk.DataSource = null;
+                return;
             }
+
+            dgvProduk.DataSource = list;
+
+            TambahKolomButton();
+
+            if (dgvProduk.Columns.Contains("Aksi"))
+                dgvProduk.Columns["Aksi"].DisplayIndex = dgvProduk.Columns.Count - 1;
         }
 
         private void ClearInput()
@@ -151,8 +160,40 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         }
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+       
+        }
+
+        private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return;
+
+            if (e.RowIndex >= dataProduk.GetAll().Count) return; 
+
+            selectedIndex = e.RowIndex;
+
+            if (dgvProduk.Columns[e.ColumnIndex].Name == "Aksi")
+            {
+                var data = dataProduk.GetAll()[e.RowIndex];
+
+                FormEditProduk form = new FormEditProduk(data);
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    TampilkanData();
+                }
+            }
+        }
+
+        private void LoadKategori()
+        {
+            cmbKategoriProduk.Items.Clear();
+
+            foreach (var item in DataManager.Kategori.GetAll())
+            {
+                cmbKategoriProduk.Items.Add(item.Nama);
+            }
         }
     }
 }
