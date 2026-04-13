@@ -88,5 +88,10 @@ namespace TugasBesar.Views.Pegawai.Produk
         {
 
         }
+
+        private void FormEditProduk_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

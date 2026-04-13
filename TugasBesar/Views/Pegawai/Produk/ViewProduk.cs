@@ -19,10 +19,10 @@ namespace TugasBesar.Views.Pegawai.Produk
         public ViewProduk()
         {
             InitializeComponent();
-
+            dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProduk.CellClick += dgvProduk_CellClick;
 
-            TambahKolomButton();
+            
             LoadKategori();
             TampilkanData();
         }
@@ -59,8 +59,6 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             dataProduk.RemoveAt(selectedIndex);
 
-            TampilkanData();
-            ClearInput();
         }
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
@@ -94,12 +92,7 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void btnEditProduk_Click(object sender, EventArgs e)
         {
-
-            if (selectedIndex < 0)
-            {
-                MessageBox.Show("Pilih data dulu!");
-                return;
-            }
+        
 
             var data = dataProduk.GetAll()[selectedIndex];
 
@@ -167,6 +160,8 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
             if (e.RowIndex < 0) return;
 
             if (e.RowIndex >= dataProduk.GetAll().Count) return; 

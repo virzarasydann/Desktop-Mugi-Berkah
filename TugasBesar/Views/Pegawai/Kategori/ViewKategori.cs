@@ -115,5 +115,10 @@ namespace TugasBesar.Views.Pegawai.Kategori
                 tbNamaKategori.Text = data.Nama;
             }
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
