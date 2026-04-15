@@ -34,9 +34,8 @@ namespace TugasBesar.Views.Pegawai.Produk
                 DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
                 btn.Name = "Aksi";
                 btn.HeaderText = "Aksi";
-                btn.UseColumnTextForButtonValue = false;
-
-                btn.DefaultCellStyle.NullValue = "Edit";
+                btn.UseColumnTextForButtonValue = true;
+                btn.Text = "Edit | Hapus";
 
                 dgvProduk.Columns.Add(btn);
             }
@@ -51,14 +50,6 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (selectedIndex < 0)
-            {
-                MessageBox.Show("Pilih data dulu!");
-                return;
-            }
-
-            dataProduk.RemoveAt(selectedIndex);
-
         }
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
@@ -162,9 +153,7 @@ namespace TugasBesar.Views.Pegawai.Produk
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            if (e.RowIndex < 0) return;
-
-            if (e.RowIndex >= dataProduk.GetAll().Count) return; 
+            if (e.RowIndex >= dataProduk.GetAll().Count) return;
 
             selectedIndex = e.RowIndex;
 
@@ -172,11 +161,33 @@ namespace TugasBesar.Views.Pegawai.Produk
             {
                 var data = dataProduk.GetAll()[e.RowIndex];
 
-                FormEditProduk form = new FormEditProduk(data);
+                var cell = dgvProduk[e.ColumnIndex, e.RowIndex];
+                var rect = dgvProduk.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
 
-                if (form.ShowDialog() == DialogResult.OK)
+                int x = dgvProduk.PointToClient(Cursor.Position).X - rect.Left;
+
+                if (x < rect.Width / 2)
                 {
-                    TampilkanData();
+                    FormEditProduk form = new FormEditProduk(data);
+
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        TampilkanData();
+                    }
+                }
+                else
+                {
+                    var confirm = MessageBox.Show(
+                        "Yakin mau hapus data ini?",
+                        "Konfirmasi",
+                        MessageBoxButtons.YesNo
+                    );
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        dataProduk.RemoveAt(e.RowIndex);
+                        TampilkanData();
+                    }
                 }
             }
         }

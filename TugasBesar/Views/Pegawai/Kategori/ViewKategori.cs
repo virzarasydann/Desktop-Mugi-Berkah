@@ -27,6 +27,20 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
         }
 
+        private void TambahKolomButton()
+        {
+            if (!dgvKategori.Columns.Contains("Aksi"))
+            {
+                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+                btn.Name = "Aksi";
+                btn.HeaderText = "Aksi";
+                btn.UseColumnTextForButtonValue = true;
+                btn.Text = "Edit | Hapus";
+
+                dgvKategori.Columns.Add(btn);
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
 
@@ -93,26 +107,68 @@ namespace TugasBesar.Views.Pegawai.Kategori
             TampilkanData();
         }
 
-        private void TampilkanData()
-        {
-            dgvKategori.DataSource = null;
-            dgvKategori.DataSource = dataKategori.GetAll();
-        }
-
-
         private void dgvKategori_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
+        private void TampilkanData()
+        {
+            dgvKategori.DataSource = null;
+
+            var list = dataKategori.GetAll();
+
+            if (list.Count == 0)
+            {
+                dgvKategori.DataSource = null;
+                return;
+            }
+
+            dgvKategori.DataSource = list;
+
+            TambahKolomButton();
+
+            if (dgvKategori.Columns.Contains("Aksi"))
+                dgvKategori.Columns["Aksi"].DisplayIndex = dgvKategori.Columns.Count - 1;
+
+            selectedIndex = -1;
+        }
+
         private void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0)
-            {
-                selectedIndex = e.RowIndex;
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+            if (e.RowIndex >= dataKategori.GetAll().Count) return;
 
-                var data = dataKategori.GetAll()[selectedIndex];
-                tbNamaKategori.Text = data.Nama;
+            if (dgvKategori.Columns[e.ColumnIndex].Name == "Aksi")
+            {
+                var data = dataKategori.GetAll()[e.RowIndex];
+
+                var rect = dgvKategori.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
+                int x = dgvKategori.PointToClient(Cursor.Position).X - rect.Left;
+                if (x < rect.Width / 2)
+                {
+                    FormEditKategori form = new FormEditKategori(data);
+
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        dataKategori.Update(e.RowIndex, form.kategori);
+                        TampilkanData();
+                    }
+                }
+                else
+                {
+                    var confirm = MessageBox.Show(
+                        "Yakin mau hapus kategori?",
+                        "Konfirmasi",
+                        MessageBoxButtons.YesNo
+                    );
+
+                    if (confirm == DialogResult.Yes)
+                    {
+                        dataKategori.RemoveAt(e.RowIndex);
+                        TampilkanData();
+                    }
+                }
             }
         }
 
