@@ -29,15 +29,26 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void TambahKolomButton()
         {
-            if (!dgvProduk.Columns.Contains("Aksi"))
+            if (!dgvProduk.Columns.Contains("Edit"))
             {
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.Name = "Aksi";
-                btn.HeaderText = "Aksi";
-                btn.UseColumnTextForButtonValue = true;
-                btn.Text = "Edit | Hapus";
+                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
+                btnEdit.Name = "Edit";
+                btnEdit.HeaderText = "Edit";
+                btnEdit.Text = "Edit";
+                btnEdit.UseColumnTextForButtonValue = true;
 
-                dgvProduk.Columns.Add(btn);
+                dgvProduk.Columns.Add(btnEdit);
+            }
+
+            if (!dgvProduk.Columns.Contains("Hapus"))
+            {
+                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
+                btnHapus.Name = "Hapus";
+                btnHapus.HeaderText = "Hapus";
+                btnHapus.Text = "Hapus";
+                btnHapus.UseColumnTextForButtonValue = true;
+
+                dgvProduk.Columns.Add(btnHapus);
             }
         }
 
@@ -118,8 +129,11 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             TambahKolomButton();
 
-            if (dgvProduk.Columns.Contains("Aksi"))
-                dgvProduk.Columns["Aksi"].DisplayIndex = dgvProduk.Columns.Count - 1;
+            if (dgvProduk.Columns.Contains("Edit"))
+                dgvProduk.Columns["Edit"].DisplayIndex = dgvProduk.Columns.Count - 2;
+
+            if (dgvProduk.Columns.Contains("Hapus"))
+                dgvProduk.Columns["Hapus"].DisplayIndex = dgvProduk.Columns.Count - 1;
         }
 
         private void ClearInput()
@@ -157,37 +171,30 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             selectedIndex = e.RowIndex;
 
-            if (dgvProduk.Columns[e.ColumnIndex].Name == "Aksi")
+            var data = dataProduk.GetAll()[e.RowIndex];
+
+            if (dgvProduk.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var data = dataProduk.GetAll()[e.RowIndex];
+                FormEditProduk form = new FormEditProduk(data);
 
-                var cell = dgvProduk[e.ColumnIndex, e.RowIndex];
-                var rect = dgvProduk.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-
-                int x = dgvProduk.PointToClient(Cursor.Position).X - rect.Left;
-
-                if (x < rect.Width / 2)
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FormEditProduk form = new FormEditProduk(data);
-
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        TampilkanData();
-                    }
+                    TampilkanData();
                 }
-                else
-                {
-                    var confirm = MessageBox.Show(
-                        "Yakin mau hapus data ini?",
-                        "Konfirmasi",
-                        MessageBoxButtons.YesNo
-                    );
+            }
 
-                    if (confirm == DialogResult.Yes)
-                    {
-                        dataProduk.RemoveAt(e.RowIndex);
-                        TampilkanData();
-                    }
+            else if (dgvProduk.Columns[e.ColumnIndex].Name == "Hapus")
+            {
+                var confirm = MessageBox.Show(
+                    "Yakin mau hapus data ini?",
+                    "Konfirmasi",
+                    MessageBoxButtons.YesNo
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    dataProduk.RemoveAt(e.RowIndex);
+                    TampilkanData();
                 }
             }
         }

@@ -29,15 +29,26 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
         private void TambahKolomButton()
         {
-            if (!dgvKategori.Columns.Contains("Aksi"))
+            if (!dgvKategori.Columns.Contains("Edit"))
             {
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                btn.Name = "Aksi";
-                btn.HeaderText = "Aksi";
-                btn.UseColumnTextForButtonValue = true;
-                btn.Text = "Edit | Hapus";
+                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
+                btnEdit.Name = "Edit";
+                btnEdit.HeaderText = "Edit";
+                btnEdit.Text = "Edit";
+                btnEdit.UseColumnTextForButtonValue = true;
 
-                dgvKategori.Columns.Add(btn);
+                dgvKategori.Columns.Add(btnEdit);
+            }
+
+            if (!dgvKategori.Columns.Contains("Hapus"))
+            {
+                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
+                btnHapus.Name = "Hapus";
+                btnHapus.HeaderText = "Hapus";
+                btnHapus.Text = "Hapus";
+                btnHapus.UseColumnTextForButtonValue = true;
+
+                dgvKategori.Columns.Add(btnHapus);
             }
         }
 
@@ -128,8 +139,11 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
             TambahKolomButton();
 
-            if (dgvKategori.Columns.Contains("Aksi"))
-                dgvKategori.Columns["Aksi"].DisplayIndex = dgvKategori.Columns.Count - 1;
+            if (dgvKategori.Columns.Contains("Edit"))
+                dgvKategori.Columns["Edit"].DisplayIndex = dgvKategori.Columns.Count - 2;
+
+            if (dgvKategori.Columns.Contains("Hapus"))
+                dgvKategori.Columns["Hapus"].DisplayIndex = dgvKategori.Columns.Count - 1;
 
             selectedIndex = -1;
         }
@@ -139,35 +153,31 @@ namespace TugasBesar.Views.Pegawai.Kategori
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
             if (e.RowIndex >= dataKategori.GetAll().Count) return;
 
-            if (dgvKategori.Columns[e.ColumnIndex].Name == "Aksi")
+            var data = dataKategori.GetAll()[e.RowIndex];
+
+            if (dgvKategori.Columns[e.ColumnIndex].Name == "Edit")
             {
-                var data = dataKategori.GetAll()[e.RowIndex];
+                FormEditKategori form = new FormEditKategori(data);
 
-                var rect = dgvKategori.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, false);
-                int x = dgvKategori.PointToClient(Cursor.Position).X - rect.Left;
-                if (x < rect.Width / 2)
+                if (form.ShowDialog() == DialogResult.OK)
                 {
-                    FormEditKategori form = new FormEditKategori(data);
-
-                    if (form.ShowDialog() == DialogResult.OK)
-                    {
-                        dataKategori.Update(e.RowIndex, form.kategori);
-                        TampilkanData();
-                    }
+                    dataKategori.Update(e.RowIndex, form.kategori);
+                    TampilkanData();
                 }
-                else
-                {
-                    var confirm = MessageBox.Show(
-                        "Yakin mau hapus kategori?",
-                        "Konfirmasi",
-                        MessageBoxButtons.YesNo
-                    );
+            }
 
-                    if (confirm == DialogResult.Yes)
-                    {
-                        dataKategori.RemoveAt(e.RowIndex);
-                        TampilkanData();
-                    }
+            else if (dgvKategori.Columns[e.ColumnIndex].Name == "Hapus")
+            {
+                var confirm = MessageBox.Show(
+                    "Yakin mau hapus kategori?",
+                    "Konfirmasi",
+                    MessageBoxButtons.YesNo
+                );
+
+                if (confirm == DialogResult.Yes)
+                {
+                    dataKategori.RemoveAt(e.RowIndex);
+                    TampilkanData();
                 }
             }
         }
