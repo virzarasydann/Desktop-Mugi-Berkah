@@ -7,7 +7,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TugasBesar.Controllers;
 using TugasBesar.Models;
 
 namespace TugasBesar.Views.Pegawai.Transaksi
@@ -23,12 +22,10 @@ namespace TugasBesar.Views.Pegawai.Transaksi
     public partial class ViewTransaksi : UserControl
     {
         private StatusTransaksi _statusSekarang = StatusTransaksi.Kosong;
-        private TransaksiControllers _controller;
         public ViewTransaksi()
         {
             
             InitializeComponent();
-            _controller = new TransaksiControllers();
             TampilkanKatalog();
             UbahStatus(StatusTransaksi.Kosong);
         }
@@ -36,23 +33,35 @@ namespace TugasBesar.Views.Pegawai.Transaksi
         private int _grandTotalAngka = 0;
         private void TampilkanKatalog()
         {
+           
+            List<ProdukModels> listProdukModels = new List<ProdukModels>()
+            {
+                new ProdukModels { Nama = "Karburator Astrea", Harga = 150000 },
+                new ProdukModels { Nama = "Pelampung Tangki", Harga = 35000 },
+                new ProdukModels { Nama = "Kampas Rem Depan", Harga = 45000 },
+                new ProdukModels { Nama = "Busi Standar", Harga = 15000 },
+                new ProdukModels { Nama = "Oli Mesin 0.8L", Harga = 55000 }
+            };
+
+            
             panelListProduk.Controls.Clear();
 
             
-            List<ProdukModels> listKatalog = _controller.AmbilKatalog();
-
-            foreach (var produk in listKatalog)
+            foreach (var ProdukModels in listProdukModels)
             {
                 CardProduk ucProduk = new CardProduk();
-                ucProduk.NamaProduk = produk.Nama;
-                ucProduk.Harga = produk.Harga;
-
+                
+                
+                ucProduk.NamaProduk = ProdukModels.Nama;
+                ucProduk.Harga = ProdukModels.Harga;
                 ucProduk.ProdukDiklik += (sender, e) =>
                 {
-                   
-                    var keranjangTerbaru = _controller.ProsesTambahKeranjang(ucProduk.NamaProduk, ucProduk.Harga);
-                    RenderUlangKeranjang(keranjangTerbaru);
-                    
+
+                    CardKeranjang ucKeranjang = new CardKeranjang();
+                    ucKeranjang.NamaProduk = ucProduk.NamaProduk;
+                    ucKeranjang.Harga = ucProduk.Harga;
+                    ucKeranjang.HargaSatuan = ucProduk.Harga;
+                    tampilkanKeranjang(ucKeranjang);
                     
                 };
 
@@ -60,93 +69,59 @@ namespace TugasBesar.Views.Pegawai.Transaksi
             }
         }
 
-        private void RenderUlangKeranjang(List<KeranjangItem> daftarKeranjang)
+        private void tampilkanKeranjang(CardKeranjang keranjangBaru)
         {
             UbahStatus(StatusTransaksi.InputBarang);
-            panelListKeranjang.Controls.Clear();
-
-            foreach (var item in daftarKeranjang)
+            foreach (Control komponen in panelListKeranjang.Controls)
             {
-                CardKeranjang ucKeranjang = new CardKeranjang();
-                ucKeranjang.NamaProduk = item.NamaProduk;
-                ucKeranjang.HargaSatuan = item.HargaSatuan;
-                ucKeranjang.Jumlah = item.Jumlah;
+                
+                if (komponen is CardKeranjang)
+                {
+                    
+                    CardKeranjang keranjangLama = (CardKeranjang)komponen;
 
-                panelListKeranjang.Controls.Add(ucKeranjang);
+                   
+                    if (keranjangLama.NamaProduk == keranjangBaru.NamaProduk)
+                    {
+                     
+                        keranjangLama.Jumlah += 1;
+
+                        HitungGrandTotal();
+                        return;
+                    }
+                }
             }
 
-            UpdateUIGrandTotal();
+           
+            keranjangBaru.Jumlah = 1;
+            tbTotal.Text = "0";
+            
+            panelListKeranjang.Controls.Add(keranjangBaru);
+            HitungGrandTotal();
         }
 
-        private void UpdateUIGrandTotal()
+        private void HitungGrandTotal()
         {
-           
-            int total = _controller.AmbilGrandTotal();
-            tbTotal.Text = "Rp " + total.ToString("N0");
-
-           
-            string teksUangBersih = tbUangDiterima.Text.Replace("Rp ", "").Replace(".", "");
-            int uangDiterima = 0;
+            int totalKeseluruhan = 0;
 
             
-            if (!string.IsNullOrWhiteSpace(teksUangBersih))
+            foreach (Control komponen in panelListKeranjang.Controls)
             {
-                int.TryParse(teksUangBersih, out uangDiterima);
+                if (komponen is CardKeranjang)
+                {
+                    CardKeranjang keranjang = (CardKeranjang)komponen;
+
+                    
+                    int subtotalKartu = keranjang.HargaSatuan * keranjang.Jumlah;
+
+                    
+                    totalKeseluruhan += subtotalKartu;
+                }
             }
 
-            HitungDanTampilkanKembalian(uangDiterima);
+            _grandTotalAngka = totalKeseluruhan;
+            tbTotal.Text = "Rp " + totalKeseluruhan.ToString("N0");
         }
-
-        private void tbUangDiterima_TextChanged(object sender, EventArgs e)
-        {
-            string teksBersih = tbUangDiterima.Text.Replace("Rp ", "").Replace(".", "");
-
-            if (string.IsNullOrWhiteSpace(teksBersih))
-            {
-                UbahStatus(StatusTransaksi.InputBarang);
-                HitungDanTampilkanKembalian(0);
-                return;
-            }
-
-            int posisiKursor = tbUangDiterima.SelectionStart;
-            int panjangAwal = tbUangDiterima.Text.Length;
-
-            if (int.TryParse(teksBersih, out int uangDiterima))
-            {
-                UbahStatus(StatusTransaksi.Pembayaran);
-                tbUangDiterima.Text = "Rp " + uangDiterima.ToString("N0");
-                HitungDanTampilkanKembalian(uangDiterima);
-            }
-            else
-            {
-                UbahStatus(StatusTransaksi.InputBarang);
-            }
-
-            int selisihKarakter = tbUangDiterima.Text.Length - panjangAwal;
-            tbUangDiterima.SelectionStart = Math.Max(0, posisiKursor + selisihKarakter);
-        }
-
-        private void HitungDanTampilkanKembalian(int uangDiterima)
-        {
-           
-            int kembalian = _controller.ProsesHitungKembalian(uangDiterima);
-
-            
-            if (kembalian < 0)
-            {
-                tbUangKembalian.Text = "Uang Kurang: Rp " + Math.Abs(kembalian).ToString("N0");
-                tbUangKembalian.ForeColor = Color.Red;
-            }
-            else
-            {
-                tbUangKembalian.Text = "Rp " + kembalian.ToString("N0");
-                tbUangKembalian.ForeColor = Color.Black;
-            }
-        }
-
-       
-
-        
 
         private void UbahStatus(StatusTransaksi statusBaru)
         {
@@ -192,28 +167,78 @@ namespace TugasBesar.Views.Pegawai.Transaksi
 
             }
         }
-      
+        private void label4_Click(object sender, EventArgs e)
+        {
 
-        
+        }
 
-       
+        private void label7_Click(object sender, EventArgs e)
+        {
 
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
 
         private void ViewTransaksi_Load(object sender, EventArgs e)
         {
 
         }
 
-      
+        private void panelListProduk_Paint(object sender, PaintEventArgs e)
+        {
 
-       
+        }
+
+        private void panelListKeranjang_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
 
         private void btnProsesPembayaran_Click(object sender, EventArgs e)
         {
             UbahStatus(StatusTransaksi.Pembayaran);
         }
 
-      
+        private void tbUangDiterima_TextChanged(object sender, EventArgs e)
+        {
+            string teksBersih = tbUangDiterima.Text.Replace("Rp ", "").Replace(".", "");
+
+            if (string.IsNullOrWhiteSpace(teksBersih))
+            {
+                UbahStatus(StatusTransaksi.InputBarang);
+                HitungKembalian();
+                return;
+            }
+
+            int posisiKursor = tbUangDiterima.SelectionStart;
+            int panjangAwal = tbUangDiterima.Text.Length;
+
+           
+            if (int.TryParse(teksBersih, out int uangDiterima))
+            {
+              
+                UbahStatus(StatusTransaksi.Pembayaran);
+                tbUangDiterima.Text = "Rp " + uangDiterima.ToString("N0");
+            }
+            else
+            {
+                
+                UbahStatus(StatusTransaksi.InputBarang);
+            }
+
+            int selisihKarakter = tbUangDiterima.Text.Length - panjangAwal;
+            tbUangDiterima.SelectionStart = Math.Max(0, posisiKursor + selisihKarakter);
+
+            HitungKembalian();
+        }
         private void HitungKembalian()
         {
             int uangDiterima = 0;
@@ -224,6 +249,8 @@ namespace TugasBesar.Views.Pegawai.Transaksi
 
            
            
+
+          
             int kembalian = uangDiterima - _grandTotalAngka;
 
             
