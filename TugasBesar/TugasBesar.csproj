@@ -46,11 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\TransaksiControllers.cs" />
     <Compile Include="Models\KategoriModels.cs" />
+    <Compile Include="Models\KeranjangItem.cs" />
     <Compile Include="Models\ProdukModels.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataGeneric.cs" />
+    <Compile Include="Services\TransaksiServices.cs" />
     <Compile Include="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
       <SubType>UserControl</SubType>
     </Compile>
