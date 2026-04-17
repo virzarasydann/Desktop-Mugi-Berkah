@@ -80,7 +80,7 @@
             // btnSetText
             // 
             this.btnSetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetText.Location = new System.Drawing.Point(765, 260);
+            this.btnSetText.Location = new System.Drawing.Point(921, 293);
             this.btnSetText.Margin = new System.Windows.Forms.Padding(2);
             this.btnSetText.Name = "btnSetText";
             this.btnSetText.Size = new System.Drawing.Size(112, 32);
@@ -113,10 +113,10 @@
             // btnTambahKategori
             // 
             this.btnTambahKategori.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTambahKategori.Location = new System.Drawing.Point(528, 32);
+            this.btnTambahKategori.Location = new System.Drawing.Point(718, 293);
             this.btnTambahKategori.Margin = new System.Windows.Forms.Padding(2);
             this.btnTambahKategori.Name = "btnTambahKategori";
-            this.btnTambahKategori.Size = new System.Drawing.Size(184, 45);
+            this.btnTambahKategori.Size = new System.Drawing.Size(184, 32);
             this.btnTambahKategori.TabIndex = 0;
             this.btnTambahKategori.Text = "Tambah Kategori";
             this.btnTambahKategori.UseVisualStyleBackColor = true;
