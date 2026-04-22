@@ -53,6 +53,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DataGeneric.cs" />
+    <Compile Include="Services\KategoriService.cs" />
     <Compile Include="Services\TransaksiServices.cs" />
     <Compile Include="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
       <SubType>UserControl</SubType>
