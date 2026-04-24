@@ -47,10 +47,10 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(46, 92);
+            this.label1.Location = new System.Drawing.Point(37, 74);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 20);
+            this.label1.Size = new System.Drawing.Size(59, 17);
             this.label1.TabIndex = 4;
             this.label1.Text = "Produk";
             // 
@@ -69,8 +69,9 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1404, 865);
+            this.panel1.Size = new System.Drawing.Size(1123, 692);
             this.panel1.TabIndex = 5;
+            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // dgvProduk
             // 
@@ -79,23 +80,23 @@
             this.dgvProduk.AllowUserToOrderColumns = true;
             this.dgvProduk.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvProduk.ColumnHeadersHeight = 29;
-            this.dgvProduk.Location = new System.Drawing.Point(372, 391);
+            this.dgvProduk.Location = new System.Drawing.Point(298, 313);
             this.dgvProduk.Margin = new System.Windows.Forms.Padding(2);
             this.dgvProduk.Name = "dgvProduk";
             this.dgvProduk.ReadOnly = true;
             this.dgvProduk.RowHeadersWidth = 51;
             this.dgvProduk.RowTemplate.Height = 24;
-            this.dgvProduk.Size = new System.Drawing.Size(811, 338);
+            this.dgvProduk.Size = new System.Drawing.Size(649, 270);
             this.dgvProduk.TabIndex = 10;
             this.dgvProduk.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduk_CellContentClick);
             // 
             // btnSetTex
             // 
             this.btnSetTex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetTex.Location = new System.Drawing.Point(1003, 340);
+            this.btnSetTex.Location = new System.Drawing.Point(802, 272);
             this.btnSetTex.Margin = new System.Windows.Forms.Padding(2);
             this.btnSetTex.Name = "btnSetTex";
-            this.btnSetTex.Size = new System.Drawing.Size(118, 38);
+            this.btnSetTex.Size = new System.Drawing.Size(94, 30);
             this.btnSetTex.TabIndex = 9;
             this.btnSetTex.Text = "Set Tex";
             this.btnSetTex.UseVisualStyleBackColor = true;
@@ -103,32 +104,32 @@
             // 
             // tbHargaProduk
             // 
-            this.tbHargaProduk.Location = new System.Drawing.Point(68, 284);
+            this.tbHargaProduk.Location = new System.Drawing.Point(54, 227);
             this.tbHargaProduk.Margin = new System.Windows.Forms.Padding(2);
             this.tbHargaProduk.Multiline = true;
             this.tbHargaProduk.Name = "tbHargaProduk";
-            this.tbHargaProduk.Size = new System.Drawing.Size(264, 45);
+            this.tbHargaProduk.Size = new System.Drawing.Size(212, 37);
             this.tbHargaProduk.TabIndex = 8;
             this.tbHargaProduk.TextChanged += new System.EventHandler(this.tbHargaProduk_TextChanged);
             // 
             // cmbKategoriProduk
             // 
             this.cmbKategoriProduk.FormattingEnabled = true;
-            this.cmbKategoriProduk.ItemHeight = 16;
-            this.cmbKategoriProduk.Location = new System.Drawing.Point(68, 209);
+            this.cmbKategoriProduk.ItemHeight = 13;
+            this.cmbKategoriProduk.Location = new System.Drawing.Point(54, 167);
             this.cmbKategoriProduk.Margin = new System.Windows.Forms.Padding(2);
             this.cmbKategoriProduk.Name = "cmbKategoriProduk";
-            this.cmbKategoriProduk.Size = new System.Drawing.Size(153, 24);
+            this.cmbKategoriProduk.Size = new System.Drawing.Size(123, 21);
             this.cmbKategoriProduk.TabIndex = 7;
             this.cmbKategoriProduk.SelectedIndexChanged += new System.EventHandler(this.cmbKategoriProduk_SelectedIndexChanged);
             // 
             // tbNamaProduk
             // 
-            this.tbNamaProduk.Location = new System.Drawing.Point(68, 119);
+            this.tbNamaProduk.Location = new System.Drawing.Point(54, 95);
             this.tbNamaProduk.Margin = new System.Windows.Forms.Padding(2);
             this.tbNamaProduk.Multiline = true;
             this.tbNamaProduk.Name = "tbNamaProduk";
-            this.tbNamaProduk.Size = new System.Drawing.Size(264, 43);
+            this.tbNamaProduk.Size = new System.Drawing.Size(212, 35);
             this.tbNamaProduk.TabIndex = 6;
             this.tbNamaProduk.TextChanged += new System.EventHandler(this.tbNamaProduk_TextChanged);
             // 
@@ -136,10 +137,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(64, 260);
+            this.label4.Location = new System.Drawing.Point(51, 208);
             this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(124, 20);
+            this.label4.Size = new System.Drawing.Size(108, 17);
             this.label4.TabIndex = 5;
             this.label4.Text = "Harga Produk";
             // 
@@ -147,10 +148,10 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(64, 186);
+            this.label3.Location = new System.Drawing.Point(51, 149);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(143, 20);
+            this.label3.Size = new System.Drawing.Size(125, 17);
             this.label3.TabIndex = 4;
             this.label3.Text = "Kategori Produk";
             // 
@@ -158,20 +159,20 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(64, 95);
+            this.label2.Location = new System.Drawing.Point(51, 76);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(121, 20);
+            this.label2.Size = new System.Drawing.Size(105, 17);
             this.label2.TabIndex = 3;
             this.label2.Text = "Nama Produk";
             // 
             // btnTambahProduk
             // 
             this.btnTambahProduk.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTambahProduk.Location = new System.Drawing.Point(827, 340);
+            this.btnTambahProduk.Location = new System.Drawing.Point(662, 272);
             this.btnTambahProduk.Margin = new System.Windows.Forms.Padding(2);
             this.btnTambahProduk.Name = "btnTambahProduk";
-            this.btnTambahProduk.Size = new System.Drawing.Size(151, 38);
+            this.btnTambahProduk.Size = new System.Drawing.Size(121, 30);
             this.btnTambahProduk.TabIndex = 0;
             this.btnTambahProduk.Text = "Tambah Produk";
             this.btnTambahProduk.UseVisualStyleBackColor = true;
@@ -179,13 +180,13 @@
             // 
             // ViewProduk
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "ViewProduk";
-            this.Size = new System.Drawing.Size(1404, 865);
+            this.Size = new System.Drawing.Size(1123, 692);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvProduk)).EndInit();

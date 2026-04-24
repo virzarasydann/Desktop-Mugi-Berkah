@@ -19,8 +19,9 @@ namespace TugasBesar.Views.Pegawai.Produk
         public FormEditProduk(ProdukModels data)
         {
             InitializeComponent();
+            produk = data;
 
-            produk = data; 
+            ApplyLanguage();
 
             LoadKategori();
 
@@ -29,30 +30,41 @@ namespace TugasBesar.Views.Pegawai.Produk
             tbHarga.Text = data.Harga.ToString();
         }
 
+        public void ApplyLanguage()
+        {
+            this.Text = LocalizationService.GetString("title_edit_produk");
+
+            
+            label1.Text = LocalizationService.GetString("lbl_nama_produk");
+            label2.Text = LocalizationService.GetString("lbl_kategori_produk");
+            label3.Text = LocalizationService.GetString("lbl_harga_produk");
+
+            btnSimpan.Text = LocalizationService.GetString("btn_simpan");
+        }
+
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-
             if (string.IsNullOrEmpty(tbNama.Text))
             {
-                MessageBox.Show("Nama produk tidak boleh kosong!");
+                MessageBox.Show(LocalizationService.GetString("msg_nama_kosong"));
                 return;
             }
 
             if (string.IsNullOrEmpty(cmbKategori.Text))
             {
-                MessageBox.Show("Kategori harus dipilih!");
+                MessageBox.Show(LocalizationService.GetString("msg_kategori_kosong"));
                 return;
             }
 
             if (!int.TryParse(tbHarga.Text, out int harga))
             {
-                MessageBox.Show("Harga harus berupa angka!");
+                MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
                 return;
             }
 
             if (produk == null)
             {
-                MessageBox.Show("Data produk tidak ditemukan!");
+                MessageBox.Show(LocalizationService.GetString("msg_data_tidak_ditemukan"));
                 return;
             }
 
@@ -74,24 +86,9 @@ namespace TugasBesar.Views.Pegawai.Produk
             }
         }
 
-        private void tbHarga_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbNama_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FormEditProduk_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void tbHarga_TextChanged(object sender, EventArgs e) { }
+        private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void tbNama_TextChanged(object sender, EventArgs e) { }
+        private void FormEditProduk_Load(object sender, EventArgs e) { }
     }
 }

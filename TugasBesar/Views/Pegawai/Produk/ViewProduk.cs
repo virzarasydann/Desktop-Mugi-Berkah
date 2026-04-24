@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Models;
-using TugasBesar.Services;
+using TugasBesar.Services; 
 
 namespace TugasBesar.Views.Pegawai.Produk
 {
@@ -16,15 +16,36 @@ namespace TugasBesar.Views.Pegawai.Produk
     {
         DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
         int selectedIndex = -1;
+
         public ViewProduk()
         {
             InitializeComponent();
             dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProduk.CellClick += dgvProduk_CellClick;
 
-            
+            ApplyLanguage();
+
             LoadKategori();
             TampilkanData();
+        }
+
+        public void ApplyLanguage()
+        {
+            label2.Text = LocalizationService.GetString("lbl_nama_produk");
+            label3.Text = LocalizationService.GetString("lbl_kategori_produk");
+            label4.Text = LocalizationService.GetString("lbl_harga_produk");
+
+            btnTambahProduk.Text = LocalizationService.GetString("btn_tambah");
+            btnSetTex.Text = LocalizationService.GetString("btn_refresh");
+
+            if (dgvProduk.Columns.Contains("Edit"))
+            {
+                dgvProduk.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_edit");
+            }
+            if (dgvProduk.Columns.Contains("Hapus"))
+            {
+                dgvProduk.Columns["Hapus"].HeaderText = LocalizationService.GetString("btn_hapus");
+            }
         }
 
         private void TambahKolomButton()
@@ -33,8 +54,8 @@ namespace TugasBesar.Views.Pegawai.Produk
             {
                 DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
                 btnEdit.Name = "Edit";
-                btnEdit.HeaderText = "Edit";
-                btnEdit.Text = "Edit";
+                btnEdit.HeaderText = LocalizationService.GetString("btn_edit");
+                btnEdit.Text = LocalizationService.GetString("btn_edit");
                 btnEdit.UseColumnTextForButtonValue = true;
 
                 dgvProduk.Columns.Add(btnEdit);
@@ -44,8 +65,8 @@ namespace TugasBesar.Views.Pegawai.Produk
             {
                 DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
                 btnHapus.Name = "Hapus";
-                btnHapus.HeaderText = "Hapus";
-                btnHapus.Text = "Hapus";
+                btnHapus.HeaderText = LocalizationService.GetString("btn_hapus");
+                btnHapus.Text = LocalizationService.GetString("btn_hapus");
                 btnHapus.UseColumnTextForButtonValue = true;
 
                 dgvProduk.Columns.Add(btnHapus);
@@ -58,7 +79,6 @@ namespace TugasBesar.Views.Pegawai.Produk
             TampilkanData();
         }
 
-
         private void button3_Click(object sender, EventArgs e)
         {
         }
@@ -69,13 +89,13 @@ namespace TugasBesar.Views.Pegawai.Produk
                 string.IsNullOrEmpty(cmbKategoriProduk.Text) ||
                 string.IsNullOrEmpty(tbHargaProduk.Text))
             {
-                MessageBox.Show("Semua field harus diisi!");
+                MessageBox.Show(LocalizationService.GetString("msg_field_kosong"));
                 return;
             }
 
             if (!int.TryParse(tbHargaProduk.Text, out int harga))
             {
-                MessageBox.Show("Harga harus angka!");
+                MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
                 return;
             }
 
@@ -94,7 +114,7 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void btnEditProduk_Click(object sender, EventArgs e)
         {
-        
+            if (selectedIndex < 0) return;
 
             var data = dataProduk.GetAll()[selectedIndex];
 
@@ -108,9 +128,7 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void btnSetTex_Click(object sender, EventArgs e)
         {
-            
             TampilkanData();
-            
         }
 
         private void TampilkanData()
@@ -145,22 +163,18 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void tbNamaProduk_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void cmbKategoriProduk_SelectedIndexChanged(object sender, EventArgs e)
         {
-           
         }
 
         private void tbHargaProduk_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-       
         }
 
         private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -182,12 +196,11 @@ namespace TugasBesar.Views.Pegawai.Produk
                     TampilkanData();
                 }
             }
-
             else if (dgvProduk.Columns[e.ColumnIndex].Name == "Hapus")
             {
                 var confirm = MessageBox.Show(
-                    "Yakin mau hapus data ini?",
-                    "Konfirmasi",
+                    LocalizationService.GetString("msg_hapus_konfirmasi"),
+                    LocalizationService.GetString("title_konfirmasi"),
                     MessageBoxButtons.YesNo
                 );
 
@@ -207,6 +220,22 @@ namespace TugasBesar.Views.Pegawai.Produk
             {
                 cmbKategoriProduk.Items.Add(item.Nama);
             }
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
         }
     }
 }

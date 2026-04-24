@@ -36,8 +36,8 @@ namespace TugasBesar.Views.Pegawai.Transaksi
         {
             get
             {
-                
-                return int.Parse(lblHarga.Text.Replace("Rp ", "").Replace(".", ""));
+
+                return int.Parse(lblHarga.Text.Replace("Rp ", "").Replace(".", "").Replace(",", ""));
             }
             set
             {
