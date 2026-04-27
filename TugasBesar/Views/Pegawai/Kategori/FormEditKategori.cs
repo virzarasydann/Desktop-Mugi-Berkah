@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Models;
 using TugasBesar.Services;
-
 namespace TugasBesar.Views.Pegawai.Kategori
 {
     public partial class FormEditKategori : Form
@@ -20,7 +19,9 @@ namespace TugasBesar.Views.Pegawai.Kategori
         {
             InitializeComponent();
 
-            if (data != null)  
+            ApplyLanguage();
+
+            if (data != null)
             {
                 kategori = data;
                 tbNama.Text = data.Nama;
@@ -30,9 +31,21 @@ namespace TugasBesar.Views.Pegawai.Kategori
                 kategori = new KategoriModels();
             }
         }
+
         public FormEditKategori()
         {
             InitializeComponent();
+
+            ApplyLanguage();
+        }
+
+        public void ApplyLanguage()
+        {
+            this.Text = LocalizationService.GetString("title_edit_kategori");
+
+            Nama.Text = LocalizationService.GetString("lbl_nama_kategori");
+
+            btnSimpan.Text = LocalizationService.GetString("btn_simpan");
         }
 
         private void tbNama_TextChanged(object sender, EventArgs e)
@@ -44,7 +57,7 @@ namespace TugasBesar.Views.Pegawai.Kategori
         {
             if (string.IsNullOrEmpty(tbNama.Text))
             {
-                MessageBox.Show("Nama kategori tidak boleh kosong!");
+                MessageBox.Show(LocalizationService.GetString("msg_nama_kategori_kosong"));
                 return;
             }
 
@@ -52,6 +65,16 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void FormEditKategori_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Nama_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

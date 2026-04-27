@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.buttonTransaksi = new System.Windows.Forms.Button();
             this.buttonProduk = new System.Windows.Forms.Button();
             this.buttonKategori = new System.Windows.Forms.Button();
             this.buttonOperasional = new System.Windows.Forms.Button();
             this.panelContent = new System.Windows.Forms.Panel();
-            this.buttonTransaksi = new System.Windows.Forms.Button();
+            this.cmbLanguageUtama = new System.Windows.Forms.ComboBox();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,10 +44,21 @@
             this.flowLayoutPanel1.Controls.Add(this.buttonProduk);
             this.flowLayoutPanel1.Controls.Add(this.buttonKategori);
             this.flowLayoutPanel1.Controls.Add(this.buttonOperasional);
+            this.flowLayoutPanel1.Controls.Add(this.cmbLanguageUtama);
             this.flowLayoutPanel1.Location = new System.Drawing.Point(72, 12);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(626, 64);
             this.flowLayoutPanel1.TabIndex = 0;
+            // 
+            // buttonTransaksi
+            // 
+            this.buttonTransaksi.Location = new System.Drawing.Point(3, 3);
+            this.buttonTransaksi.Name = "buttonTransaksi";
+            this.buttonTransaksi.Size = new System.Drawing.Size(122, 23);
+            this.buttonTransaksi.TabIndex = 3;
+            this.buttonTransaksi.Text = "Menu Transaksi";
+            this.buttonTransaksi.UseVisualStyleBackColor = true;
+            this.buttonTransaksi.Click += new System.EventHandler(this.buttonTransaksi_Click);
             // 
             // buttonProduk
             // 
@@ -87,16 +99,19 @@
             this.panelContent.Name = "panelContent";
             this.panelContent.Size = new System.Drawing.Size(800, 366);
             this.panelContent.TabIndex = 1;
+            this.panelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.panelContent_Paint);
             // 
-            // buttonTransaksi
+            // cmbLanguageUtama
             // 
-            this.buttonTransaksi.Location = new System.Drawing.Point(3, 3);
-            this.buttonTransaksi.Name = "buttonTransaksi";
-            this.buttonTransaksi.Size = new System.Drawing.Size(122, 23);
-            this.buttonTransaksi.TabIndex = 3;
-            this.buttonTransaksi.Text = "Menu Transaksi";
-            this.buttonTransaksi.UseVisualStyleBackColor = true;
-            this.buttonTransaksi.Click += new System.EventHandler(this.buttonTransaksi_Click);
+            this.cmbLanguageUtama.FormattingEnabled = true;
+            this.cmbLanguageUtama.Items.AddRange(new object[] {
+            "Indonesia",
+            "English"});
+            this.cmbLanguageUtama.Location = new System.Drawing.Point(472, 3);
+            this.cmbLanguageUtama.Name = "cmbLanguageUtama";
+            this.cmbLanguageUtama.Size = new System.Drawing.Size(121, 21);
+            this.cmbLanguageUtama.TabIndex = 2;
+            this.cmbLanguageUtama.SelectedIndexChanged += new System.EventHandler(this.cmbLanguageUtama_SelectedIndexChanged);
             // 
             // BaseFormPegawai
             // 
@@ -121,5 +136,6 @@
         private System.Windows.Forms.Button buttonOperasional;
         private System.Windows.Forms.Panel panelContent;
         private System.Windows.Forms.Button buttonTransaksi;
+        private System.Windows.Forms.ComboBox cmbLanguageUtama;
     }
 }
