@@ -56,8 +56,8 @@ namespace TugasBesar.Views.Pegawai.Produk
                 return;
             }
 
-            produk.Nama = tbNama.Text;
-            produk.Kategori = cmbKategori.Text;
+            produk.Nama = tbNama.Text.Trim();
+            produk.Kategori = cmbKategori.Text.Trim();
             produk.Harga = harga;
 
             this.DialogResult = DialogResult.OK;

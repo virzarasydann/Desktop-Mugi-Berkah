@@ -22,9 +22,8 @@ namespace TugasBesar.Services
         {
             kategori = null;
 
-            // Developer contract: repo and its list should be available
-            Debug.Assert(repo != null, "Kategori repository must be initialized");
-            Debug.Assert(repo.GetAll() != null, "Kategori repository list must not be null");
+            Debug.Assert(repo != null, "DataManager.Kategori belum diinisialisasi (null)");
+            Debug.Assert(repo.GetAll() != null, "Daftar kategori (repo.GetAll()) bernilai null");
 
             if (string.IsNullOrWhiteSpace(name))
                 return KategoriResult.Invalid;
@@ -44,9 +43,9 @@ namespace TugasBesar.Services
             updated = null;
 
             var all = repo.GetAll();
-            // Developer contract: repo must be initialized
-            Debug.Assert(repo != null, "Kategori repository must be initialized");
-            Debug.Assert(all != null, "Kategori repository list must not be null");
+
+            Debug.Assert(repo != null, "DataManager.Kategori belum diinisialisasi (null)");
+            Debug.Assert(all != null, "Daftar kategori (repo.GetAll()) bernilai null");
 
             if (index < 0 || index >= all.Count)
                 return KategoriResult.NotFound;
