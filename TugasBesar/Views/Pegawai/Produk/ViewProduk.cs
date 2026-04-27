@@ -85,6 +85,7 @@ namespace TugasBesar.Views.Pegawai.Produk
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
         {
+            var result = ProdukService.TryAdd(tbNamaProduk.Text, cmbKategoriProduk.Text, int.TryParse(tbHargaProduk.Text, out var h) ? h : -1, out var produk);
             if (string.IsNullOrEmpty(tbNamaProduk.Text) ||
                 string.IsNullOrEmpty(cmbKategoriProduk.Text) ||
                 string.IsNullOrEmpty(tbHargaProduk.Text))
@@ -93,23 +94,21 @@ namespace TugasBesar.Views.Pegawai.Produk
                 return;
             }
 
-            if (!int.TryParse(tbHargaProduk.Text, out int harga))
+            switch (result)
             {
+                case ProdukResult.Invalid:
+                    MessageBox.Show("Semua field harus diisi dan harga harus angka >= 0!");
+                    break;
+                case ProdukResult.Duplicate:
+                    MessageBox.Show("Produk dengan nama dan kategori yang sama sudah ada!");
+                    break;
+                case ProdukResult.Success:
+                    TampilkanData();
+                    ClearInput();
+                    break;
                 MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
                 return;
             }
-
-            ProdukModels produk = new ProdukModels()
-            {
-                Nama = tbNamaProduk.Text,
-                Kategori = cmbKategoriProduk.Text,
-                Harga = harga
-            };
-
-            dataProduk.Add(produk);
-
-            TampilkanData();
-            ClearInput();
         }
 
         private void btnEditProduk_Click(object sender, EventArgs e)
@@ -122,7 +121,24 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                TampilkanData();
+                // Use service to enforce DBC
+                var result = ProdukService.TryUpdate(selectedIndex, data.Nama, data.Kategori, data.Harga, out var updated);
+
+                switch (result)
+                {
+                    case ProdukResult.Invalid:
+                        MessageBox.Show("Data produk tidak valid!");
+                        break;
+                    case ProdukResult.Unchanged:
+                        MessageBox.Show("Data masih sama!");
+                        break;
+                    case ProdukResult.Duplicate:
+                        MessageBox.Show("Produk dengan nama dan kategori yang sama sudah ada!");
+                        break;
+                    case ProdukResult.Success:
+                        TampilkanData();
+                        break;
+                }
             }
         }
 

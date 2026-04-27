@@ -16,6 +16,7 @@ namespace TugasBesar.Views.Pegawai.Kategori
     public partial class ViewKategori : UserControl
     {
         DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
+        // Use KategoriService for DBC
         int selectedIndex = -1;
 
         public ViewKategori()
@@ -77,21 +78,26 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
         private void btnTambahKategori_Click(object sender, EventArgs e)
         {
+            var result = KategoriService.TryAdd(tbNamaKategori.Text, out var kategori);
             if (string.IsNullOrEmpty(tbNamaKategori.Text))
             {
                 MessageBox.Show(LocalizationService.GetString("msg_nama_kategori_kosong"));
                 return;
             }
 
-            KategoriModel kategori = new KategoriModel()
+            switch (result)
             {
-                Nama = tbNamaKategori.Text
-            };
-
-            dataKategori.Add(kategori);
-
-            TampilkanData();
-            tbNamaKategori.Text = "";
+                case KategoriResult.Invalid:
+                    MessageBox.Show("Nama kategori tidak boleh kosong!");
+                    break;
+                case KategoriResult.Duplicate:
+                    MessageBox.Show("Nama kategori sudah ada!");
+                    break;
+                case KategoriResult.Success:
+                    TampilkanData();
+                    tbNamaKategori.Text = string.Empty;
+                    break;
+            }
         }
 
         private void btnEditKategori_Click(object sender, EventArgs e)
@@ -101,15 +107,27 @@ namespace TugasBesar.Views.Pegawai.Kategori
                 MessageBox.Show(LocalizationService.GetString("msg_pilih_data"));
                 return;
             }
+            var result = KategoriService.TryUpdate(selectedIndex, tbNamaKategori.Text, out var updated);
 
-            KategoriModel kategori = new KategoriModel()
+            switch (result)
             {
-                Nama = tbNamaKategori.Text
-            };
-
-            dataKategori.Update(selectedIndex, kategori);
-            TampilkanData();
-            tbNamaKategori.Text = "";
+                case KategoriResult.NotFound:
+                    MessageBox.Show("Pilih data dulu!");
+                    break;
+                case KategoriResult.Invalid:
+                    MessageBox.Show("Nama kategori tidak boleh kosong!");
+                    break;
+                case KategoriResult.Unchanged:
+                    MessageBox.Show("Data masih sama!");
+                    break;
+                case KategoriResult.Duplicate:
+                    MessageBox.Show("Nama kategori sudah ada!");
+                    break;
+                case KategoriResult.Success:
+                    TampilkanData();
+                    tbNamaKategori.Text = string.Empty;
+                    break;
+            }
         }
 
         private void btnHapusKategori_Click(object sender, EventArgs e)
@@ -171,8 +189,26 @@ namespace TugasBesar.Views.Pegawai.Kategori
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    dataKategori.Update(e.RowIndex, form.kategori);
-                    TampilkanData();
+                    var result = KategoriService.TryUpdate(e.RowIndex, form.kategori?.Nama, out var updated);
+
+                    switch (result)
+                    {
+                        case KategoriResult.NotFound:
+                            MessageBox.Show("Pilih data dulu!");
+                            break;
+                        case KategoriResult.Invalid:
+                            MessageBox.Show("Nama kategori tidak boleh kosong!");
+                            break;
+                        case KategoriResult.Unchanged:
+                            MessageBox.Show("Data masih sama!");
+                            break;
+                        case KategoriResult.Duplicate:
+                            MessageBox.Show("Nama kategori sudah ada!");
+                            break;
+                        case KategoriResult.Success:
+                            TampilkanData();
+                            break;
+                    }
                 }
             }
             else if (dgvKategori.Columns[e.ColumnIndex].Name == "Hapus")
