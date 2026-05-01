@@ -37,5 +37,6 @@ namespace TugasBesar.Services
     {
         public static DataGeneric<KategoriModels> Kategori = new DataGeneric<KategoriModels>();
         public static DataGeneric<ProdukModels> Produk = new DataGeneric<ProdukModels>();
+        public static DataGeneric<OperasionalModels> Operasional = new DataGeneric<OperasionalModels>();
     }
 }

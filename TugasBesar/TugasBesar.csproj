@@ -49,6 +49,7 @@
     <Compile Include="Controllers\TransaksiControllers.cs" />
     <Compile Include="Models\KategoriModels.cs" />
     <Compile Include="Models\KeranjangItem.cs" />
+    <Compile Include="Models\OperasionalModels.cs" />
     <Compile Include="Models\ProdukModels.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +88,12 @@
     <Compile Include="Views\Pegawai\Kategori\ViewKategori.Designer.cs">
       <DependentUpon>ViewKategori.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pegawai\Operasional\FormEditOperasional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Pegawai\Operasional\FormEditOperasional.Designer.cs">
+      <DependentUpon>FormEditOperasional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pegawai\Operasional\ViewOperasional.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -105,10 +112,10 @@
     <Compile Include="Views\Pegawai\Produk\ViewProduk.Designer.cs">
       <DependentUpon>ViewProduk.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pegawai\Riwayat\ViewRiwayat.cs">
+    <Compile Include="Views\Admin\Riwayat\ViewRiwayat.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Views\Pegawai\Riwayat\ViewRiwayat.Designer.cs">
+    <Compile Include="Views\Admin\Riwayat\ViewRiwayat.Designer.cs">
       <DependentUpon>ViewRiwayat.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Pegawai\Transaksi\CardKeranjang.cs">
@@ -160,6 +167,9 @@
     <EmbeddedResource Include="Views\Pegawai\Kategori\ViewKategori.resx">
       <DependentUpon>ViewKategori.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Views\Pegawai\Operasional\FormEditOperasional.resx">
+      <DependentUpon>FormEditOperasional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Views\Pegawai\Operasional\ViewOperasional.resx">
       <DependentUpon>ViewOperasional.cs</DependentUpon>
     </EmbeddedResource>
@@ -169,7 +179,7 @@
     <EmbeddedResource Include="Views\Pegawai\Produk\ViewProduk.resx">
       <DependentUpon>ViewProduk.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\Pegawai\Riwayat\ViewRiwayat.resx">
+    <EmbeddedResource Include="Views\Admin\Riwayat\ViewRiwayat.resx">
       <DependentUpon>ViewRiwayat.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Pegawai\Transaksi\CardKeranjang.resx">
