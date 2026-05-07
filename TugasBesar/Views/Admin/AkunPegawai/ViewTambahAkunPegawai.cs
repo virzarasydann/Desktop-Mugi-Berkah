@@ -12,9 +12,21 @@ namespace TugasBesar.Views.Admin.AkunPegawai
 {
     public partial class ViewTambahAkunPegawai : UserControl
     {
+        public Action<object, object> FormClosed { get; internal set; }
+
         public ViewTambahAkunPegawai()
         {
             InitializeComponent();
+        }
+
+        private void tbUsername_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tbPassword_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

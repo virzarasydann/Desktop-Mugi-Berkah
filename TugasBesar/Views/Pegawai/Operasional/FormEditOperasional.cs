@@ -7,60 +7,42 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TugasBesar.Controllers;
 using TugasBesar.Models;
 
 namespace TugasBesar.Views.Pegawai.Operasional
 {
     public partial class FormEditOperasional : Form
     {
+        OperasionalController controller = new OperasionalController();
         public OperasionalModels operasional { get; set; }
-        public FormEditOperasional(OperasionalModels data)
+
+        int index;
+
+        public FormEditOperasional(OperasionalModels data, int selectedIndex)
         {
             InitializeComponent();
 
             operasional = data;
-
+            this.index = selectedIndex; 
 
             tbNama.Text = data.Nama;
             tbHarga.Text = data.Harga.ToString();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tbNama_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(tbNama.Text))
+            try
             {
-                MessageBox.Show("Nama tidak boleh kosong!");
-                return;
-            }
+                controller.Edit(index, tbNama.Text, tbHarga.Text);
 
-            if (!int.TryParse(tbHarga.Text, out int harga))
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
             {
-                MessageBox.Show("Harga harus angka!");
-                return;
+                MessageBox.Show(ex.Message);
             }
-
-            // ❗ penting: pastikan object ada
-            if (operasional == null)
-            {
-                MessageBox.Show("Data tidak ditemukan!");
-                return;
-            }
-
-            operasional.Nama = tbNama.Text.Trim();
-            operasional.Harga = harga;
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TugasBesar.Views.Pegawai.Operasional
+﻿using System;
+
+namespace TugasBesar.Views.Pegawai.Operasional
 {
     partial class FormEditOperasional
     {
@@ -44,7 +46,7 @@
             this.label1.Size = new System.Drawing.Size(191, 25);
             this.label1.TabIndex = 0;
             this.label1.Text = "Nama Operasional";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
+
             // 
             // label2
             // 
@@ -74,7 +76,7 @@
             this.tbNama.Name = "tbNama";
             this.tbNama.Size = new System.Drawing.Size(234, 36);
             this.tbNama.TabIndex = 3;
-            this.tbNama.TextChanged += new System.EventHandler(this.tbNama_TextChanged);
+  
             // 
             // tbHarga
             // 

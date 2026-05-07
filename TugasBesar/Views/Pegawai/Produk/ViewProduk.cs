@@ -121,7 +121,6 @@ namespace TugasBesar.Views.Pegawai.Produk
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                // Use service to enforce DBC
                 var result = ProdukService.TryUpdate(selectedIndex, data.Nama, data.Kategori, data.Harga, out var updated);
 
                 switch (result)
