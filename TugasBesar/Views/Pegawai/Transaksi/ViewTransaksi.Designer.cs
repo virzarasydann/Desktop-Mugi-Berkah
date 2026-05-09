@@ -44,7 +44,7 @@
             this.btnQris = new System.Windows.Forms.Button();
             this.btnCash = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
-            this.btnNamaPembeli = new System.Windows.Forms.TextBox();
+            this.tbNamaPembeli = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.panelListKeranjang = new System.Windows.Forms.FlowLayoutPanel();
@@ -83,7 +83,7 @@
             this.panel2.Controls.Add(this.btnQris);
             this.panel2.Controls.Add(this.btnCash);
             this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.btnNamaPembeli);
+            this.panel2.Controls.Add(this.tbNamaPembeli);
             this.panel2.Controls.Add(this.label8);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel2.Location = new System.Drawing.Point(525, 0);
@@ -251,14 +251,14 @@
             this.label9.Text = "Metode Pembayaran";
             this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
-            // btnNamaPembeli
+            // tbNamaPembeli
             // 
-            this.btnNamaPembeli.Location = new System.Drawing.Point(197, 19);
-            this.btnNamaPembeli.Margin = new System.Windows.Forms.Padding(2);
-            this.btnNamaPembeli.Multiline = true;
-            this.btnNamaPembeli.Name = "btnNamaPembeli";
-            this.btnNamaPembeli.Size = new System.Drawing.Size(170, 29);
-            this.btnNamaPembeli.TabIndex = 5;
+            this.tbNamaPembeli.Location = new System.Drawing.Point(197, 19);
+            this.tbNamaPembeli.Margin = new System.Windows.Forms.Padding(2);
+            this.tbNamaPembeli.Multiline = true;
+            this.tbNamaPembeli.Name = "tbNamaPembeli";
+            this.tbNamaPembeli.Size = new System.Drawing.Size(170, 29);
+            this.tbNamaPembeli.TabIndex = 5;
             // 
             // label8
             // 
@@ -342,7 +342,7 @@
         private System.Windows.Forms.Button btnQris;
         private System.Windows.Forms.Button btnCash;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox btnNamaPembeli;
+        private System.Windows.Forms.TextBox tbNamaPembeli;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnProsesPembayaran;
         private System.Windows.Forms.TextBox tbUangKembalian;

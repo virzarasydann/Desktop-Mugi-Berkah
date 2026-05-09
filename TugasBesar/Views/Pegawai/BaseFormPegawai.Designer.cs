@@ -33,8 +33,8 @@
             this.buttonProduk = new System.Windows.Forms.Button();
             this.buttonKategori = new System.Windows.Forms.Button();
             this.buttonOperasional = new System.Windows.Forms.Button();
-            this.panelContent = new System.Windows.Forms.Panel();
             this.cmbLanguageUtama = new System.Windows.Forms.ComboBox();
+            this.panelContent = new System.Windows.Forms.Panel();
             this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -90,17 +90,6 @@
             this.buttonOperasional.UseVisualStyleBackColor = true;
             this.buttonOperasional.Click += new System.EventHandler(this.buttonOperasional_Click);
             // 
-            // panelContent
-            // 
-            this.panelContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelContent.Location = new System.Drawing.Point(0, 82);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(800, 366);
-            this.panelContent.TabIndex = 1;
-            this.panelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.panelContent_Paint);
-            // 
             // cmbLanguageUtama
             // 
             this.cmbLanguageUtama.FormattingEnabled = true;
@@ -113,6 +102,17 @@
             this.cmbLanguageUtama.TabIndex = 2;
             this.cmbLanguageUtama.SelectedIndexChanged += new System.EventHandler(this.cmbLanguageUtama_SelectedIndexChanged);
             // 
+            // panelContent
+            // 
+            this.panelContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelContent.Location = new System.Drawing.Point(0, 82);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.Size = new System.Drawing.Size(800, 366);
+            this.panelContent.TabIndex = 1;
+            this.panelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.panelContent_Paint);
+            // 
             // BaseFormPegawai
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -122,6 +122,7 @@
             this.Controls.Add(this.flowLayoutPanel1);
             this.Name = "BaseFormPegawai";
             this.Text = "NavbarForm";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.BaseFormPegawai_Load);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -24,6 +24,11 @@ namespace TugasBesar.Services
 
         public List<KeranjangItem> TambahProdukKeKeranjang(string namaProduk, int harga)
         {
+            if (string.IsNullOrWhiteSpace(namaProduk))
+                throw new ArgumentException("Nama produk tidak boleh kosong.");
+            if (harga < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
+
             var itemSudahAda = _keranjang.FirstOrDefault(k => k.NamaProduk == namaProduk);
 
             if (itemSudahAda != null)
@@ -56,6 +61,8 @@ namespace TugasBesar.Services
         
         public int HitungKembalian(int uangDiterima)
         {
+            if (uangDiterima < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
             int grandTotal = HitungGrandTotal();
             return uangDiterima - grandTotal;
         }
