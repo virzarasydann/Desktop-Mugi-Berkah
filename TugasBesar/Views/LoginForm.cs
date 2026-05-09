@@ -7,8 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TugasBesar.Views.Pegawai;
 using TugasBesar.Services;
+using TugasBesar.Views.Admin.AkunPegawai;
+using TugasBesar.Views.Pegawai;
 
 namespace TugasBesar.Views
 {
@@ -49,6 +50,18 @@ namespace TugasBesar.Views
             ApplyLanguage();
         }
 
+        //private void button1_Click(object sender, EventArgs e)
+        //{
+        //    String username = textBoxUsername.Text;
+        //    String password = textBoxPassword.Text;
+
+        //    BaseFormPegawai formPegawai = new BaseFormPegawai();
+        //    formPegawai.FormClosed += (s, args) => this.Close();
+
+        //    this.Hide();
+        //    formPegawai.Show();
+        //}
+
         private void button1_Click(object sender, EventArgs e)
         {
             String username = textBoxUsername.Text;
@@ -79,6 +92,16 @@ namespace TugasBesar.Views
 
         private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
         {
+        }
+
+        private void textBoxPassword_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBoxUsername_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

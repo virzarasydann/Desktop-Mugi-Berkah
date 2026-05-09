@@ -9,13 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Models;
 using TugasBesar.Services;
+using TugasBesar.Controllers;
 
 namespace TugasBesar.Views.Pegawai.Operasional
 {
+
     public partial class ViewOperasional : UserControl
     {
+        Dictionary<string, Action<int>> aksiKolom;
         DataGeneric<OperasionalModels> dataOperasional = DataManager.Operasional;
         int selectedIndex = -1;
+        OperasionalController controller = new OperasionalController();
 
         public ViewOperasional()
         {
@@ -27,6 +31,38 @@ namespace TugasBesar.Views.Pegawai.Operasional
 
             ApplyLanguage();
             TampilkanData();
+
+            aksiKolom = new Dictionary<string, Action<int>>()
+            {
+                {
+                    "Edit", (rowIndex) =>
+                    {
+                        var data = dataOperasional.GetAll()[rowIndex];
+                        FormEditOperasional form = new FormEditOperasional(data, rowIndex);
+
+                        if (form.ShowDialog() == DialogResult.OK)
+                        {
+                            TampilkanData();
+                        }
+                    }
+                },
+                {
+                    "Hapus", (rowIndex) =>
+                    {
+                        var confirm = MessageBox.Show(
+                            "Anda yakin ingin menghapus ?",
+                            "Konfirmasi",
+                            MessageBoxButtons.YesNo
+                        );
+
+                        if (confirm == DialogResult.Yes)
+                        {
+                            controller.Hapus(rowIndex);
+                            TampilkanData();
+                        }
+                    }
+                }
+            };
         }
 
         public void ApplyLanguage()
@@ -35,7 +71,7 @@ namespace TugasBesar.Views.Pegawai.Operasional
             label3.Text = LocalizationService.GetString("lbl_biaya_operasional");
 
             btnTambahOperasional.Text = LocalizationService.GetString("btn_tambah");
-            btnSetText.Text = LocalizationService.GetString("btn_refresh");
+            //btnSetText.Text = LocalizationService.GetString("btn_refresh");
 
             if (dgvOperasional.Columns.Contains("Edit"))
                 dgvOperasional.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_edit");
@@ -103,54 +139,33 @@ namespace TugasBesar.Views.Pegawai.Operasional
 
         private void btnTambahOperasional_Click(object sender, EventArgs e) 
         {
-            if (string.IsNullOrEmpty(tbNamaOperasional.Text) ||
-                string.IsNullOrEmpty(tbHargaOperasional.Text))
+            try
             {
-                MessageBox.Show("Semua field harus diisi!");
-                return;
+                controller.Tambah(tbNamaOperasional.Text, tbHargaOperasional.Text);
+
+                TampilkanData();
+                ClearInput();
             }
-
-            if (!int.TryParse(tbHargaOperasional.Text, out int harga))
+            catch (Exception ex)
             {
-                MessageBox.Show("Harga harus angka!");
-                return;
+                MessageBox.Show(ex.Message);
             }
-
-            dataOperasional.Add(new OperasionalModels()
-            {
-                Nama = tbNamaOperasional.Text,
-                Harga = harga
-            });
-
-            TampilkanData();
-            ClearInput();
         }
 
-        private void btnEditOperasional_Click(object sender, EventArgs e) 
-        {
-            if (selectedIndex < 0 || selectedIndex >= dataOperasional.GetAll().Count)
-            {
-                MessageBox.Show("Pilih data dulu!");
-                return;
-            }
+        //private void btnEditOperasional_Click(object sender, EventArgs e) 
+        //{
+        //    try
+        //    {
+        //        controller.Edit(selectedIndex, tbNamaOperasional.Text, tbHargaOperasional.Text);
 
-            if (!int.TryParse(tbHargaOperasional.Text, out int harga))
-            {
-                MessageBox.Show("Harga harus angka!");
-                return;
-            }
-
-            OperasionalModels data = new OperasionalModels()
-            {
-                Nama = tbNamaOperasional.Text,
-                Harga = harga
-            };
-
-            dataOperasional.Update(selectedIndex, data);
-
-            TampilkanData();
-            ClearInput();
-        }
+        //        TampilkanData();
+        //        ClearInput();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
 
         private void label2_Click(object sender, EventArgs e) { }
@@ -181,35 +196,49 @@ namespace TugasBesar.Views.Pegawai.Operasional
 
         private void dgvOperasional_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-            if (e.RowIndex >= dataOperasional.GetAll().Count) return;
-
-            selectedIndex = e.RowIndex;
-
-            var data = dataOperasional.GetAll()[e.RowIndex];
-
-            if (dgvOperasional.Columns[e.ColumnIndex].Name == "Edit")
+            try
             {
-                FormEditOperasional form = new FormEditOperasional(data);
+                if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+                if (e.RowIndex >= dataOperasional.GetAll().Count) return;
 
-                if (form.ShowDialog() == DialogResult.OK)
+                selectedIndex = e.RowIndex;
+
+                //var data = dataOperasional.GetAll()[e.RowIndex];
+
+                var columnName = dgvOperasional.Columns[e.ColumnIndex].Name;
+
+                if (aksiKolom.ContainsKey(columnName))
                 {
-                    TampilkanData();
+                    aksiKolom[columnName].Invoke(e.RowIndex);
                 }
+
+                //if (dgvOperasional.Columns[e.ColumnIndex].Name == "Edit")
+                //{
+                //    FormEditOperasional form = new FormEditOperasional(data, selectedIndex);
+
+                //    if (form.ShowDialog() == DialogResult.OK)
+                //    {
+                //        TampilkanData();
+                //    }
+                //}
+                //else if (dgvOperasional.Columns[e.ColumnIndex].Name == "Hapus")
+                //{
+                //    var confirm = MessageBox.Show(
+                //        "Anda yakin ingin menghapus ?",
+                //        "Konfirmasi",
+                //        MessageBoxButtons.YesNo
+                //    );
+
+                //    if (confirm == DialogResult.Yes)
+                //    {
+                //        controller.Hapus(e.RowIndex);
+                //        TampilkanData();
+                //    }
+                //}
             }
-            else if (dgvOperasional.Columns[e.ColumnIndex].Name == "Hapus")
+            catch (Exception ex)
             {
-                var confirm = MessageBox.Show(
-                    LocalizationService.GetString("Anda yakin ingin menghapus ?"),
-                    LocalizationService.GetString("title_konfirmasi"),
-                    MessageBoxButtons.YesNo
-                );
-
-                if (confirm == DialogResult.Yes)
-                {
-                    dataOperasional.RemoveAt(e.RowIndex);
-                    TampilkanData();
-                }
+                MessageBox.Show(ex.Message);
             }
         }
 

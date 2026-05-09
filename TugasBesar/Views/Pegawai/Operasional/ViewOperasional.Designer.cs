@@ -30,13 +30,12 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.btnSetText = new System.Windows.Forms.Button();
+            this.dgvOperasional = new System.Windows.Forms.DataGridView();
             this.tbHargaOperasional = new System.Windows.Forms.TextBox();
             this.tbNamaOperasional = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btnTambahOperasional = new System.Windows.Forms.Button();
-            this.dgvOperasional = new System.Windows.Forms.DataGridView();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvOperasional)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +55,6 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.dgvOperasional);
-            this.panel1.Controls.Add(this.btnSetText);
             this.panel1.Controls.Add(this.tbHargaOperasional);
             this.panel1.Controls.Add(this.tbNamaOperasional);
             this.panel1.Controls.Add(this.label3);
@@ -70,17 +68,16 @@
             this.panel1.TabIndex = 7;
             this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
-            // btnSetText
+            // dgvOperasional
             // 
-            this.btnSetText.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetText.Location = new System.Drawing.Point(1050, 286);
-            this.btnSetText.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSetText.Name = "btnSetText";
-            this.btnSetText.Size = new System.Drawing.Size(139, 38);
-            this.btnSetText.TabIndex = 7;
-            this.btnSetText.Text = "Set Tex";
-            this.btnSetText.UseVisualStyleBackColor = true;
-            this.btnSetText.Click += new System.EventHandler(this.btnSetText_Click);
+            this.dgvOperasional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvOperasional.Location = new System.Drawing.Point(276, 422);
+            this.dgvOperasional.Name = "dgvOperasional";
+            this.dgvOperasional.RowHeadersWidth = 51;
+            this.dgvOperasional.RowTemplate.Height = 24;
+            this.dgvOperasional.Size = new System.Drawing.Size(891, 297);
+            this.dgvOperasional.TabIndex = 8;
+            this.dgvOperasional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOperasional_CellContentClick);
             // 
             // tbHargaOperasional
             // 
@@ -129,7 +126,7 @@
             // btnTambahOperasional
             // 
             this.btnTambahOperasional.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTambahOperasional.Location = new System.Drawing.Point(604, 31);
+            this.btnTambahOperasional.Location = new System.Drawing.Point(914, 344);
             this.btnTambahOperasional.Margin = new System.Windows.Forms.Padding(2);
             this.btnTambahOperasional.Name = "btnTambahOperasional";
             this.btnTambahOperasional.Size = new System.Drawing.Size(204, 40);
@@ -137,17 +134,6 @@
             this.btnTambahOperasional.Text = "Tambah Operasional";
             this.btnTambahOperasional.UseVisualStyleBackColor = true;
             this.btnTambahOperasional.Click += new System.EventHandler(this.btnTambahOperasional_Click);
-            // 
-            // dgvOperasional
-            // 
-            this.dgvOperasional.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvOperasional.Location = new System.Drawing.Point(276, 422);
-            this.dgvOperasional.Name = "dgvOperasional";
-            this.dgvOperasional.RowHeadersWidth = 51;
-            this.dgvOperasional.RowTemplate.Height = 24;
-            this.dgvOperasional.Size = new System.Drawing.Size(891, 297);
-            this.dgvOperasional.TabIndex = 8;
-            this.dgvOperasional.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvOperasional_CellContentClick);
             // 
             // ViewOperasional
             // 
@@ -170,7 +156,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnSetText;
         private System.Windows.Forms.TextBox tbHargaOperasional;
         private System.Windows.Forms.TextBox tbNamaOperasional;
         private System.Windows.Forms.Label label3;
