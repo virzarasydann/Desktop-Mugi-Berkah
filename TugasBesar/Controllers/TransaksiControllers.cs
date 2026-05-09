@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TugasBesar.Models;
 using TugasBesar.Services;
 
@@ -20,6 +21,10 @@ namespace TugasBesar.Controllers
 
         public List<KeranjangItem> ProsesTambahKeranjang(string nama, int harga)
         {
+            if (string.IsNullOrWhiteSpace(nama))
+                throw new ArgumentException("Nama produk tidak boleh kosong.");
+            if (harga < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
             return _services.TambahProdukKeKeranjang(nama, harga);
         }
 
@@ -30,6 +35,8 @@ namespace TugasBesar.Controllers
 
         public int ProsesHitungKembalian(int uangDiterima)
         {
+            if (uangDiterima < 0)
+                throw new ArgumentException("Harga tidak boleh negatif.");
             return _services.HitungKembalian(uangDiterima);
         }
     }
