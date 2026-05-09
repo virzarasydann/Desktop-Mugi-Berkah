@@ -1,13 +1,10 @@
 <Solution>
-  <Folder Name="/Solution Items/">
-    <File Path="TugasBesar/Models/AkunPegawai.cs" />
-    <File Path="TugasBesar/Services/AkunPegawaiService.cs" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/FormEditAkunPegawai.cs" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/FormEditAkunPegawai.Designer.cs" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/FormEditAkunPegawai.resx" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/View TambahAkunPegawai.cs" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/View TambahAkunPegawai.Designer.cs" />
-    <File Path="TugasBesar/Views/Admin/AkunPegawai/View TambahAkunPegawai.resx" />
+  <Folder Name="/Library/">
+    <Project Path="MysqlDatabaseConnectionLibrary/MysqlDatabaseConnectionLibrary.csproj" Id="f46eb850-bdc0-48bb-83b4-760c4b0170f7" />
+    <Project Path="ResponseMessageLibrary/ResponseMessageLibrary.csproj" Id="aa861690-89f3-4882-bf2e-a570656bfc98" />
+  </Folder>
+  <Folder Name="/Testing/">
+    <Project Path="UnitTesting/UnitTesting.csproj" Id="129e027b-127f-4288-8441-360aeb5af326" />
   </Folder>
   <Project Path="TugasBesar/TugasBesar.csproj" Id="72916b15-935f-4077-a1c0-898fa802cd2c" />
 </Solution>
