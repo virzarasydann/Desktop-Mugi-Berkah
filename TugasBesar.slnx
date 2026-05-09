@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="TugasBesar/TugasBesar.csproj" Id="72916b15-935f-4077-a1c0-898fa802cd2c" />
+  <Project Path="MugiBerkahAPI/MugiBerkahAPI.csproj" />
 </Solution>
