@@ -12,6 +12,7 @@ using TugasBesar.Views.Pegawai.Produk;
 using TugasBesar.Views.Pegawai.Kategori;
 using TugasBesar.Views.Pegawai.Operasional;
 using TugasBesar.Services;
+using TugasBesar.Views.Admin.AkunPegawai;
 
 namespace TugasBesar.Views.Pegawai
 {
@@ -23,7 +24,7 @@ namespace TugasBesar.Views.Pegawai
 
             ApplyLanguage();
 
-            PindahLayar(new ViewTransaksi());
+            PindahLayar(new ViewTambahAkunPegawai());
         }
 
         private void ApplyLanguage()

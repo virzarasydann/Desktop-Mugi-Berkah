@@ -45,9 +45,7 @@ namespace TugasBesar.Views.Pegawai.Transaksi
             label12.Text = LocalizationService.GetString("lbl_kembalian");
             label17.Text = LocalizationService.GetString("lbl_total");
 
-            // Catatan: Cek juga nama label untuk tulisan "Status" dan "Transaksi" ya, 
-            // lalu tambahkan kodenya di bawah ini. Misalnya:
-            //label18.Text = LocalizationService.GetString("lbl_status");
+            
 
             btnCash.Text = LocalizationService.GetString("btn_cash");
             btnQris.Text = LocalizationService.GetString("btn_qris");
@@ -60,18 +58,31 @@ namespace TugasBesar.Views.Pegawai.Transaksi
 
         private void HitungDanTampilkanKembalian(int uangDiterima)
         {
-            int kembalian = _controller.ProsesHitungKembalian(uangDiterima);
-
-            if (kembalian < 0)
+            try
             {
-                string msgKurang = LocalizationService.GetString("msg_uang_kurang");
-                tbUangKembalian.Text = $"{msgKurang}: Rp " + Math.Abs(kembalian).ToString("N0");
+                int kembalian = _controller.ProsesHitungKembalian(uangDiterima);
+
+                if (kembalian < 0)
+                {
+                    string msgKurang = LocalizationService.GetString("msg_uang_kurang");
+                    tbUangKembalian.Text = $"{msgKurang}: Rp " + Math.Abs(kembalian).ToString("N0");
+                    tbUangKembalian.ForeColor = Color.Red;
+                }
+                else
+                {
+                    tbUangKembalian.Text = "Rp " + kembalian.ToString("N0");
+                    tbUangKembalian.ForeColor = Color.Black;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                tbUangKembalian.Text = ex.Message;
                 tbUangKembalian.ForeColor = Color.Red;
             }
-            else
+            catch (Exception ex)
             {
-                tbUangKembalian.Text = "Rp " + kembalian.ToString("N0");
-                tbUangKembalian.ForeColor = Color.Black;
+                tbUangKembalian.Text = "Error: " + ex.Message;
+                tbUangKembalian.ForeColor = Color.Red;
             }
         }
 
@@ -87,8 +98,21 @@ namespace TugasBesar.Views.Pegawai.Transaksi
                 ucProduk.Harga = produk.Harga;
                 ucProduk.ProdukDiklik += (sender, e) =>
                 {
-                    var keranjangTerbaru = _controller.ProsesTambahKeranjang(ucProduk.NamaProduk, ucProduk.Harga);
-                    RenderUlangKeranjang(keranjangTerbaru);
+                    try
+                    {
+                        var keranjangTerbaru = _controller.ProsesTambahKeranjang(ucProduk.NamaProduk, ucProduk.Harga);
+                        RenderUlangKeranjang(keranjangTerbaru);
+                    }
+                    catch (ArgumentException ex)
+                    {
+                       
+                        tbStatus.Text = "Error: " + ex.Message;
+                    }
+                    catch (Exception ex) 
+                    {
+                        tbStatus.Text = "Terjadi kesalahan sistem.";
+                       
+                    }
                 };
                 panelListProduk.Controls.Add(ucProduk);
             }
@@ -147,6 +171,7 @@ namespace TugasBesar.Views.Pegawai.Transaksi
             switch (_statusSekarang)
             {
                 case StatusTransaksi.Kosong:
+                    tbNamaPembeli.Enabled = false;
                     tbUangKembalian.Enabled = false;
                     tbUangDiterima.Enabled = false;
                     tbTotal.Enabled = false;
@@ -157,6 +182,7 @@ namespace TugasBesar.Views.Pegawai.Transaksi
                     panelListProduk.Enabled = true;
                     break;
                 case StatusTransaksi.InputBarang:
+                    tbNamaPembeli.Enabled = true;
                     tbUangDiterima.Enabled = true;
                     btnProsesPembayaran.Enabled = false;
                     panelListProduk.Enabled = true;
