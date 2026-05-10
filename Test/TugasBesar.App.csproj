@@ -1,0 +1,72 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TugasBesar.Core\TugasBesar.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\Admin\AkunPegawai\FormEditAkunPegawai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Admin\Riwayat\ViewRiwayat.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\BaseFormPegawai.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Kategori\FormEditKategori.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Kategori\ViewKategori.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Operasional\FormEditOperasional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Operasional\ViewOperasional.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Produk\FormEditProduk.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Produk\ViewProduk.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Transaksi\CardKeranjang.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Transaksi\CardProduk.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\Pegawai\Transaksi\ViewTransaksi.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Update="Views\UserControl1.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Languages\en.po">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Languages\id.po">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,119 @@
+msgid "login_title"
+msgstr "System Login"
+
+msgid "btn_login"
+msgstr "Login"
+
+msgid "placeholder_username"
+msgstr "Enter Username"
+
+msgid "placeholder_password"
+msgstr "Enter Password"
+
+msgid "nav_transaksi"
+msgstr "Transaction Menu"
+
+msgid "nav_produk"
+msgstr "Product Menu"
+
+msgid "nav_kategori"
+msgstr "Category Menu"
+
+msgid "nav_operasional"
+msgstr "Operational Menu"
+
+msgid "title_transaksi"
+msgstr "Transaction"
+
+msgid "lbl_nama_pembeli"
+msgstr "Buyer Name"
+
+msgid "lbl_metode_bayar"
+msgstr "Payment Method"
+
+msgid "btn_cash"
+msgstr "Cash"
+
+msgid "btn_qris"
+msgstr "QRIS"
+
+msgid "lbl_jumlah_uang"
+msgstr "Amount Received"
+
+msgid "lbl_kembalian"
+msgstr "Change"
+
+msgid "lbl_total"
+msgstr "Total"
+
+msgid "lbl_status"
+msgstr "Status"
+
+msgid "btn_lunas"
+msgstr "Paid"
+
+msgid "btn_belum_lunas"
+msgstr "Unpaid"
+
+msgid "btn_proses"
+msgstr "Process"
+
+msgid "msg_uang_kurang"
+msgstr "Insufficient Funds"
+
+msgid "lbl_nama_produk"
+msgstr "Product Name"
+
+msgid "lbl_kategori_produk"
+msgstr "Product Category"
+
+msgid "lbl_harga_produk"
+msgstr "Product Price"
+
+msgid "btn_tambah"
+msgstr "Add"
+
+msgid "btn_edit"
+msgstr "Edit"
+
+msgid "btn_hapus"
+msgstr "Delete"
+
+msgid "btn_refresh"
+msgstr "Refresh"
+
+msgid "title_edit_produk"
+msgstr "Edit Product"
+
+msgid "btn_simpan"
+msgstr "Save"
+
+msgid "msg_nama_kosong"
+msgstr "Product name cannot be empty!"
+
+msgid "msg_kategori_kosong"
+msgstr "Category must be selected!"
+
+msgid "msg_data_tidak_ditemukan"
+msgstr "Product data not found!"
+
+msgid "msg_nama_kategori_kosong"
+msgstr "Category name cannot be empty!"
+
+msgid "msg_pilih_data"
+msgstr "Please select data first!"
+
+msgid "msg_hapus_kategori_konfirmasi"
+msgstr "Are you sure you want to delete this category?"
+
+msgid "lbl_nama_kategori"
+msgstr "Category Name"
+
+msgid "title_edit_kategori"
+msgstr "Edit Category"
+
+msgid "lbl_nama_operasional"
+msgstr "Operational Name"
+
+msgid "lbl_biaya_operasional"
+msgstr "Operational Cost"
