@@ -8,22 +8,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Models;
-using TugasBesar.Services;
+using TugasBesar.Controllers;  // Tambahkan ini agar bisa memanggil Controller
 
 namespace TugasBesar.Views.Admin.AkunPegawai
 {
     public partial class ViewTambahAkunPegawai : UserControl
     {
-        private AkunPegawaiService _akunService;
+        // GANTI Service menjadi Controller
+        private AkunPegawaiController _controller;
 
         public ViewTambahAkunPegawai()
         {
             InitializeComponent();
-            _akunService = new AkunPegawaiService();
 
-            // Menyambungkan event klik pada tabel
+            // Inisialisasi Controller
+            _controller = new AkunPegawaiController();
+
             dgvAkunPegawai.CellClick += dgvAkunPegawai_CellClick;
-
             TampilkanData();
         }
 
@@ -31,29 +32,24 @@ namespace TugasBesar.Views.Admin.AkunPegawai
         {
             if (dgvAkunPegawai == null) return;
 
+            dgvAkunPegawai.Columns.Clear();
             dgvAkunPegawai.DataSource = null;
-            var listAkun = _akunService.AmbilSemuaAkun();
+
+            // Panggil data lewat Controller, BUKAN Service lagi
+            var listAkun = _controller.GetAllAkun();
 
             if (listAkun.Count == 0) return;
 
             dgvAkunPegawai.DataSource = listAkun;
 
-            // Menyembunyikan kolom yang tidak perlu ditampilkan
             if (dgvAkunPegawai.Columns.Contains("NamaLengkap"))
-            {
                 dgvAkunPegawai.Columns["NamaLengkap"].Visible = false;
-            }
 
-            // --- TAMBAHAN BARU: Sembunyikan kolom Password ---
             if (dgvAkunPegawai.Columns.Contains("Password"))
-            {
                 dgvAkunPegawai.Columns["Password"].Visible = false;
-            }
-
 
             TambahKolomButton();
 
-            // Mengatur posisi tombol Edit dan Hapus di paling kanan
             if (dgvAkunPegawai.Columns.Contains("Edit"))
                 dgvAkunPegawai.Columns["Edit"].DisplayIndex = dgvAkunPegawai.Columns.Count - 2;
 
@@ -67,7 +63,7 @@ namespace TugasBesar.Views.Admin.AkunPegawai
             {
                 DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
                 btnEdit.Name = "Edit";
-                btnEdit.HeaderText = "Edit";
+                btnEdit.HeaderText = "Aksi";
                 btnEdit.Text = "Edit";
                 btnEdit.UseColumnTextForButtonValue = true;
                 dgvAkunPegawai.Columns.Add(btnEdit);
@@ -89,63 +85,80 @@ namespace TugasBesar.Views.Admin.AkunPegawai
             string inputUsername = tbUsername.Text;
             string inputPassword = tbPassword.Text;
 
-            if (string.IsNullOrWhiteSpace(inputUsername) || string.IsNullOrWhiteSpace(inputPassword))
+            // Logika if-else kosong dihapus dari sini, karena Controller yang akan ngecek
+            // Kita tinggal panggil fungsi TambahAkun di Controller
+            string pesan;
+            bool sukses = _controller.TambahAkun(inputUsername, inputPassword, out pesan);
+
+            if (sukses)
             {
-                MessageBox.Show("Username dan Password wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                tbUsername.Clear();
+                tbPassword.Clear();
+                TampilkanData();
+                MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-            Models.AkunPegawai akunBaru = new Models.AkunPegawai
+            else
             {
-                Username = inputUsername,
-                Password = inputPassword,
-                Role = "Pegawai",
-                NamaLengkap = inputUsername
-            };
-
-            _akunService.TambahAkun(akunBaru);
-
-            tbUsername.Clear();
-            tbPassword.Clear();
-            TampilkanData();
-
-            MessageBox.Show("Akun berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(pesan, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void dgvAkunPegawai_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            var listAkun = _akunService.AmbilSemuaAkun();
+            var listAkun = _controller.GetAllAkun();
             if (e.RowIndex >= listAkun.Count) return;
 
             var dataTerpilih = listAkun[e.RowIndex];
 
-            // Logika Tombol Edit dalam Tabel
+            // EDIT AKUN
             if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == "Edit")
             {
                 FormEditAkunPegawai formEdit = new FormEditAkunPegawai(dataTerpilih);
 
                 if (formEdit.ShowDialog() == DialogResult.OK)
                 {
-                    _akunService.UpdateAkun(formEdit.AkunEdit);
-                    TampilkanData();
+                    // Panggil Controller untuk Update
+                    string pesan;
+                    bool sukses = _controller.UpdateAkun(
+                        formEdit.AkunEdit.Id,
+                        formEdit.AkunEdit.Username,
+                        formEdit.AkunEdit.Password,
+                        out pesan
+                    );
+
+                    if (sukses)
+                    {
+                        TampilkanData();
+                        MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(pesan, "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
-            // Logika Tombol Hapus dalam Tabel
+            // HAPUS AKUN
             else if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == "Hapus")
             {
-                var confirm = MessageBox.Show(
-                    "Apakah kamu yakin ingin menghapus akun ini?",
-                    "Konfirmasi Hapus",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Question
-                );
+                var confirm = MessageBox.Show("Apakah kamu yakin ingin menghapus akun ini?", "Konfirmasi Hapus", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (confirm == DialogResult.Yes)
                 {
-                    _akunService.HapusAkun(dataTerpilih.Id);
-                    TampilkanData();
+                    // Panggil Controller untuk Hapus
+                    string pesan;
+                    bool sukses = _controller.HapusAkun(dataTerpilih.Id, out pesan);
+
+                    if (sukses)
+                    {
+                        TampilkanData();
+                        MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show(pesan, "Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
