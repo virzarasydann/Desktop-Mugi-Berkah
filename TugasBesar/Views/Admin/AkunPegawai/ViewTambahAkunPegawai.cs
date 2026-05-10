@@ -31,6 +31,8 @@ namespace TugasBesar.Views.Admin.AkunPegawai
         {
             if (dgvAkunPegawai == null) return;
 
+            dgvAkunPegawai.Columns.Clear();
+
             dgvAkunPegawai.DataSource = null;
             var listAkun = _akunService.AmbilSemuaAkun();
 
