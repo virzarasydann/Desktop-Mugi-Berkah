@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AkunPegawaiController.cs" />
     <Compile Include="Controllers\TransaksiControllers.cs" />
     <Compile Include="Models\AkunPegawai.cs" />
     <Compile Include="Models\KategoriModels.cs" />

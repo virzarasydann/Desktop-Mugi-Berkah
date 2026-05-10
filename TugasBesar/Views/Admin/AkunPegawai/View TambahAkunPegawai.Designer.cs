@@ -36,9 +36,6 @@
             this.btnTambahAkunPegawai = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dgvAkunPegawai = new System.Windows.Forms.DataGridView();
-            this.btnSetTex = new System.Windows.Forms.Button();
-            this.btnHapusAkunPegawai = new System.Windows.Forms.Button();
-            this.btnEditAkunPegawai = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvAkunPegawai)).BeginInit();
@@ -115,9 +112,6 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.dgvAkunPegawai);
-            this.panel2.Controls.Add(this.btnSetTex);
-            this.panel2.Controls.Add(this.btnHapusAkunPegawai);
-            this.panel2.Controls.Add(this.btnEditAkunPegawai);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Right;
             this.panel2.Location = new System.Drawing.Point(468, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(2);
@@ -134,39 +128,6 @@
             this.dgvAkunPegawai.Name = "dgvAkunPegawai";
             this.dgvAkunPegawai.Size = new System.Drawing.Size(652, 244);
             this.dgvAkunPegawai.TabIndex = 4;
-            // 
-            // btnSetTex
-            // 
-            this.btnSetTex.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSetTex.Location = new System.Drawing.Point(533, 234);
-            this.btnSetTex.Margin = new System.Windows.Forms.Padding(2);
-            this.btnSetTex.Name = "btnSetTex";
-            this.btnSetTex.Size = new System.Drawing.Size(74, 32);
-            this.btnSetTex.TabIndex = 3;
-            this.btnSetTex.Text = "Set Tex";
-            this.btnSetTex.UseVisualStyleBackColor = true;
-            // 
-            // btnHapusAkunPegawai
-            // 
-            this.btnHapusAkunPegawai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnHapusAkunPegawai.Location = new System.Drawing.Point(346, 172);
-            this.btnHapusAkunPegawai.Margin = new System.Windows.Forms.Padding(2);
-            this.btnHapusAkunPegawai.Name = "btnHapusAkunPegawai";
-            this.btnHapusAkunPegawai.Size = new System.Drawing.Size(164, 47);
-            this.btnHapusAkunPegawai.TabIndex = 2;
-            this.btnHapusAkunPegawai.Text = "Hapus Akun Pegawai";
-            this.btnHapusAkunPegawai.UseVisualStyleBackColor = true;
-            // 
-            // btnEditAkunPegawai
-            // 
-            this.btnEditAkunPegawai.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditAkunPegawai.Location = new System.Drawing.Point(203, 172);
-            this.btnEditAkunPegawai.Margin = new System.Windows.Forms.Padding(2);
-            this.btnEditAkunPegawai.Name = "btnEditAkunPegawai";
-            this.btnEditAkunPegawai.Size = new System.Drawing.Size(139, 47);
-            this.btnEditAkunPegawai.TabIndex = 1;
-            this.btnEditAkunPegawai.Text = "Edit Akun Pegawai";
-            this.btnEditAkunPegawai.UseVisualStyleBackColor = true;
             // 
             // ViewTambahAkunPegawai
             // 
@@ -195,8 +156,5 @@
         private System.Windows.Forms.TextBox tbUsername;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridView dgvAkunPegawai;
-        private System.Windows.Forms.Button btnSetTex;
-        private System.Windows.Forms.Button btnHapusAkunPegawai;
-        private System.Windows.Forms.Button btnEditAkunPegawai;
     }
 }
