@@ -1,0 +1,119 @@
+msgid "login_title"
+msgstr "Masuk ke Sistem"
+
+msgid "btn_login"
+msgstr "Masuk"
+
+msgid "placeholder_username"
+msgstr "Masukkan Username"
+
+msgid "placeholder_password"
+msgstr "Masukkan Password"
+
+msgid "nav_transaksi"
+msgstr "Menu Transaksi"
+
+msgid "nav_produk"
+msgstr "Menu Produk"
+
+msgid "nav_kategori"
+msgstr "Menu Kategori"
+
+msgid "nav_operasional"
+msgstr "Menu Operasional"
+
+msgid "title_transaksi"
+msgstr "Transaksi"
+
+msgid "lbl_nama_pembeli"
+msgstr "Nama Pembeli"
+
+msgid "lbl_metode_bayar"
+msgstr "Metode Pembayaran"
+
+msgid "btn_cash"
+msgstr "Tunai"
+
+msgid "btn_qris"
+msgstr "QRIS"
+
+msgid "lbl_jumlah_uang"
+msgstr "Jumlah Uang Diterima"
+
+msgid "lbl_kembalian"
+msgstr "Uang Kembalian"
+
+msgid "lbl_total"
+msgstr "Total"
+
+msgid "lbl_status"
+msgstr "Status"
+
+msgid "btn_lunas"
+msgstr "Lunas"
+
+msgid "btn_belum_lunas"
+msgstr "Belum Lunas"
+
+msgid "btn_proses"
+msgstr "Proses"
+
+msgid "msg_uang_kurang"
+msgstr "Uang Kurang"
+
+msgid "lbl_nama_produk"
+msgstr "Nama Produk"
+
+msgid "lbl_kategori_produk"
+msgstr "Kategori Produk"
+
+msgid "lbl_harga_produk"
+msgstr "Harga Produk"
+
+msgid "btn_tambah"
+msgstr "Tambah"
+
+msgid "btn_edit"
+msgstr "Ubah"
+
+msgid "btn_hapus"
+msgstr "Hapus"
+
+msgid "btn_refresh"
+msgstr "Muat Ulang"
+
+msgid "title_edit_produk"
+msgstr "Edit Produk"
+
+msgid "btn_simpan"
+msgstr "Simpan"
+
+msgid "msg_nama_kosong"
+msgstr "Nama produk tidak boleh kosong!"
+
+msgid "msg_kategori_kosong"
+msgstr "Kategori harus dipilih!"
+
+msgid "msg_data_tidak_ditemukan"
+msgstr "Data produk tidak ditemukan!"
+
+msgid "msg_nama_kategori_kosong"
+msgstr "Nama kategori tidak boleh kosong!"
+
+msgid "msg_pilih_data"
+msgstr "Pilih data dulu!"
+
+msgid "msg_hapus_kategori_konfirmasi"
+msgstr "Yakin mau hapus kategori?"
+
+msgid "title_edit_kategori"
+msgstr "Edit Kategori"
+
+msgid "lbl_nama_kategori"
+msgstr "Nama Kategori"
+
+msgid "lbl_nama_operasional"
+msgstr "Nama Operasional"
+
+msgid "lbl_biaya_operasional"
+msgstr "Biaya Operasional"

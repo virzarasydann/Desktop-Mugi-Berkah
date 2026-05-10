@@ -1,0 +1,4 @@
+{
+  "exclude": ["*UnitTesting*", "*xunit*"],
+  "include": ["*TugasBesar.Core*"]
+}
