@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -12,12 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\TugasBesar\Models\KategoriModels.cs" Link="Models\KategoriModels.cs" />
-    <Compile Include="..\TugasBesar\Models\ProdukModels.cs" Link="Models\ProdukModels.cs" />
-    <Compile Include="..\TugasBesar\Models\OperasionalModels.cs" Link="Models\OperasionalModels.cs" />
-    <Compile Include="..\TugasBesar\Services\DataGeneric.cs" Link="Services\DataGeneric.cs" />
-    <Compile Include="..\TugasBesar\Services\KategoriService.cs" Link="Services\KategoriService.cs" />
-    <Compile Include="..\TugasBesar\Services\ProdukService.cs" Link="Services\ProdukService.cs" />
+    <ProjectReference Include="..\src\TugasBesar.Core\TugasBesar.Core.csproj" />
   </ItemGroup>
 
 </Project>

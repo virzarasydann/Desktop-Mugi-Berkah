@@ -6,10 +6,10 @@
   <Folder Name="/Testing/">
     <Project Path="UnitTesting/UnitTesting.csproj" Id="129e027b-127f-4288-8441-360aeb5af326" />
   </Folder>
-  <Project Path="Test/TugasBesar.App.csproj" Id="85720727-ce7d-4ad3-9299-baa38b66710b" />
-  <Project Path="TugasBesar.Core/TugasBesar.Core.csproj" Id="5871e65e-f4db-4818-86db-d5736013c77f" />
   <Folder Name="/v1/">
     <Project Path="v1/TugasBesar/TugasBesar.csproj" Id="72916b15-935f-4077-a1c0-898fa802cd2c" />
   </Folder>
   <Project Path="MugiBerkahAPI/MugiBerkahAPI.csproj" />
+  <Project Path="src/TugasBesar.App/TugasBesar.App.csproj" />
+  <Project Path="src/TugasBesar.Core/TugasBesar.Core.csproj" />
 </Solution>

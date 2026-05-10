@@ -17,15 +17,10 @@ namespace TugasBesar.Core.Controllers
 
         public ActionResponse<List<ProdukModels>> AmbilKatalog()
         {
-            try
-            {
+           
                 var katalog = _services.DapatkanKatalog();
                 return ActionResponse<List<ProdukModels>>.Success(katalog);
-            }
-            catch (Exception ex)
-            {
-                return ActionResponse<List<ProdukModels>>.Error("Gagal mengambil katalog: " + ex.Message);
-            }
+           
         }
 
         public ActionResponse<List<KeranjangItem>> ProsesTambahKeranjang(string nama, int harga)
@@ -42,23 +37,15 @@ namespace TugasBesar.Core.Controllers
             {
                 return ActionResponse<List<KeranjangItem>>.Error(ex.Message);
             }
-            catch (Exception ex)
-            {
-                return ActionResponse<List<KeranjangItem>>.Error("Terjadi kesalahan sistem.");
-            }
+            
         }
 
         public ActionResponse<int> AmbilGrandTotal()
         {
-            try
-            {
+            
                 int total = _services.HitungGrandTotal();
                 return ActionResponse<int>.Success(total);
-            }
-            catch (Exception ex)
-            {
-                return ActionResponse<int>.Error("Gagal menghitung total: " + ex.Message);
-            }
+           
         }
 
         public ActionResponse<int> ProsesHitungKembalian(int uangDiterima)
@@ -73,10 +60,7 @@ namespace TugasBesar.Core.Controllers
             {
                 return ActionResponse<int>.Error(ex.Message);
             }
-            catch (Exception ex)
-            {
-                return ActionResponse<int>.Error("Terjadi kesalahan sistem.");
-            }
+           
         }
     }
 }

@@ -1,5 +1,5 @@
-using TugasBesar.Models;
-using TugasBesar.Services;
+using TugasBesar.Core.Models;
+using TugasBesar.Core.Services;
 using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
