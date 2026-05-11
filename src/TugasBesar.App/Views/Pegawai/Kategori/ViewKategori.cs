@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
-using TugasBesar.App.Configuration; 
+using TugasBesar.Localization;
 using KategoriModel = TugasBesar.Core.Models.KategoriModels;
 
 namespace TugasBesar.App.Views.Pegawai.Kategori

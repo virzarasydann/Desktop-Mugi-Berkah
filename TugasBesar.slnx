@@ -12,4 +12,5 @@
   <Project Path="MugiBerkahAPI/MugiBerkahAPI.csproj" />
   <Project Path="src/TugasBesar.App/TugasBesar.App.csproj" />
   <Project Path="src/TugasBesar.Core/TugasBesar.Core.csproj" />
+  <Project Path="TugasBesar.Localization/TugasBesar.Localization.csproj" Id="6677210d-6653-43b9-b1ef-da03e25bd3a6" />
 </Solution>
