@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using TugasBesar.Core.Controllers;
 using TugasBesar.App.Configuration;
 
 namespace TugasBesar.App.Views.Pegawai.Produk
@@ -16,6 +17,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
     public partial class ViewProduk : UserControl
     {
         DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
+        ProdukController _produkController = new ProdukController();
         int selectedIndex = -1;
 
         public ViewProduk()
@@ -86,31 +88,15 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
         {
-            var result = ProdukService.TryAdd(tbNamaProduk.Text, cmbKategoriProduk.Text, int.TryParse(tbHargaProduk.Text, out var h) ? h : -1, out var produk);
-
-            if (string.IsNullOrEmpty(tbNamaProduk.Text) ||
-                string.IsNullOrEmpty(cmbKategoriProduk.Text) ||
-                string.IsNullOrEmpty(tbHargaProduk.Text))
+            try
             {
-                MessageBox.Show(LocalizationService.GetString("msg_field_kosong"));
-                return;
+                _produkController.Tambah(tbNamaProduk.Text, cmbKategoriProduk.Text, tbHargaProduk.Text);
+                TampilkanData();
+                ClearInput();
             }
-
-            switch (result)
+            catch (Exception ex)
             {
-                case ProdukResult.Invalid:
-                    MessageBox.Show("Semua field harus diisi dan harga harus angka >= 0!");
-                    break;
-                case ProdukResult.Duplicate:
-                    MessageBox.Show("Produk dengan nama dan kategori yang sama sudah ada!");
-                    break;
-                case ProdukResult.Success:
-                    TampilkanData();
-                    ClearInput();
-                    break;
-                default:
-                    MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
-                    return;
+                MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -124,22 +110,15 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
             if (form.ShowDialog() == DialogResult.OK)
             {
-                var result = ProdukService.TryUpdate(selectedIndex, data.Nama, data.Kategori, data.Harga, out var updated);
-
-                switch (result)
+                try
                 {
-                    case ProdukResult.Invalid:
-                        MessageBox.Show("Data produk tidak valid!");
-                        break;
-                    case ProdukResult.Unchanged:
-                        MessageBox.Show("Data masih sama!");
-                        break;
-                    case ProdukResult.Duplicate:
-                        MessageBox.Show("Produk dengan nama dan kategori yang sama sudah ada!");
-                        break;
-                    case ProdukResult.Success:
-                        TampilkanData();
-                        break;
+                    // Since FormEditProduk modifies data by reference, we get the updated values
+                    _produkController.Edit(selectedIndex, data.Nama, data.Kategori, data.Harga.ToString());
+                    TampilkanData();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -216,8 +195,15 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
                 if (confirm == DialogResult.Yes)
                 {
-                    dataProduk.RemoveAt(e.RowIndex);
-                    TampilkanData();
+                    try
+                    {
+                        _produkController.Hapus(e.RowIndex);
+                        TampilkanData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
         }

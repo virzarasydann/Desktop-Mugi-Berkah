@@ -1,71 +1,59 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
 using TugasBesar.Models;
 
 namespace TugasBesar.Services
 {
-    public enum KategoriResult
+    public class KategoriService
     {
-        Success,
-        Duplicate,
-        Unchanged,
-        NotFound,
-        Invalid
-    }
+        private DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
 
-    public static class KategoriService
-    {
-        private static DataGeneric<KategoriModels> repo => DataManager.Kategori;
-
-        public static KategoriResult TryAdd(string name, out KategoriModels kategori)
+        public List<KategoriModels> GetAll()
         {
-            kategori = null;
-
-            Debug.Assert(repo != null, "DataManager.Kategori belum diinisialisasi (null)");
-            Debug.Assert(repo.GetAll() != null, "Daftar kategori (repo.GetAll()) bernilai null");
-
-            if (string.IsNullOrWhiteSpace(name))
-                return KategoriResult.Invalid;
-
-            var newName = name.Trim();
-
-            if (repo.GetAll().Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
-                return KategoriResult.Duplicate;
-
-            kategori = new KategoriModels { Nama = newName };
-            repo.Add(kategori);
-            return KategoriResult.Success;
+            return dataKategori.GetAll();
         }
 
-        public static KategoriResult TryUpdate(int index, string name, out KategoriModels updated)
+        public void Tambah(string nama)
         {
-            updated = null;
+            var list = dataKategori.GetAll();
+            var newName = nama.Trim();
 
-            var all = repo.GetAll();
+            if (list.Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Nama kategori sudah ada!");
 
-            Debug.Assert(repo != null, "DataManager.Kategori belum diinisialisasi (null)");
-            Debug.Assert(all != null, "Daftar kategori (repo.GetAll()) bernilai null");
+            dataKategori.Add(new KategoriModels { Nama = newName });
+        }
 
-            if (index < 0 || index >= all.Count)
-                return KategoriResult.NotFound;
+        public void Edit(int index, string nama)
+        {
+            var list = dataKategori.GetAll();
 
-            if (string.IsNullOrWhiteSpace(name))
-                return KategoriResult.Invalid;
+            if (index < 0 || index >= list.Count)
+                throw new Exception("Data tidak ditemukan!");
 
-            var newName = name.Trim();
-            var existing = all[index];
+            var newName = nama.Trim();
+            var existing = list[index];
             var existingName = (existing?.Nama ?? string.Empty).Trim();
 
             if (string.Equals(existingName, newName, StringComparison.OrdinalIgnoreCase))
-                return KategoriResult.Unchanged;
+                throw new Exception("Data masih sama!");
 
-            if (all.Where((v, i) => i != index).Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
-                return KategoriResult.Duplicate;
+            if (list.Where((v, i) => i != index).Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Nama kategori sudah ada!");
 
-            updated = new KategoriModels { Nama = newName };
-            repo.Update(index, updated);
-            return KategoriResult.Success;
+            dataKategori.Update(index, new KategoriModels { Nama = newName });
+        }
+
+        public void Hapus(int index)
+        {
+            var list = dataKategori.GetAll();
+
+            if (index < 0 || index >= list.Count)
+                throw new Exception("Data tidak valid!");
+
+            dataKategori.RemoveAt(index);
         }
     }
 }

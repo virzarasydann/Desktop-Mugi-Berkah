@@ -1,63 +1,50 @@
 using System;
 using System.Linq;
 using System.Diagnostics;
+using System.Collections.Generic;
 using TugasBesar.Core.Models;
 
 namespace TugasBesar.Core.Services
 {
-    public enum ProdukResult
+    public class ProdukService
     {
-        Success,
-        Duplicate,
-        Unchanged,
-        NotFound,
-        Invalid
-    }
+        private DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
 
-    public static class ProdukService
-    {
-        private static DataGeneric<ProdukModels> repo => DataManager.Produk;
-
-        public static ProdukResult TryAdd(string name, string kategori, int harga, out ProdukModels produk)
+        public List<ProdukModels> GetAll()
         {
-            produk = null;
-
-            Debug.Assert(repo != null, "DataManager.Produk belum diinisialisasi (null)");
-            Debug.Assert(repo.GetAll() != null, "Daftar produk (repo.GetAll()) bernilai null");
-
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(kategori) || harga < 0)
-                return ProdukResult.Invalid;
-
-            var newName = name.Trim();
-            var newKategori = kategori.Trim();
-
-            if (repo.GetAll().Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
-                                      && string.Equals(p.Kategori?.Trim(), newKategori, StringComparison.OrdinalIgnoreCase)))
-                return ProdukResult.Duplicate;
-
-            produk = new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga };
-            repo.Add(produk);
-            return ProdukResult.Success;
+            return dataProduk.GetAll();
         }
 
-        public static ProdukResult TryUpdate(int index, string name, string kategori, int harga, out ProdukModels updated)
+        public void Tambah(string nama, string kategori, int harga)
         {
-            updated = null;
+            if (harga < 0)
+                throw new Exception("Harga harus lebih dari atau sama dengan 0!");
 
-            Debug.Assert(repo != null, "DataManager.Produk belum diinisialisasi (null)");
-            var all = repo.GetAll();
-            Debug.Assert(all != null, "Daftar produk (repo.GetAll()) bernilai null");
-
-            if (index < 0 || index >= all.Count)
-                return ProdukResult.NotFound;
-
-            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(kategori) || harga < 0)
-                return ProdukResult.Invalid;
-
-            var newName = name.Trim();
+            var list = dataProduk.GetAll();
+            var newName = nama.Trim();
             var newKategori = kategori.Trim();
 
-            var existing = all[index];
+            if (list.Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
+                           && string.Equals(p.Kategori?.Trim(), newKategori, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Produk dengan nama dan kategori yang sama sudah ada!");
+
+            dataProduk.Add(new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga });
+        }
+
+        public void Edit(int index, string nama, string kategori, int harga)
+        {
+            var list = dataProduk.GetAll();
+
+            if (index < 0 || index >= list.Count)
+                throw new Exception("Data tidak ditemukan!");
+
+            if (harga < 0)
+                throw new Exception("Harga harus lebih dari atau sama dengan 0!");
+
+            var newName = nama.Trim();
+            var newKategori = kategori.Trim();
+
+            var existing = list[index];
             var existingName = (existing?.Nama ?? string.Empty).Trim();
             var existingKategori = (existing?.Kategori ?? string.Empty).Trim();
             var existingHarga = existing?.Harga ?? 0;
@@ -65,15 +52,23 @@ namespace TugasBesar.Core.Services
             if (string.Equals(existingName, newName, StringComparison.OrdinalIgnoreCase)
                 && string.Equals(existingKategori, newKategori, StringComparison.OrdinalIgnoreCase)
                 && existingHarga == harga)
-                return ProdukResult.Unchanged;
+                throw new Exception("Data masih sama!");
 
-            if (all.Where((v, i) => i != index).Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
+            if (list.Where((v, i) => i != index).Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
                                                         && string.Equals(p.Kategori?.Trim(), newKategori, StringComparison.OrdinalIgnoreCase)))
-                return ProdukResult.Duplicate;
+                throw new Exception("Produk dengan nama dan kategori yang sama sudah ada!");
 
-            updated = new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga };
-            repo.Update(index, updated);
-            return ProdukResult.Success;
+            dataProduk.Update(index, new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga });
+        }
+
+        public void Hapus(int index)
+        {
+            var list = dataProduk.GetAll();
+
+            if (index < 0 || index >= list.Count)
+                throw new Exception("Data tidak valid!");
+
+            dataProduk.RemoveAt(index);
         }
     }
 }

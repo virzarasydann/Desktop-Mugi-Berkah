@@ -25,82 +25,114 @@ app.UseHttpsRedirection();
 
 app.MapGet("/api/kategori", () =>
 {
-    return Results.Ok(DataManager.Kategori.GetAll());
+    var controller = new TugasBesar.Core.Controllers.KategoriController();
+    return Results.Ok(controller.GetAll());
 });
 
 app.MapPost("/api/kategori", ([FromBody] KategoriModels request) =>
 {
-    var result = KategoriService.TryAdd(request.Nama, out var kategori);
-    if (result == KategoriResult.Success)
-        return Results.Created($"/api/kategori/{DataManager.Kategori.GetAll().Count - 1}", kategori);
-    if (result == KategoriResult.Duplicate)
-        return Results.Conflict(new { message = "Kategori sudah ada." });
-    
-    return Results.BadRequest(new { message = "Data tidak valid." });
+    var controller = new TugasBesar.Core.Controllers.KategoriController();
+    try
+    {
+        controller.Tambah(request.Nama);
+        var all = controller.GetAll();
+        return Results.Created($"/api/kategori/{all.Count - 1}", all.Last());
+    }
+    catch (Exception ex)
+    {
+        if (ex.Message.Contains("sudah ada"))
+            return Results.Conflict(new { message = ex.Message });
+        return Results.BadRequest(new { message = ex.Message });
+    }
 });
 
 app.MapPut("/api/kategori/{index}", (int index, [FromBody] KategoriModels request) =>
 {
-    var result = KategoriService.TryUpdate(index, request.Nama, out var updated);
-    if (result == KategoriResult.Success)
-        return Results.Ok(updated);
-    if (result == KategoriResult.NotFound)
-        return Results.NotFound();
-    if (result == KategoriResult.Duplicate)
-        return Results.Conflict(new { message = "Kategori dengan nama yang sama sudah ada." });
-    
-    return Results.BadRequest(new { message = "Data tidak valid." });
+    var controller = new TugasBesar.Core.Controllers.KategoriController();
+    try
+    {
+        controller.Edit(index, request.Nama);
+        return Results.Ok(controller.GetAll()[index]);
+    }
+    catch (Exception ex)
+    {
+        if (ex.Message.Contains("ditemukan") || ex.Message.Contains("tidak valid"))
+            return Results.NotFound(new { message = ex.Message });
+        if (ex.Message.Contains("sudah ada"))
+            return Results.Conflict(new { message = ex.Message });
+        return Results.BadRequest(new { message = ex.Message });
+    }
 });
 
 app.MapDelete("/api/kategori/{index}", (int index) =>
 {
-    if (index >= 0 && index < DataManager.Kategori.GetAll().Count)
+    var controller = new TugasBesar.Core.Controllers.KategoriController();
+    try
     {
-        DataManager.Kategori.RemoveAt(index);
+        controller.Hapus(index);
         return Results.Ok(new { message = "Berhasil dihapus." });
     }
-    return Results.NotFound();
+    catch (Exception ex)
+    {
+        return Results.NotFound(new { message = ex.Message });
+    }
 });
 
 // PRODUK API
 
 app.MapGet("/api/produk", () =>
 {
-    return Results.Ok(DataManager.Produk.GetAll());
+    var controller = new TugasBesar.Core.Controllers.ProdukController();
+    return Results.Ok(controller.GetAll());
 });
 
 app.MapPost("/api/produk", ([FromBody] ProdukModels request) =>
 {
-    var result = ProdukService.TryAdd(request.Nama, request.Kategori, request.Harga, out var produk);
-    if (result == ProdukResult.Success)
-        return Results.Created($"/api/produk/{DataManager.Produk.GetAll().Count - 1}", produk);
-    if (result == ProdukResult.Duplicate)
-        return Results.Conflict(new { message = "Produk sudah ada." });
-    
-    return Results.BadRequest(new { message = "Data tidak valid." });
+    var controller = new TugasBesar.Core.Controllers.ProdukController();
+    try
+    {
+        controller.Tambah(request.Nama, request.Kategori, request.Harga.ToString());
+        var all = controller.GetAll();
+        return Results.Created($"/api/produk/{all.Count - 1}", all.Last());
+    }
+    catch (Exception ex)
+    {
+        if (ex.Message.Contains("sudah ada"))
+            return Results.Conflict(new { message = ex.Message });
+        return Results.BadRequest(new { message = ex.Message });
+    }
 });
 
 app.MapPut("/api/produk/{index}", (int index, [FromBody] ProdukModels request) =>
 {
-    var result = ProdukService.TryUpdate(index, request.Nama, request.Kategori, request.Harga, out var updated);
-    if (result == ProdukResult.Success)
-        return Results.Ok(updated);
-    if (result == ProdukResult.NotFound)
-        return Results.NotFound();
-    if (result == ProdukResult.Duplicate)
-        return Results.Conflict(new { message = "Produk dengan data yang sama sudah ada." });
-    
-    return Results.BadRequest(new { message = "Data tidak valid." });
+    var controller = new TugasBesar.Core.Controllers.ProdukController();
+    try
+    {
+        controller.Edit(index, request.Nama, request.Kategori, request.Harga.ToString());
+        return Results.Ok(controller.GetAll()[index]);
+    }
+    catch (Exception ex)
+    {
+        if (ex.Message.Contains("ditemukan") || ex.Message.Contains("tidak valid"))
+            return Results.NotFound(new { message = ex.Message });
+        if (ex.Message.Contains("sudah ada"))
+            return Results.Conflict(new { message = ex.Message });
+        return Results.BadRequest(new { message = ex.Message });
+    }
 });
 
 app.MapDelete("/api/produk/{index}", (int index) =>
 {
-    if (index >= 0 && index < DataManager.Produk.GetAll().Count)
+    var controller = new TugasBesar.Core.Controllers.ProdukController();
+    try
     {
-        DataManager.Produk.RemoveAt(index);
+        controller.Hapus(index);
         return Results.Ok(new { message = "Berhasil dihapus." });
     }
-    return Results.NotFound();
+    catch (Exception ex)
+    {
+        return Results.NotFound(new { message = ex.Message });
+    }
 });
 
 app.Run();

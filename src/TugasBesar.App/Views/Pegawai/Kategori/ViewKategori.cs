@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using TugasBesar.Core.Controllers;
 using TugasBesar.App.Configuration; 
 using KategoriModel = TugasBesar.Core.Models.KategoriModels;
 
@@ -17,7 +18,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
     public partial class ViewKategori : UserControl
     {
         DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
-        // Use KategoriService for DBC
+        KategoriController _kategoriController = new KategoriController();
         int selectedIndex = -1;
 
         public ViewKategori()
@@ -79,25 +80,15 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
         private void btnTambahKategori_Click(object sender, EventArgs e)
         {
-            var result = KategoriService.TryAdd(tbNamaKategori.Text, out var kategori);
-            if (string.IsNullOrEmpty(tbNamaKategori.Text))
+            try
             {
-                MessageBox.Show(LocalizationService.GetString("msg_nama_kategori_kosong"));
-                return;
+                _kategoriController.Tambah(tbNamaKategori.Text);
+                TampilkanData();
+                tbNamaKategori.Text = string.Empty;
             }
-
-            switch (result)
+            catch (Exception ex)
             {
-                case KategoriResult.Invalid:
-                    MessageBox.Show("Nama kategori tidak boleh kosong!");
-                    break;
-                case KategoriResult.Duplicate:
-                    MessageBox.Show("Nama kategori sudah ada!");
-                    break;
-                case KategoriResult.Success:
-                    TampilkanData();
-                    tbNamaKategori.Text = string.Empty;
-                    break;
+                MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -108,26 +99,16 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 MessageBox.Show(LocalizationService.GetString("msg_pilih_data"));
                 return;
             }
-            var result = KategoriService.TryUpdate(selectedIndex, tbNamaKategori.Text, out var updated);
-
-            switch (result)
+            
+            try
             {
-                case KategoriResult.NotFound:
-                    MessageBox.Show("Pilih data dulu!");
-                    break;
-                case KategoriResult.Invalid:
-                    MessageBox.Show("Nama kategori tidak boleh kosong!");
-                    break;
-                case KategoriResult.Unchanged:
-                    MessageBox.Show("Data masih sama!");
-                    break;
-                case KategoriResult.Duplicate:
-                    MessageBox.Show("Nama kategori sudah ada!");
-                    break;
-                case KategoriResult.Success:
-                    TampilkanData();
-                    tbNamaKategori.Text = string.Empty;
-                    break;
+                _kategoriController.Edit(selectedIndex, tbNamaKategori.Text);
+                TampilkanData();
+                tbNamaKategori.Text = string.Empty;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -139,10 +120,16 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 return;
             }
 
-            dataKategori.RemoveAt(selectedIndex);
-
-            TampilkanData();
-            tbNamaKategori.Text = "";
+            try
+            {
+                _kategoriController.Hapus(selectedIndex);
+                TampilkanData();
+                tbNamaKategori.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void btnSetText_Click(object sender, EventArgs e)
@@ -209,25 +196,14 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    var result = KategoriService.TryUpdate(e.RowIndex, form.kategori?.Nama, out var updated);
-
-                    switch (result)
+                    try
                     {
-                        case KategoriResult.NotFound:
-                            MessageBox.Show("Pilih data dulu!");
-                            break;
-                        case KategoriResult.Invalid:
-                            MessageBox.Show("Nama kategori tidak boleh kosong!");
-                            break;
-                        case KategoriResult.Unchanged:
-                            MessageBox.Show("Data masih sama!");
-                            break;
-                        case KategoriResult.Duplicate:
-                            MessageBox.Show("Nama kategori sudah ada!");
-                            break;
-                        case KategoriResult.Success:
-                            TampilkanData();
-                            break;
+                        _kategoriController.Edit(e.RowIndex, form.kategori?.Nama);
+                        TampilkanData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     }
                 }
             }
@@ -241,8 +217,15 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
                 if (confirm == DialogResult.Yes)
                 {
-                    dataKategori.RemoveAt(e.RowIndex);
-                    TampilkanData();
+                    try
+                    {
+                        _kategoriController.Hapus(e.RowIndex);
+                        TampilkanData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
         }
