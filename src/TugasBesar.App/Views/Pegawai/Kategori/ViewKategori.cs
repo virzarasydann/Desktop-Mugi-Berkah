@@ -154,6 +154,8 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
         private void TampilkanData()
         {
+            dgvKategori.Columns.Clear();
+
             dgvKategori.DataSource = null;
 
             var list = dataKategori.GetAll();
@@ -175,6 +177,23 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 dgvKategori.Columns["Hapus"].DisplayIndex = dgvKategori.Columns.Count - 1;
 
             selectedIndex = -1;
+
+            if (dgvKategori.Columns.Contains("Nama"))
+            {
+                dgvKategori.Columns["Nama"].DisplayIndex = 0;
+            }
+
+            // 2. Paksa tombol Edit (Ubah) berada di sebelah kanannya Nama
+            if (dgvKategori.Columns.Contains("Edit"))
+            {
+                dgvKategori.Columns["Edit"].DisplayIndex = 1;
+            }
+
+            // 3. Paksa tombol Hapus berada di urutan paling akhir (paling kanan)
+            if (dgvKategori.Columns.Contains("Hapus"))
+            {
+                dgvKategori.Columns["Hapus"].DisplayIndex = 2;
+            }
         }
 
         private void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)

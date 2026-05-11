@@ -28,54 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tbUsernameEdit = new System.Windows.Forms.TextBox();
-            this.tbPasswordEdit = new System.Windows.Forms.TextBox();
-            this.btnSimpan = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            label1 = new TextBox();
+            label2 = new TextBox();
+            btnSimpan = new Button();
+            SuspendLayout();
             // 
-            // tbUsernameEdit
+            // label1
             // 
-            this.tbUsernameEdit.Location = new System.Drawing.Point(48, 44);
-            this.tbUsernameEdit.Name = "tbUsernameEdit";
-            this.tbUsernameEdit.Size = new System.Drawing.Size(100, 20);
-            this.tbUsernameEdit.TabIndex = 0;
+            label1.Location = new Point(56, 51);
+            label1.Margin = new Padding(4, 3, 4, 3);
+            label1.Name = "label1";
+            label1.Size = new Size(116, 23);
+            label1.TabIndex = 0;
+            label1.TextChanged += tbUsernameEdit_TextChanged;
             // 
-            // tbPasswordEdit
+            // label2
             // 
-            this.tbPasswordEdit.Location = new System.Drawing.Point(48, 103);
-            this.tbPasswordEdit.Name = "tbPasswordEdit";
-            this.tbPasswordEdit.Size = new System.Drawing.Size(100, 20);
-            this.tbPasswordEdit.TabIndex = 1;
+            label2.Location = new Point(56, 119);
+            label2.Margin = new Padding(4, 3, 4, 3);
+            label2.Name = "label2";
+            label2.Size = new Size(116, 23);
+            label2.TabIndex = 1;
+            label2.TextChanged += tbPasswordEdit_TextChanged;
             // 
             // btnSimpan
             // 
-            this.btnSimpan.Location = new System.Drawing.Point(72, 174);
-            this.btnSimpan.Name = "btnSimpan";
-            this.btnSimpan.Size = new System.Drawing.Size(75, 23);
-            this.btnSimpan.TabIndex = 2;
-            this.btnSimpan.Text = "Simpan";
-            this.btnSimpan.UseVisualStyleBackColor = true;
+            btnSimpan.Location = new Point(84, 201);
+            btnSimpan.Margin = new Padding(4, 3, 4, 3);
+            btnSimpan.Name = "btnSimpan";
+            btnSimpan.Size = new Size(88, 27);
+            btnSimpan.TabIndex = 2;
+            btnSimpan.Text = "Simpan";
+            btnSimpan.UseVisualStyleBackColor = true;
+            btnSimpan.Click += btnSimpan_Click_1;
             // 
             // FormEditAkunPegawai
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.btnSimpan);
-            this.Controls.Add(this.tbPasswordEdit);
-            this.Controls.Add(this.tbUsernameEdit);
-            this.Name = "FormEditAkunPegawai";
-            this.Text = "FormEditAkunPegawai";
-            this.Load += new System.EventHandler(this.FormEditAkunPegawai_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(933, 519);
+            Controls.Add(btnSimpan);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "FormEditAkunPegawai";
+            Text = "FormEditAkunPegawai";
+            Load += FormEditAkunPegawai_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox tbUsernameEdit;
-        private System.Windows.Forms.TextBox tbPasswordEdit;
+        private System.Windows.Forms.TextBox label1;
+        private System.Windows.Forms.TextBox label2;
         private System.Windows.Forms.Button btnSimpan;
     }
 }

@@ -117,3 +117,33 @@ msgstr "Operational Name"
 
 msgid "lbl_biaya_operasional"
 msgstr "Operational Cost"
+
+msgid "btn_tambah_akun"
+msgstr "Add Employee Account"
+
+msgid "btn_aksi"
+msgstr "Action"
+
+msgid "title_sukses"
+msgstr "Success"
+
+msgid "title_peringatan"
+msgstr "Warning"
+
+msgid "title_gagal"
+msgstr "Failed"
+
+msgid "title_edit_akun"
+msgstr "Edit Employee Account"
+
+msgid "msg_konfirmasi_hapus_akun"
+msgstr "Are you sure you want to delete this account?"
+
+msgid "msg_userpass_kosong"
+msgstr "Username and Password cannot be empty!"
+
+msgid "lbl_username"
+msgstr "Username"
+
+msgid "lbl_password"
+msgstr "Password"

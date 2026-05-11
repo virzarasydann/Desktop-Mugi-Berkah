@@ -13,9 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Admin\AkunPegawai\FormEditAkunPegawai.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Update="Views\Admin\AkunPegawai\FormEditAkunPegawai.cs" />
     <Compile Update="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -43,9 +41,7 @@
     <Compile Update="Views\Pegawai\Produk\FormEditProduk.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\Pegawai\Produk\ViewProduk.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Views\Pegawai\Produk\ViewProduk.cs" />
     <Compile Update="Views\Pegawai\Transaksi\CardKeranjang.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
-using TugasBesar.App.Configuration; 
+using TugasBesar.App.Configuration;
 
 namespace TugasBesar.App.Views.Pegawai.Produk
 {
@@ -87,6 +87,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
         private void btnTambahProduk_Click(object sender, EventArgs e)
         {
             var result = ProdukService.TryAdd(tbNamaProduk.Text, cmbKategoriProduk.Text, int.TryParse(tbHargaProduk.Text, out var h) ? h : -1, out var produk);
+
             if (string.IsNullOrEmpty(tbNamaProduk.Text) ||
                 string.IsNullOrEmpty(cmbKategoriProduk.Text) ||
                 string.IsNullOrEmpty(tbHargaProduk.Text))
@@ -107,8 +108,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                     TampilkanData();
                     ClearInput();
                     break;
-                MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
-                return;
+                default:
+                    MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
+                    return;
             }
         }
 
@@ -149,25 +151,28 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
         private void TampilkanData()
         {
+            // 1. JURUS SAPU JAGAT: Kosongkan data dan hancurkan semua kolom tanpa sisa!
             dgvProduk.DataSource = null;
+            dgvProduk.Columns.Clear(); // <-- INI KUNCI UTAMANYA
 
             var list = dataProduk.GetAll();
 
-            if (list.Count == 0)
+            if (list == null || list.Count == 0)
             {
-                dgvProduk.DataSource = null;
                 return;
             }
 
+            // 2. Masukkan data (Sistem akan membuat ulang kolom Nama, Kategori, Harga secara urut)
             dgvProduk.DataSource = list;
 
+            // Sembunyikan kolom Id jika ada di modelmu
+            if (dgvProduk.Columns.Contains("Id"))
+            {
+                dgvProduk.Columns["Id"].Visible = false;
+            }
+
+            // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
             TambahKolomButton();
-
-            if (dgvProduk.Columns.Contains("Edit"))
-                dgvProduk.Columns["Edit"].DisplayIndex = dgvProduk.Columns.Count - 2;
-
-            if (dgvProduk.Columns.Contains("Hapus"))
-                dgvProduk.Columns["Hapus"].DisplayIndex = dgvProduk.Columns.Count - 1;
         }
 
         private void ClearInput()
@@ -177,21 +182,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             tbHargaProduk.Text = "";
         }
 
-        private void tbNamaProduk_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void cmbKategoriProduk_SelectedIndexChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void tbHargaProduk_TextChanged(object sender, EventArgs e)
-        {
-        }
-
-        private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-        }
+        private void tbNamaProduk_TextChanged(object sender, EventArgs e) { }
+        private void cmbKategoriProduk_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void tbHargaProduk_TextChanged(object sender, EventArgs e) { }
+        private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -238,20 +232,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-        }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void label3_Click(object sender, EventArgs e) { }
+        private void label4_Click(object sender, EventArgs e) { }
     }
 }
