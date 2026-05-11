@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Models;
-using TugasBesar.App.Configuration;
+using TugasBesar.Localization;
 using TugasBesar.Core.Services;
 namespace TugasBesar.App.Views.Pegawai.Kategori
 {

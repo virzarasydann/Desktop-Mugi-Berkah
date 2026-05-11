@@ -11,7 +11,7 @@ using TugasBesar.App.Views.Pegawai.Transaksi;
 using TugasBesar.App.Views.Pegawai.Produk;
 using TugasBesar.App.Views.Pegawai.Kategori;
 using TugasBesar.App.Views.Pegawai.Operasional;
-using TugasBesar.App.Configuration;
+using TugasBesar.Localization;
 using TugasBesar.App.Views.Admin.AkunPegawai;
 
 namespace TugasBesar.App.Views.Pegawai

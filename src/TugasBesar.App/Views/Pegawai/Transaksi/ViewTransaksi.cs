@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using TugasBesar.Core.Controllers;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
-using TugasBesar.App.Configuration;
+using TugasBesar.Localization;
 
 namespace TugasBesar.App.Views.Pegawai.Transaksi
 {
