@@ -69,6 +69,7 @@ namespace TugasBesar.App.Views.Pegawai
 
         private void cmbLanguageUtama_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // 1. Set bahasa di sistem
             if (cmbLanguageUtama.SelectedItem.ToString() == "Indonesia")
             {
                 LocalizationService.SetLanguage("id");
@@ -78,24 +79,24 @@ namespace TugasBesar.App.Views.Pegawai
                 LocalizationService.SetLanguage("en");
             }
 
+            // 2. Terjemahkan tombol-tombol di Navbar itu sendiri
             ApplyLanguage();
 
+            // 3. Terjemahkan halaman yang SEDANG TAMPIL di tengah layar
             if (panelContent.Controls.Count > 0)
             {
                 var layarAktif = panelContent.Controls[0];
 
                 if (layarAktif is ViewTransaksi tampilanTransaksi)
-                {
                     tampilanTransaksi.ApplyLanguage();
-                }
                 else if (layarAktif is ViewProduk tampilanProduk)
-                {
                     tampilanProduk.ApplyLanguage();
-                }
                 else if (layarAktif is ViewKategori tampilanKategori)
-                {
                     tampilanKategori.ApplyLanguage();
-                }
+                else if (layarAktif is ViewOperasional tampilanOperasional)
+                    tampilanOperasional.ApplyLanguage();
+                else if (layarAktif is ViewTambahAkunPegawai tampilanAdmin)
+                    tampilanAdmin.ApplyLanguage(); // <-- Ini yang akan menerjemahkan halaman Admin
             }
         }
     }

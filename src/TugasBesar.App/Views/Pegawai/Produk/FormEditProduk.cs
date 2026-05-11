@@ -85,6 +85,8 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             {
                 cmbKategori.Items.Add(item.Nama);
             }
+
+
         }
 
         private void tbHarga_TextChanged(object sender, EventArgs e) { }
