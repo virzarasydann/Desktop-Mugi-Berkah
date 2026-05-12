@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
-namespace TugasBesar.App.Configuration
+namespace TugasBesar.Localization
 {
     public static class LocalizationService
     {

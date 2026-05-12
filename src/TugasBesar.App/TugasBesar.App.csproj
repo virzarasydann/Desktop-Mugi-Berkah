@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\TugasBesar.Localization\TugasBesar.Localization..csproj" />
     <ProjectReference Include="..\TugasBesar.Core\TugasBesar.Core.csproj" />
   </ItemGroup>
 
@@ -54,15 +55,6 @@
     <Compile Update="Views\UserControl1.cs">
       <SubType>UserControl</SubType>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Languages\en.po">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Languages\id.po">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

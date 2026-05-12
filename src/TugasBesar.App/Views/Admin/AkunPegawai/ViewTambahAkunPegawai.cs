@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TugasBesar.App.Configuration;
+using TugasBesar.Localization;
 using TugasBesar.Core.Controllers;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;

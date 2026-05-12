@@ -49,6 +49,8 @@
     <Compile Include="Controllers\AkunPegawaiController.cs" />
     <Compile Include="Controllers\OperasionalController.cs" />
     <Compile Include="Controllers\TransaksiControllers.cs" />
+    <Compile Include="Controllers\KategoriController.cs" />
+    <Compile Include="Controllers\ProdukController.cs" />
     <Compile Include="Models\AkunPegawai.cs" />
     <Compile Include="Models\KategoriModels.cs" />
     <Compile Include="Models\KeranjangItem.cs" />
