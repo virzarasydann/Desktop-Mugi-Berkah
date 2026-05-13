@@ -69,7 +69,7 @@ namespace TugasBesar.App.Views.Pegawai
 
         private void cmbLanguageUtama_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // 1. Set bahasa di sistem
+            // Set bahasa di sistem
             if (cmbLanguageUtama.SelectedItem.ToString() == "Indonesia")
             {
                 LocalizationService.SetLanguage("id");
@@ -79,10 +79,10 @@ namespace TugasBesar.App.Views.Pegawai
                 LocalizationService.SetLanguage("en");
             }
 
-            // 2. Terjemahkan tombol-tombol di Navbar itu sendiri
+            // menenrjemankan tombol di Navbarnya
             ApplyLanguage();
 
-            // 3. Terjemahkan halaman yang SEDANG TAMPIL di tengah layar
+            // Terjemah halaman yang tampil layar
             if (panelContent.Controls.Count > 0)
             {
                 var layarAktif = panelContent.Controls[0];

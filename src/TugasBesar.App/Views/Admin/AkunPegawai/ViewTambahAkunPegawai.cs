@@ -34,8 +34,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         {
             btnTambahAkunPegawai.Text = LocalizationService.GetString("btn_tambah_akun");
 
-            // PERBAIKAN: Memanggil nama Label (label1, label2), bukan TextBox (tbUsername).
-            // Jika saat dicopy ada garis merah di kata 'label1', sesuaikan dengan (Name) Label-mu di jendela Properties.
+          
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
@@ -59,8 +58,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
         private void TampilkanData()
         {
-            //  3. INVARIANT (Syarat Tetap) 
-            // Memastikan DataGridView tidak hilang dari layar selama proses
+            //  3. INVARIANT 
             Debug.Assert(dgvAkunPegawai != null, "DbC Invariant Gagal: Tabel DataGridView hilang dari layar!");
 
             dgvAkunPegawai.Columns.Clear();
@@ -116,8 +114,8 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
         private void btnTambahAkunPegawai_Click(object sender, EventArgs e)
         {
-            // --- 1. PRE-CONDITION (Syarat Awal) ---
-            // Memastikan Controller dan komponen layar (TextBox) tidak bocor/hilang sebelum memproses data
+            //  PRE-CONDITION (Syarat Awal) 
+            // Memastikan Controller dan komponen layar (TextBox) hilang sebelum memproses data
             Debug.Assert(_controller != null, "DbC Pre-condition Gagal: Controller belum diinisialisasi!");
             Debug.Assert(tbUsername != null && tbPassword != null, "DbC Pre-condition Gagal: TextBox UI tidak terdeteksi!");
 
@@ -125,7 +123,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             string inputPassword = tbPassword.Text;
             string pesan;
 
-            // --- PROSES UTAMA ---
+          
             bool sukses = _controller.TambahAkun(inputUsername, inputPassword, out pesan);
 
             if (sukses)
@@ -135,8 +133,8 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 TampilkanData();
                 MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // --- 2. POST-CONDITION (Syarat Akhir) ---
-                // Memastikan dengan mutlak bahwa kotak input benar-benar sudah kosong setelah data berhasil disimpan
+                // POST-CONDITION (Syarat Akhir) 
+                // Memastikan kotak input benar-benarkosong setelah data berhasil disimpan
                 Debug.Assert(string.IsNullOrEmpty(tbUsername.Text) && string.IsNullOrEmpty(tbPassword.Text), "DbC Post-condition Gagal: Form gagal dikosongkan setelah sukses!");
             }
             else
