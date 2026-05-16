@@ -8,7 +8,7 @@ using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TugasBesar.App.Configuration;
+using TugasBesar.Localization;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
 
