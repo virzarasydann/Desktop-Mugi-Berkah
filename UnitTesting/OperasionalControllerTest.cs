@@ -193,9 +193,6 @@ namespace UnitTesting
             Debug.Assert(result.Count == 2, "Harus ada 2 data setelah dua kali tambah");
         }
 
-        // ────────────────────────────────────────────────
-        // Edit
-        // ────────────────────────────────────────────────
 
         [Fact]
         public void Edit_DataValid_BerhasilDiperbarui()
@@ -319,10 +316,6 @@ namespace UnitTesting
 
             Debug.Assert(ex != null, "Exception harus dilempar saat index negatif pada edit");
         }
-
-        // ────────────────────────────────────────────────
-        // Hapus
-        // ────────────────────────────────────────────────
 
         [Fact]
         public void Hapus_IndexValid_DataTerhapus()
