@@ -11,10 +11,15 @@ namespace TugasBesar.Core.Services
     {
         private DataGeneric<OperasionalModels> dataOperasional = DataManager.Operasional;
 
-        public List<OperasionalModels> GetAll()
+        public IReadOnlyList<OperasionalModels> GetAll()
         {
             return dataOperasional.GetAll();
         }
+
+        //public List<OperasionalModels> GetAll()
+        //{
+        //    return dataOperasional.GetAll();
+        //}
 
         public void Tambah(string nama, int harga)
         {

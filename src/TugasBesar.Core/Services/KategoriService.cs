@@ -10,7 +10,7 @@ namespace TugasBesar.Core.Services
     {
         private DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
 
-        public List<KategoriModels> GetAll()
+        public IReadOnlyList<KategoriModels> GetAll()
         {
             return dataKategori.GetAll();
         }

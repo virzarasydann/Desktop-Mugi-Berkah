@@ -16,9 +16,9 @@ namespace TugasBesar.Core.Services
             data.Add(item);
         }
 
-        public List<T> GetAll()
+        public IReadOnlyList<T> GetAll()
         {
-            return data;
+            return data.AsReadOnly();
         }
 
         public void RemoveAt(int index)

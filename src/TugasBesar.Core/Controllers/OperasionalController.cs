@@ -12,12 +12,12 @@ namespace TugasBesar.Core.Controllers
     {
             OperasionalService service = new OperasionalService();
 
-            public List<OperasionalModels> GetAll()
-            {
-                return service.GetAll();
-            }
+        public IReadOnlyList<OperasionalModels> GetAll()
+        {
+            return service.GetAll();
+        }
 
-            public void Tambah(string nama, string hargaText)
+        public void Tambah(string nama, string hargaText)
             {
             if (string.IsNullOrWhiteSpace(nama))
                 throw new Exception("Nama tidak boleh kosong!");
