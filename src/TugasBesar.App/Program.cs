@@ -12,7 +12,7 @@ namespace TugasBesar.App
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Langsung buka LoginForm, biarkan LoginForm yang mengatur default bahasanya nanti
+            TugasBesar.Localization.LocalizationService.SetLanguage("id");
             Application.Run(new LoginForm());
         }
     }

@@ -11,6 +11,7 @@ using TugasBesar.Localization;
 using TugasBesar.Core.Controllers;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using System.Diagnostics; 
 
 namespace TugasBesar.App.Views.Admin.AkunPegawai
 {
@@ -33,8 +34,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         {
             btnTambahAkunPegawai.Text = LocalizationService.GetString("btn_tambah_akun");
 
-            // PERBAIKAN: Memanggil nama Label (label1, label2), bukan TextBox (tbUsername).
-            // Jika saat dicopy ada garis merah di kata 'label1', sesuaikan dengan (Name) Label-mu di jendela Properties.
+          
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
@@ -58,6 +58,12 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
         private void TampilkanData()
         {
+            //  3. INVARIANT 
+            Debug.Assert(dgvAkunPegawai != null, "DbC Invariant Gagal: Tabel DataGridView hilang dari layar!");
+
+            dgvAkunPegawai.Columns.Clear();
+            dgvAkunPegawai.DataSource = null;
+
             if (dgvAkunPegawai == null) return;
 
             dgvAkunPegawai.Columns.Clear();
@@ -108,10 +114,15 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
         private void btnTambahAkunPegawai_Click(object sender, EventArgs e)
         {
+            //  PRE-CONDITION (Syarat Awal) 
+            Debug.Assert(_controller != null, "DbC Pre-condition Gagal: Controller belum diinisialisasi!");
+            Debug.Assert(tbUsername != null && tbPassword != null, "DbC Pre-condition Gagal: TextBox UI tidak terdeteksi!");
+
             string inputUsername = tbUsername.Text;
             string inputPassword = tbPassword.Text;
-
             string pesan;
+
+          
             bool sukses = _controller.TambahAkun(inputUsername, inputPassword, out pesan);
 
             if (sukses)
@@ -119,14 +130,16 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 tbUsername.Clear();
                 tbPassword.Clear();
                 TampilkanData();
-                MessageBox.Show(pesan, LocalizationService.GetString("title_sukses"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                // POST-CONDITION (Syarat Akhir) 
+                Debug.Assert(string.IsNullOrEmpty(tbUsername.Text) && string.IsNullOrEmpty(tbPassword.Text), "DbC Post-condition Gagal: Form gagal dikosongkan setelah sukses!");
             }
             else
             {
-                MessageBox.Show(pesan, LocalizationService.GetString("title_peringatan"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(pesan, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
         private void dgvAkunPegawai_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;

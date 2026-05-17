@@ -7,9 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TugasBesar.Core;
+using TugasBesar.Core.Controllers;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
-using TugasBesar.Core.Controllers;
 using TugasBesar.Localization;
 
 namespace TugasBesar.App.Views.Pegawai.Produk
@@ -130,9 +131,8 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
         private void TampilkanData()
         {
-            // 1. JURUS SAPU JAGAT: Kosongkan data dan hancurkan semua kolom tanpa sisa!
             dgvProduk.DataSource = null;
-            dgvProduk.Columns.Clear(); // <-- INI KUNCI UTAMANYA
+            dgvProduk.Columns.Clear();
 
             var list = dataProduk.GetAll();
 
@@ -141,16 +141,13 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 return;
             }
 
-            // 2. Masukkan data (Sistem akan membuat ulang kolom Nama, Kategori, Harga secara urut)
             dgvProduk.DataSource = list;
 
-            // Sembunyikan kolom Id jika ada di modelmu
             if (dgvProduk.Columns.Contains("Id"))
             {
                 dgvProduk.Columns["Id"].Visible = false;
             }
 
-            // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
             TambahKolomButton();
         }
 

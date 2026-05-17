@@ -18,11 +18,17 @@ namespace TugasBesar.Core.Controllers
 
         public void Tambah(string nama, string kategori, string hargaText)
         {
-            if (string.IsNullOrWhiteSpace(nama))
-                throw new Exception("Nama produk tidak boleh kosong!");
+            var aturanValidasi = new (string Nilai, string PesanError)[]
+            {
+                (nama, "Nama produk tidak boleh kosong!"),
+                (kategori, "Kategori produk tidak boleh kosong!")
+            };
 
-            if (string.IsNullOrWhiteSpace(kategori))
-                throw new Exception("Kategori produk tidak boleh kosong!");
+            foreach (var aturan in aturanValidasi)
+            {
+                if (string.IsNullOrWhiteSpace(aturan.Nilai))
+                    throw new Exception(aturan.PesanError);
+            }
 
             if (string.IsNullOrWhiteSpace(hargaText) || !int.TryParse(hargaText, out int harga))
                 throw new Exception("Harga produk harus berupa angka yang valid!");
@@ -32,11 +38,17 @@ namespace TugasBesar.Core.Controllers
 
         public void Edit(int index, string nama, string kategori, string hargaText)
         {
-            if (string.IsNullOrWhiteSpace(nama))
-                throw new Exception("Nama produk tidak boleh kosong!");
+            var aturanValidasi = new (string Nilai, string PesanError)[]
+            {
+                (nama, "Nama produk tidak boleh kosong!"),
+                (kategori, "Kategori produk tidak boleh kosong!")
+            };
 
-            if (string.IsNullOrWhiteSpace(kategori))
-                throw new Exception("Kategori produk tidak boleh kosong!");
+            foreach (var aturan in aturanValidasi)
+            {
+                if (string.IsNullOrWhiteSpace(aturan.Nilai))
+                    throw new Exception(aturan.PesanError);
+            }
 
             if (string.IsNullOrWhiteSpace(hargaText) || !int.TryParse(hargaText, out int harga))
                 throw new Exception("Harga produk harus berupa angka yang valid!");
