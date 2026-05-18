@@ -11,10 +11,11 @@ namespace TugasBesar.Core.Controllers
     {
         ProdukService service = new ProdukService();
 
-        public List<ProdukModels> GetAll()
+        public IReadOnlyList<ProdukModels> GetAll()
         {
             return service.GetAll();
         }
+
 
         public void Tambah(string nama, string kategori, string hargaText)
         {

@@ -29,7 +29,7 @@ namespace UnitTesting
             var controller = BuatController();
 
             // Act
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.NotNull(result);
@@ -47,7 +47,7 @@ namespace UnitTesting
             controller.Tambah("Listrik", "500000");
 
             // Act
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Single(result);
@@ -66,7 +66,7 @@ namespace UnitTesting
 
             // Act
             controller.Tambah("Sewa Tempat", "1500000");
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Single(result);
@@ -183,7 +183,7 @@ namespace UnitTesting
             // Act
             controller.Tambah("Listrik", "500000");
             controller.Tambah("Air", "200000");
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Equal(2, result.Count);
@@ -203,7 +203,7 @@ namespace UnitTesting
 
             // Act
             controller.Edit(0, "Internet", "350000");
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Single(result);
@@ -327,7 +327,7 @@ namespace UnitTesting
 
             // Act
             controller.Hapus(0);
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Single(result);
@@ -346,7 +346,7 @@ namespace UnitTesting
 
             // Act
             controller.Hapus(0);
-            List<OperasionalModels> result = controller.GetAll();
+            List<OperasionalModels> result = (List<OperasionalModels>)controller.GetAll();
 
             // Assert
             Assert.Empty(result);
