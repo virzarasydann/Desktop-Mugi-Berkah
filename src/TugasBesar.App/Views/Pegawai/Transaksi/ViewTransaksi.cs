@@ -1,6 +1,7 @@
 ﻿using ResponseMessageLibrary;   
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using TugasBesar.Core.Controllers;
@@ -20,17 +21,95 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
     public partial class ViewTransaksi : UserControl
     {
-        private StatusTransaksi _statusSekarang = StatusTransaksi.Kosong;
+        private StatusTransaksi _statusSekarang;
+        private Control[] _semuaKontrol;
+        private Dictionary<StatusTransaksi, StatusTransaksi[]> _transisiValid;
+        private Dictionary<StatusTransaksi, Control[]> _statusKeKontrolAktif;
         private TransaksiControllers _controller;
 
         public ViewTransaksi()
         {
             InitializeComponent();
             _controller = new TransaksiControllers();
-
+            InisialisasiDaftarKontrol();
+            InisialisasiMappingStatus();
+            InisialisasiTransisi();
             ApplyLanguage();
             TampilkanKatalog();
-            UbahStatus(StatusTransaksi.Kosong);
+            TerapkanStatus(StatusTransaksi.Kosong);
+            
+        }
+        private bool UbahStatus(StatusTransaksi statusBaru)   
+        {
+            
+            if (_statusSekarang == statusBaru) return true;
+            
+            if (_transisiValid.TryGetValue(_statusSekarang, out var tujuan) && Array.Exists(tujuan, s => s == statusBaru))
+            {
+                
+                TerapkanStatus(statusBaru);
+                
+                return true;
+            }
+
+            
+            MessageBox.Show("Transisi tidak diizinkan.");
+            return false;
+        }
+
+        private void TerapkanStatus(StatusTransaksi statusBaru)   
+        {
+            _statusSekarang = statusBaru;
+
+            
+            foreach (var ctrl in _semuaKontrol)
+                ctrl.Enabled = false;
+                
+
+            if (_statusKeKontrolAktif.TryGetValue(statusBaru, out var daftarAktif))
+                foreach (var ctrl in daftarAktif) ctrl.Enabled = true;
+
+            
+        }
+
+        private void InisialisasiDaftarKontrol()
+        {
+            _semuaKontrol = new Control[]
+            {
+                tbNamaPembeli,
+                tbUangKembalian,
+                tbUangDiterima,
+                tbTotal,
+                tbStatus,
+                btnProsesPembayaran,
+                btnLunas,
+                btnBelumLunas,
+                panelListProduk
+            };
+        }
+
+        private void InisialisasiMappingStatus()
+        {
+            _statusKeKontrolAktif = new Dictionary<StatusTransaksi, Control[]>
+            {
+                { StatusTransaksi.Kosong,      new Control[] { panelListProduk } },
+                { StatusTransaksi.InputBarang, new Control[] { panelListProduk ,tbNamaPembeli, tbUangDiterima, panelListProduk } },
+                { StatusTransaksi.Pembayaran,  new Control[] { tbNamaPembeli, tbUangDiterima, btnLunas, btnBelumLunas } },
+                { StatusTransaksi.SiapProses,  new Control[] { btnProsesPembayaran, btnLunas, btnBelumLunas } }
+                
+            };
+        }
+
+        private void InisialisasiTransisi()
+        {
+            _transisiValid = new Dictionary<StatusTransaksi, StatusTransaksi[]>
+            {
+                { StatusTransaksi.Kosong,      new[] { StatusTransaksi.InputBarang } },
+                { StatusTransaksi.InputBarang, new[] { StatusTransaksi.Pembayaran, StatusTransaksi.Kosong } },
+                 { StatusTransaksi.Pembayaran,  new[] { StatusTransaksi.SiapProses , StatusTransaksi.InputBarang } },
+                { StatusTransaksi.SiapProses,  new[] { StatusTransaksi.Pembayaran, StatusTransaksi.Kosong } },
+               
+            };
         }
 
         public void ApplyLanguage()
@@ -139,6 +218,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private void tbUangDiterima_TextChanged(object sender, EventArgs e)
         {
             string teksBersih = tbUangDiterima.Text.Replace("Rp ", "").Replace(".", "");
+           
             if (string.IsNullOrWhiteSpace(teksBersih))
             {
                 UbahStatus(StatusTransaksi.InputBarang);
@@ -164,38 +244,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             tbUangDiterima.SelectionStart = Math.Max(0, posisiKursor + selisihKarakter);
         }
 
-        private void UbahStatus(StatusTransaksi statusBaru)
-        {
-            _statusSekarang = statusBaru;
-            switch (_statusSekarang)
-            {
-                case StatusTransaksi.Kosong:
-                    tbNamaPembeli.Enabled = false;
-                    tbUangKembalian.Enabled = false;
-                    tbUangDiterima.Enabled = false;
-                    tbTotal.Enabled = false;
-                    tbStatus.Enabled = false;
-                    btnProsesPembayaran.Enabled = false;
-                    btnLunas.Enabled = false;
-                    btnBelumLunas.Enabled = false;
-                    panelListProduk.Enabled = true;
-                    break;
-                case StatusTransaksi.InputBarang:
-                    tbNamaPembeli.Enabled = true;
-                    tbUangDiterima.Enabled = true;
-                    btnProsesPembayaran.Enabled = false;
-                    panelListProduk.Enabled = true;
-                    break;
-                case StatusTransaksi.Pembayaran:
-                    btnProsesPembayaran.Enabled = false;
-                    btnLunas.Enabled = true;
-                    btnBelumLunas.Enabled = true;
-                    break;
-                case StatusTransaksi.SiapProses:
-                    btnProsesPembayaran.Enabled = true;
-                    break;
-            }
-        }
+       
 
         // Event handler lainnya tetap sama
         private void ViewTransaksi_Load(object sender, EventArgs e) { }
