@@ -10,10 +10,12 @@ namespace TugasBesar.Core.Services
     {
         private DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
 
-        public List<ProdukModels> GetAll()
+
+        public IReadOnlyList<ProdukModels> GetAll()
         {
             return dataProduk.GetAll();
         }
+
 
         public void Tambah(string nama, string kategori, int harga)
         {

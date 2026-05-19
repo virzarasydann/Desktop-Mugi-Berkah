@@ -11,7 +11,7 @@ namespace TugasBesar.Core.Controllers
     {
         KategoriService service = new KategoriService();
 
-        public List<KategoriModels> GetAll()
+        public IReadOnlyList<KategoriModels> GetAll()
         {
             return service.GetAll();
         }
