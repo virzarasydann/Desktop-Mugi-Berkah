@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TugasBesar.Core.Models
+namespace TugasBesar.Core.DTO.Request
 {
     public class KeranjangItem
     {

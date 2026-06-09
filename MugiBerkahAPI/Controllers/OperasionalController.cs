@@ -6,7 +6,7 @@ using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
 using System.Threading.Tasks;
 
-namespace TugasBesar.Core.Controllers
+namespace MugiBerkahAPI.Controllers
 {
     public class OperasionalController
     {

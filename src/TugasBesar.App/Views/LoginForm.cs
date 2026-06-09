@@ -8,21 +8,25 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Localization;
-using TugasBesar.App.Views.Admin.AkunPegawai;
+//using TugasBesar.App.Views.Admin.AkunPegawai;
 using TugasBesar.App.Views.Pegawai;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TugasBesar.App.Views
 {
     public partial class LoginForm : Form
     {
-        public LoginForm()
+        private readonly IServiceProvider _serviceProvider;
+
+        
+        public LoginForm(IServiceProvider serviceProvider)
         {
             InitializeComponent();
+            _serviceProvider = serviceProvider;
 
             cmbLanguage.Items.Clear();
             cmbLanguage.Items.Add("Indonesia");
             cmbLanguage.Items.Add("English");
-
             cmbLanguage.SelectedIndex = 0;
         }
 
@@ -67,7 +71,13 @@ namespace TugasBesar.App.Views
             String username = textBoxUsername.Text;
             String password = textBoxPassword.Text;
 
-            BaseFormPegawai formPegawai = new BaseFormPegawai();
+            //BaseFormPegawai formPegawai = new BaseFormPegawai();
+            //formPegawai.FormClosed += (s, args) => this.Close();
+
+            //this.Hide();
+            //formPegawai.Show();
+
+            var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
             formPegawai.FormClosed += (s, args) => this.Close();
 
             this.Hide();

@@ -1,59 +1,80 @@
 using System;
 using System.Linq;
-using System.Diagnostics;
 using System.Collections.Generic;
 using TugasBesar.Core.Models;
+using TugasBesar.Core.Repositories.Interfaces;
+using TugasBesar.Core.Services.Interfaces;
+using TugasBesar.Core.DTO.Response;
 
 namespace TugasBesar.Core.Services
 {
-    public class KategoriService
+    public class KategoriService : IKategoriServices
     {
-        private DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
+        private readonly IKategoriRepository _repository;
 
-        public IReadOnlyList<KategoriModels> GetAll()
+       
+        public KategoriService(IKategoriRepository repository)
         {
-            return dataKategori.GetAll();
+            _repository = repository;
         }
 
-        public void Tambah(string nama)
+        public async Task<IReadOnlyList<KategoriResponseDTO>> GetAll()
         {
-            var list = dataKategori.GetAll();
+            var kategoriList = await _repository.GetAllAsync();
+
+            var dtoList = kategoriList.Select(k => new KategoriResponseDTO
+            {
+                id = k.id,
+                nama = k.nama,
+                
+            }).ToList();
+
+            return dtoList;
+        }
+
+        public async Task Tambah(string nama)
+        {
+            if (string.IsNullOrWhiteSpace(nama))
+                throw new Exception("Nama kategori tidak boleh kosong!");
+
             var newName = nama.Trim();
+            var list = await _repository.GetAllAsync();
 
-            if (list.Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
-                throw new Exception("Nama kategori sudah ada!");
+            if (list.Any(k => string.Equals(k.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("nama kategori sudah ada!");
 
-            dataKategori.Add(new KategoriModels { Nama = newName });
+           await _repository.AddAsync(new KategoriModels { nama = newName });
         }
 
-        public void Edit(int index, string nama)
+        public async Task Edit(int id, string nama)
         {
-            var list = dataKategori.GetAll();
+            if (string.IsNullOrWhiteSpace(nama))
+                throw new Exception("nama kategori tidak boleh kosong!");
 
-            if (index < 0 || index >= list.Count)
+            var newName = nama.Trim();
+            var existing = await _repository.GetByIdAsync(id);
+
+            if (existing == null)
                 throw new Exception("Data tidak ditemukan!");
 
-            var newName = nama.Trim();
-            var existing = list[index];
-            var existingName = (existing?.Nama ?? string.Empty).Trim();
-
-            if (string.Equals(existingName, newName, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals((existing.nama ?? string.Empty).Trim(), newName, StringComparison.OrdinalIgnoreCase))
                 throw new Exception("Data masih sama!");
 
-            if (list.Where((v, i) => i != index).Any(k => string.Equals(k.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
-                throw new Exception("Nama kategori sudah ada!");
+            var list = await _repository.GetAllAsync();
+            if (list.Where(k => k.id != id).Any(k => string.Equals(k.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("nama kategori sudah ada!");
 
-            dataKategori.Update(index, new KategoriModels { Nama = newName });
+            existing.nama = newName;
+            await _repository.UpdateAsync(existing);
         }
 
-        public void Hapus(int index)
+        public async Task Hapus(int id)
         {
-            var list = dataKategori.GetAll();
-
-            if (index < 0 || index >= list.Count)
+            var existing = await _repository.GetByIdAsync(id);
+            if (existing == null)
                 throw new Exception("Data tidak valid!");
 
-            dataKategori.RemoveAt(index);
+            await _repository.DeleteAsync(id);
         }
     }
 }

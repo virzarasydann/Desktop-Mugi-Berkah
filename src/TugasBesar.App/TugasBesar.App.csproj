@@ -9,49 +9,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Views\Admin\**" />
+    <Compile Remove="Views\Pegawai\Kategori\**" />
+    <Compile Remove="Views\Pegawai\Operasional\**" />
+    <Compile Remove="Views\Pegawai\Produk\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\Pegawai\Kategori\**" />
+    <EmbeddedResource Remove="Views\Pegawai\Operasional\**" />
+    <EmbeddedResource Remove="Views\Pegawai\Produk\**" />
+    <None Remove="Views\Admin\**" />
+    <None Remove="Views\Pegawai\Kategori\**" />
+    <None Remove="Views\Pegawai\Operasional\**" />
+    <None Remove="Views\Pegawai\Produk\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Refit.HttpClientFactory" Version="10.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TugasBesar.Localization\TugasBesar.Localization..csproj" />
     <ProjectReference Include="..\TugasBesar.Core\TugasBesar.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Views\Admin\AkunPegawai\FormEditAkunPegawai.cs" />
-    <Compile Update="Views\Admin\AkunPegawai\ViewTambahAkunPegawai.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Views\Admin\Riwayat\ViewRiwayat.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Update="Views\LoginForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="Views\Pegawai\BaseFormPegawai.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Kategori\FormEditKategori.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Kategori\ViewKategori.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Operasional\FormEditOperasional.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Operasional\ViewOperasional.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Produk\FormEditProduk.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Views\Pegawai\Produk\ViewProduk.cs" />
+    <Compile Update="Views\Pegawai\BaseFormPegawai.cs" />
     <Compile Update="Views\Pegawai\Transaksi\CardKeranjang.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Update="Views\Pegawai\Transaksi\CardProduk.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Update="Views\Pegawai\Transaksi\ViewTransaksi.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
+    <Compile Update="Views\Pegawai\Transaksi\ViewTransaksi.cs" />
     <Compile Update="Views\UserControl1.cs">
       <SubType>UserControl</SubType>
     </Compile>

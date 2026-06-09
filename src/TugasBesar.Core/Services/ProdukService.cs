@@ -1,76 +1,110 @@
 using System;
-using System.Linq;
-using System.Diagnostics;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Models;
+using TugasBesar.Core.Repositories.Interfaces;
+using TugasBesar.Core.Services.Interfaces;
 
 namespace TugasBesar.Core.Services
 {
-    public class ProdukService
+    public class ProdukService : IProdukServices
     {
-        private DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
-
-
-        public IReadOnlyList<ProdukModels> GetAll()
+        private readonly IProdukRepository _ProdukRepository;
+        private readonly IKategoriRepository _KategoriRepository;
+        public ProdukService(IProdukRepository produkRepo, IKategoriRepository kategoriRepo)
         {
-            return dataProduk.GetAll();
+            _ProdukRepository = produkRepo;
+            _KategoriRepository = kategoriRepo;
+
         }
 
 
-        public void Tambah(string nama, string kategori, int harga)
+        public async Task<IReadOnlyList<ProdukModels>> GetAll()
         {
-            if (harga < 0)
+            return await _ProdukRepository.GetAllAsync();
+        }
+
+        public async Task<IReadOnlyList<ProdukResponseDTO>> GetAllProdukWithRelation()
+        {
+            return await _ProdukRepository.GetAllProdukWithRelation();
+        }
+
+
+        public async Task Tambah(ProdukRequestDTO request)
+        {
+            if (request.harga < 0)
                 throw new Exception("Harga harus lebih dari atau sama dengan 0!");
 
-            var list = dataProduk.GetAll();
-            var newName = nama.Trim();
-            var newKategori = kategori.Trim();
+            var list =  await GetAll();
+            var newName = request.nama.Trim();
+            var newKategori = request.kategori_id;
+            var findKategori = await _KategoriRepository.GetByIdAsync(newKategori);
+            if(findKategori == null)
+            {
+                throw new Exception("Kategori Tidak ditemukan");
+            }
 
-            if (list.Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
-                           && string.Equals(p.Kategori?.Trim(), newKategori, StringComparison.OrdinalIgnoreCase)))
+            if (list.Any(p => string.Equals(p.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
+                           && string.Equals(p.kategori_id, newKategori)))
                 throw new Exception("Produk dengan nama dan kategori yang sama sudah ada!");
 
-            dataProduk.Add(new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga });
+           await _ProdukRepository.AddAsync(new ProdukModels { nama = newName, kategori_id = newKategori, harga = request.harga });
         }
 
-        public void Edit(int index, string nama, string kategori, int harga)
+        public async Task Edit(int id, ProdukRequestDTO request)
         {
-            var list = dataProduk.GetAll();
-
-            if (index < 0 || index >= list.Count)
+           
+            if (id < 0)
                 throw new Exception("Data tidak ditemukan!");
 
-            if (harga < 0)
+            if (request.harga < 0)
                 throw new Exception("Harga harus lebih dari atau sama dengan 0!");
 
-            var newName = nama.Trim();
-            var newKategori = kategori.Trim();
+            var newName = request.nama.Trim();
+            var newKategori = request.kategori_id;
+            var findKategori = await _KategoriRepository.GetByIdAsync(newKategori);
+            if (findKategori == null)
+            {
+                throw new Exception("Kategori Tidak ditemukan");
+            }
 
-            var existing = list[index];
-            var existingName = (existing?.Nama ?? string.Empty).Trim();
-            var existingKategori = (existing?.Kategori ?? string.Empty).Trim();
-            var existingHarga = existing?.Harga ?? 0;
+            var existing = await _ProdukRepository.GetByIdAsync(id);
 
-            if (string.Equals(existingName, newName, StringComparison.OrdinalIgnoreCase)
-                && string.Equals(existingKategori, newKategori, StringComparison.OrdinalIgnoreCase)
-                && existingHarga == harga)
+            if (existing == null)
+                throw new Exception("Data tidak ditemukan!");
+
+            if (string.Equals((existing.nama ?? string.Empty).Trim(), newName, StringComparison.OrdinalIgnoreCase)
+                && existing.kategori_id == newKategori && existing.harga ==request.harga )
+            {
                 throw new Exception("Data masih sama!");
+            }
 
-            if (list.Where((v, i) => i != index).Any(p => string.Equals(p.Nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)
-                                                        && string.Equals(p.Kategori?.Trim(), newKategori, StringComparison.OrdinalIgnoreCase)))
-                throw new Exception("Produk dengan nama dan kategori yang sama sudah ada!");
 
-            dataProduk.Update(index, new ProdukModels { Nama = newName, Kategori = newKategori, Harga = harga });
+
+
+            existing.nama = request.nama;
+            existing.kategori_id = request.kategori_id;
+            existing.harga = request.harga;
+
+            await _ProdukRepository.UpdateAsync(existing);
         }
 
-        public void Hapus(int index)
+        public async Task Hapus(int id)
         {
-            var list = dataProduk.GetAll();
-
-            if (index < 0 || index >= list.Count)
+            if (id < 0 )
                 throw new Exception("Data tidak valid!");
 
-            dataProduk.RemoveAt(index);
+            var findProduk = await _ProdukRepository.GetByIdAsync(id);
+            if (findProduk == null)
+            {
+                throw new Exception("Produk Tidak ditemukan");
+            }
+            await _ProdukRepository.DeleteAsync(id);
         }
     }
 }

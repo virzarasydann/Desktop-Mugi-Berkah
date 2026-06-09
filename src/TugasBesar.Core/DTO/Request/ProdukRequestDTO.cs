@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace TugasBesar.Core.Models
+namespace TugasBesar.Core.DTO.Request
 {
-    public class ProdukModels
+    public class ProdukRequestDTO
     {
-        public int id { get; set; }
         public string nama { get; set; }
-
         public int kategori_id { get; set; }
         public int harga { get; set; }
 
-        public KategoriModels Kategori { get; set; }
-
-
+         
     }
-
-  
 }

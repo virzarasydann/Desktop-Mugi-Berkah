@@ -8,6 +8,9 @@ namespace TugasBesar.Core.Models
 {
     public class KategoriModels
     {
-        public string Nama { get; set; }
+        public int id { get; set; }
+        public required string nama { get; set; }
+
+        public ICollection<ProdukModels> Produk { get; set; }
     }
 }

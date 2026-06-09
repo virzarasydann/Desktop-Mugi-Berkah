@@ -28,309 +28,308 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelTransaksiJudul = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btnBelumLunas = new System.Windows.Forms.Button();
-            this.btnLunas = new System.Windows.Forms.Button();
-            this.labelStatus = new System.Windows.Forms.Label();
-            this.tbStatus = new System.Windows.Forms.TextBox();
-            this.btnProsesPembayaran = new System.Windows.Forms.Button();
-            this.tbTotal = new System.Windows.Forms.TextBox();
-            this.tbUangKembalian = new System.Windows.Forms.TextBox();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.tbUangDiterima = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnQris = new System.Windows.Forms.Button();
-            this.btnCash = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tbNamaPembeli = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panelListKeranjang = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panelListProduk = new System.Windows.Forms.FlowLayoutPanel();
-            this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.SuspendLayout();
+            labelTransaksiJudul = new Label();
+            panel2 = new Panel();
+            btnBelumLunas = new Button();
+            btnLunas = new Button();
+            labelStatus = new Label();
+            tbStatus = new TextBox();
+            btnProsesPembayaran = new Button();
+            tbTotal = new TextBox();
+            tbUangKembalian = new TextBox();
+            label17 = new Label();
+            label12 = new Label();
+            tbUangDiterima = new TextBox();
+            label11 = new Label();
+            btnQris = new Button();
+            btnCash = new Button();
+            label9 = new Label();
+            tbNamaPembeli = new TextBox();
+            label8 = new Label();
+            panel3 = new Panel();
+            panelListKeranjang = new FlowLayoutPanel();
+            panel1 = new Panel();
+            panelListProduk = new FlowLayoutPanel();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
+            panel1.SuspendLayout();
+            SuspendLayout();
             // 
             // labelTransaksiJudul
             // 
-            this.labelTransaksiJudul.AutoSize = true;
-            this.labelTransaksiJudul.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTransaksiJudul.Location = new System.Drawing.Point(34, 76);
-            this.labelTransaksiJudul.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelTransaksiJudul.Name = "labelTransaksiJudul";
-            this.labelTransaksiJudul.Size = new System.Drawing.Size(79, 17);
-            this.labelTransaksiJudul.TabIndex = 2;
-            this.labelTransaksiJudul.Text = "Transaksi";
+            labelTransaksiJudul.AutoSize = true;
+            labelTransaksiJudul.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTransaksiJudul.Location = new Point(34, 76);
+            labelTransaksiJudul.Margin = new Padding(2, 0, 2, 0);
+            labelTransaksiJudul.Name = "labelTransaksiJudul";
+            labelTransaksiJudul.Size = new Size(79, 17);
+            labelTransaksiJudul.TabIndex = 2;
+            labelTransaksiJudul.Text = "Transaksi";
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel2.Controls.Add(this.btnBelumLunas);
-            this.panel2.Controls.Add(this.btnLunas);
-            this.panel2.Controls.Add(this.labelStatus);
-            this.panel2.Controls.Add(this.tbStatus);
-            this.panel2.Controls.Add(this.btnProsesPembayaran);
-            this.panel2.Controls.Add(this.tbTotal);
-            this.panel2.Controls.Add(this.tbUangKembalian);
-            this.panel2.Controls.Add(this.label17);
-            this.panel2.Controls.Add(this.label12);
-            this.panel2.Controls.Add(this.tbUangDiterima);
-            this.panel2.Controls.Add(this.label11);
-            this.panel2.Controls.Add(this.btnQris);
-            this.panel2.Controls.Add(this.btnCash);
-            this.panel2.Controls.Add(this.label9);
-            this.panel2.Controls.Add(this.tbNamaPembeli);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(525, 0);
-            this.panel2.Margin = new System.Windows.Forms.Padding(2);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(528, 447);
-            this.panel2.TabIndex = 3;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            panel2.BackColor = SystemColors.ControlLight;
+            panel2.Controls.Add(btnBelumLunas);
+            panel2.Controls.Add(btnLunas);
+            panel2.Controls.Add(labelStatus);
+            panel2.Controls.Add(tbStatus);
+            panel2.Controls.Add(btnProsesPembayaran);
+            panel2.Controls.Add(tbTotal);
+            panel2.Controls.Add(tbUangKembalian);
+            panel2.Controls.Add(label17);
+            panel2.Controls.Add(label12);
+            panel2.Controls.Add(tbUangDiterima);
+            panel2.Controls.Add(label11);
+            panel2.Controls.Add(btnQris);
+            panel2.Controls.Add(btnCash);
+            panel2.Controls.Add(label9);
+            panel2.Controls.Add(tbNamaPembeli);
+            panel2.Controls.Add(label8);
+            panel2.Dock = DockStyle.Top;
+            panel2.Location = new Point(525, 0);
+            panel2.Margin = new Padding(2);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(528, 447);
+            panel2.TabIndex = 3;
+            panel2.Paint += panel2_Paint;
             // 
             // btnBelumLunas
             // 
-            this.btnBelumLunas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnBelumLunas.Location = new System.Drawing.Point(437, 334);
-            this.btnBelumLunas.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBelumLunas.Name = "btnBelumLunas";
-            this.btnBelumLunas.Size = new System.Drawing.Size(73, 48);
-            this.btnBelumLunas.TabIndex = 20;
-            this.btnBelumLunas.Text = "Belum Lunas";
-            this.btnBelumLunas.UseVisualStyleBackColor = true;
-            this.btnBelumLunas.Click += new System.EventHandler(this.btnBelumLunas_Click);
+            btnBelumLunas.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnBelumLunas.Location = new Point(437, 334);
+            btnBelumLunas.Margin = new Padding(2);
+            btnBelumLunas.Name = "btnBelumLunas";
+            btnBelumLunas.Size = new Size(73, 48);
+            btnBelumLunas.TabIndex = 20;
+            btnBelumLunas.Text = "Belum Lunas";
+            btnBelumLunas.UseVisualStyleBackColor = true;
+            btnBelumLunas.Click += btnBelumLunas_Click;
             // 
             // btnLunas
             // 
-            this.btnLunas.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLunas.Location = new System.Drawing.Point(360, 334);
-            this.btnLunas.Margin = new System.Windows.Forms.Padding(2);
-            this.btnLunas.Name = "btnLunas";
-            this.btnLunas.Size = new System.Drawing.Size(73, 48);
-            this.btnLunas.TabIndex = 19;
-            this.btnLunas.Text = "Lunas";
-            this.btnLunas.UseVisualStyleBackColor = true;
-            this.btnLunas.Click += new System.EventHandler(this.btnLunas_Click);
+            btnLunas.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnLunas.Location = new Point(360, 334);
+            btnLunas.Margin = new Padding(2);
+            btnLunas.Name = "btnLunas";
+            btnLunas.Size = new Size(73, 48);
+            btnLunas.TabIndex = 19;
+            btnLunas.Text = "Lunas";
+            btnLunas.UseVisualStyleBackColor = true;
+            btnLunas.Click += btnLunas_Click;
             // 
             // labelStatus
             // 
-            this.labelStatus.AutoSize = true;
-            this.labelStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelStatus.Location = new System.Drawing.Point(195, 315);
-            this.labelStatus.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.labelStatus.Name = "labelStatus";
-            this.labelStatus.Size = new System.Drawing.Size(54, 17);
-            this.labelStatus.TabIndex = 18;
-            this.labelStatus.Text = "Status";
+            labelStatus.AutoSize = true;
+            labelStatus.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelStatus.Location = new Point(195, 315);
+            labelStatus.Margin = new Padding(2, 0, 2, 0);
+            labelStatus.Name = "labelStatus";
+            labelStatus.Size = new Size(54, 17);
+            labelStatus.TabIndex = 18;
+            labelStatus.Text = "Status";
             // 
             // tbStatus
             // 
-            this.tbStatus.Enabled = false;
-            this.tbStatus.Location = new System.Drawing.Point(198, 334);
-            this.tbStatus.Margin = new System.Windows.Forms.Padding(2);
-            this.tbStatus.Multiline = true;
-            this.tbStatus.Name = "tbStatus";
-            this.tbStatus.Size = new System.Drawing.Size(158, 37);
-            this.tbStatus.TabIndex = 17;
+            tbStatus.Enabled = false;
+            tbStatus.Location = new Point(198, 334);
+            tbStatus.Margin = new Padding(2);
+            tbStatus.Multiline = true;
+            tbStatus.Name = "tbStatus";
+            tbStatus.Size = new Size(158, 37);
+            tbStatus.TabIndex = 17;
             // 
             // btnProsesPembayaran
             // 
-            this.btnProsesPembayaran.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnProsesPembayaran.Location = new System.Drawing.Point(197, 384);
-            this.btnProsesPembayaran.Margin = new System.Windows.Forms.Padding(2);
-            this.btnProsesPembayaran.Name = "btnProsesPembayaran";
-            this.btnProsesPembayaran.Size = new System.Drawing.Size(139, 31);
-            this.btnProsesPembayaran.TabIndex = 16;
-            this.btnProsesPembayaran.Text = "Proses Pembayaran";
-            this.btnProsesPembayaran.UseVisualStyleBackColor = true;
-            this.btnProsesPembayaran.Click += new System.EventHandler(this.btnProsesPembayaran_Click);
+            btnProsesPembayaran.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnProsesPembayaran.Location = new Point(197, 384);
+            btnProsesPembayaran.Margin = new Padding(2);
+            btnProsesPembayaran.Name = "btnProsesPembayaran";
+            btnProsesPembayaran.Size = new Size(139, 31);
+            btnProsesPembayaran.TabIndex = 16;
+            btnProsesPembayaran.Text = "Proses Pembayaran";
+            btnProsesPembayaran.UseVisualStyleBackColor = true;
+            btnProsesPembayaran.Click += btnProsesPembayaran_Click;
             // 
             // tbTotal
             // 
-            this.tbTotal.Location = new System.Drawing.Point(197, 271);
-            this.tbTotal.Margin = new System.Windows.Forms.Padding(2);
-            this.tbTotal.Multiline = true;
-            this.tbTotal.Name = "tbTotal";
-            this.tbTotal.Size = new System.Drawing.Size(158, 37);
-            this.tbTotal.TabIndex = 2;
-            this.tbTotal.TextChanged += new System.EventHandler(this.tbTotal_TextChanged);
+            tbTotal.Location = new Point(197, 271);
+            tbTotal.Margin = new Padding(2);
+            tbTotal.Multiline = true;
+            tbTotal.Name = "tbTotal";
+            tbTotal.Size = new Size(158, 37);
+            tbTotal.TabIndex = 2;
+            tbTotal.TextChanged += tbTotal_TextChanged;
             // 
             // tbUangKembalian
             // 
-            this.tbUangKembalian.Location = new System.Drawing.Point(198, 207);
-            this.tbUangKembalian.Margin = new System.Windows.Forms.Padding(2);
-            this.tbUangKembalian.Multiline = true;
-            this.tbUangKembalian.Name = "tbUangKembalian";
-            this.tbUangKembalian.Size = new System.Drawing.Size(170, 29);
-            this.tbUangKembalian.TabIndex = 14;
+            tbUangKembalian.Location = new Point(198, 207);
+            tbUangKembalian.Margin = new Padding(2);
+            tbUangKembalian.Multiline = true;
+            tbUangKembalian.Name = "tbUangKembalian";
+            tbUangKembalian.Size = new Size(170, 29);
+            tbUangKembalian.TabIndex = 14;
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.Location = new System.Drawing.Point(195, 252);
-            this.label17.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(45, 17);
-            this.label17.TabIndex = 1;
-            this.label17.Text = "Total";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
+            label17.AutoSize = true;
+            label17.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label17.Location = new Point(195, 252);
+            label17.Margin = new Padding(2, 0, 2, 0);
+            label17.Name = "label17";
+            label17.Size = new Size(45, 17);
+            label17.TabIndex = 1;
+            label17.Text = "Total";
+            label17.Click += label17_Click;
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(194, 188);
-            this.label12.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(126, 17);
-            this.label12.TabIndex = 13;
-            this.label12.Text = "Uang Kembalian";
-            this.label12.Click += new System.EventHandler(this.label12_Click);
+            label12.AutoSize = true;
+            label12.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label12.Location = new Point(194, 188);
+            label12.Margin = new Padding(2, 0, 2, 0);
+            label12.Name = "label12";
+            label12.Size = new Size(126, 17);
+            label12.TabIndex = 13;
+            label12.Text = "Uang Kembalian";
+            label12.Click += label12_Click;
             // 
             // tbUangDiterima
             // 
-            this.tbUangDiterima.Location = new System.Drawing.Point(198, 147);
-            this.tbUangDiterima.Margin = new System.Windows.Forms.Padding(2);
-            this.tbUangDiterima.Multiline = true;
-            this.tbUangDiterima.Name = "tbUangDiterima";
-            this.tbUangDiterima.Size = new System.Drawing.Size(170, 29);
-            this.tbUangDiterima.TabIndex = 12;
-            this.tbUangDiterima.TextChanged += new System.EventHandler(this.tbUangDiterima_TextChanged);
-            this.tbUangDiterima.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbUangDiterima_KeyPress);
+            tbUangDiterima.Location = new Point(198, 147);
+            tbUangDiterima.Margin = new Padding(2);
+            tbUangDiterima.Multiline = true;
+            tbUangDiterima.Name = "tbUangDiterima";
+            tbUangDiterima.Size = new Size(170, 29);
+            tbUangDiterima.TabIndex = 12;
+            tbUangDiterima.TextChanged += tbUangDiterima_TextChanged;
+            tbUangDiterima.KeyPress += tbUangDiterima_KeyPress;
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.Location = new System.Drawing.Point(194, 128);
-            this.label11.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(167, 17);
-            this.label11.TabIndex = 11;
-            this.label11.Text = "Jumlah Uang Diterima";
-            this.label11.Click += new System.EventHandler(this.label11_Click);
+            label11.AutoSize = true;
+            label11.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label11.Location = new Point(194, 128);
+            label11.Margin = new Padding(2, 0, 2, 0);
+            label11.Name = "label11";
+            label11.Size = new Size(167, 17);
+            label11.TabIndex = 11;
+            label11.Text = "Jumlah Uang Diterima";
+            label11.Click += label11_Click;
             // 
             // btnQris
             // 
-            this.btnQris.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnQris.Location = new System.Drawing.Point(267, 86);
-            this.btnQris.Margin = new System.Windows.Forms.Padding(2);
-            this.btnQris.Name = "btnQris";
-            this.btnQris.Size = new System.Drawing.Size(62, 28);
-            this.btnQris.TabIndex = 8;
-            this.btnQris.Text = "Qris";
-            this.btnQris.UseVisualStyleBackColor = true;
-            this.btnQris.Click += new System.EventHandler(this.btnQris_Click);
+            btnQris.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnQris.Location = new Point(267, 86);
+            btnQris.Margin = new Padding(2);
+            btnQris.Name = "btnQris";
+            btnQris.Size = new Size(62, 28);
+            btnQris.TabIndex = 8;
+            btnQris.Text = "Qris";
+            btnQris.UseVisualStyleBackColor = true;
+            btnQris.Click += btnQris_Click;
             // 
             // btnCash
             // 
-            this.btnCash.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCash.Location = new System.Drawing.Point(198, 86);
-            this.btnCash.Margin = new System.Windows.Forms.Padding(2);
-            this.btnCash.Name = "btnCash";
-            this.btnCash.Size = new System.Drawing.Size(62, 28);
-            this.btnCash.TabIndex = 7;
-            this.btnCash.Text = "Cash";
-            this.btnCash.UseVisualStyleBackColor = true;
+            btnCash.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnCash.Location = new Point(198, 86);
+            btnCash.Margin = new Padding(2);
+            btnCash.Name = "btnCash";
+            btnCash.Size = new Size(62, 28);
+            btnCash.TabIndex = 7;
+            btnCash.Text = "Cash";
+            btnCash.UseVisualStyleBackColor = true;
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(194, 67);
-            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(156, 17);
-            this.label9.TabIndex = 6;
-            this.label9.Text = "Metode Pembayaran";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
+            label9.AutoSize = true;
+            label9.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label9.Location = new Point(194, 67);
+            label9.Margin = new Padding(2, 0, 2, 0);
+            label9.Name = "label9";
+            label9.Size = new Size(156, 17);
+            label9.TabIndex = 6;
+            label9.Text = "Metode Pembayaran";
+            label9.Click += label9_Click;
             // 
             // tbNamaPembeli
             // 
-            this.tbNamaPembeli.Location = new System.Drawing.Point(197, 19);
-            this.tbNamaPembeli.Margin = new System.Windows.Forms.Padding(2);
-            this.tbNamaPembeli.Multiline = true;
-            this.tbNamaPembeli.Name = "tbNamaPembeli";
-            this.tbNamaPembeli.Size = new System.Drawing.Size(170, 29);
-            this.tbNamaPembeli.TabIndex = 5;
+            tbNamaPembeli.Location = new Point(197, 19);
+            tbNamaPembeli.Margin = new Padding(2);
+            tbNamaPembeli.Multiline = true;
+            tbNamaPembeli.Name = "tbNamaPembeli";
+            tbNamaPembeli.Size = new Size(170, 29);
+            tbNamaPembeli.TabIndex = 5;
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(194, 0);
-            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(111, 17);
-            this.label8.TabIndex = 4;
-            this.label8.Text = "Nama Pembeli";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
+            label8.AutoSize = true;
+            label8.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(194, 0);
+            label8.Margin = new Padding(2, 0, 2, 0);
+            label8.Name = "label8";
+            label8.Size = new Size(111, 17);
+            label8.TabIndex = 4;
+            label8.Text = "Nama Pembeli";
+            label8.Click += label8_Click;
             // 
             // panel3
             // 
-            this.panel3.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.panel3.Controls.Add(this.panelListKeranjang);
-            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(525, 447);
-            this.panel3.Margin = new System.Windows.Forms.Padding(2);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(528, 256);
-            this.panel3.TabIndex = 4;
+            panel3.BackColor = SystemColors.ButtonFace;
+            panel3.Controls.Add(panelListKeranjang);
+            panel3.Dock = DockStyle.Fill;
+            panel3.Location = new Point(525, 447);
+            panel3.Margin = new Padding(2);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(528, 256);
+            panel3.TabIndex = 4;
             // 
             // panelListKeranjang
             // 
-            this.panelListKeranjang.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelListKeranjang.AutoScroll = true;
-            this.panelListKeranjang.Location = new System.Drawing.Point(56, 21);
-            this.panelListKeranjang.Name = "panelListKeranjang";
-            this.panelListKeranjang.Size = new System.Drawing.Size(458, 220);
-            this.panelListKeranjang.TabIndex = 3;
+            panelListKeranjang.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelListKeranjang.AutoScroll = true;
+            panelListKeranjang.Location = new Point(56, 21);
+            panelListKeranjang.Name = "panelListKeranjang";
+            panelListKeranjang.Size = new Size(458, 220);
+            panelListKeranjang.TabIndex = 3;
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel1.Controls.Add(this.panelListProduk);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(525, 703);
-            this.panel1.TabIndex = 1;
+            panel1.BackColor = SystemColors.ButtonHighlight;
+            panel1.Controls.Add(panelListProduk);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Margin = new Padding(2);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(525, 703);
+            panel1.TabIndex = 1;
+            panel1.Paint += panel1_Paint;
             // 
             // panelListProduk
             // 
-            this.panelListProduk.AutoScroll = true;
-            this.panelListProduk.Location = new System.Drawing.Point(37, 181);
-            this.panelListProduk.Name = "panelListProduk";
-            this.panelListProduk.Size = new System.Drawing.Size(396, 314);
-            this.panelListProduk.TabIndex = 1;
+            panelListProduk.AutoScroll = true;
+            panelListProduk.Location = new Point(37, 181);
+            panelListProduk.Name = "panelListProduk";
+            panelListProduk.Size = new Size(396, 314);
+            panelListProduk.TabIndex = 1;
             // 
             // ViewTransaksi
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.Controls.Add(this.panel3);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.labelTransaksiJudul);
-            this.Controls.Add(this.panel1);
-            this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "ViewTransaksi";
-            this.Size = new System.Drawing.Size(1053, 703);
-            this.Load += new System.EventHandler(this.ViewTransaksi_Load);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            Controls.Add(panel3);
+            Controls.Add(panel2);
+            Controls.Add(labelTransaksiJudul);
+            Controls.Add(panel1);
+            Margin = new Padding(2);
+            Name = "ViewTransaksi";
+            Size = new Size(1053, 703);
+            Load += ViewTransaksi_Load;
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            panel3.ResumeLayout(false);
+            panel1.ResumeLayout(false);
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
