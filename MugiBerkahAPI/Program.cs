@@ -25,7 +25,7 @@ builder.Services.AddScoped<ITransaksiDetailsRepository, TransaksiDetailsReposito
 
 //builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
 builder.Services.AddScoped<IKategoriServices, KategoriService>();
-//builder.Services.AddScoped<IOperasionalServices, OperasionalService>();
+builder.Services.AddScoped<IOperasionalServices, OperasionalService>();
 builder.Services.AddScoped<IProdukServices, ProdukService>();
 builder.Services.AddScoped<ITransaksiServices, TransaksiServices>();
 

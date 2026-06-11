@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TugasBesar.Core.DTO.Request
+namespace TugasBesar.Core.DTO.Response
 {
-    public class OperasionalRequestDTO
+    public class OperasionalResponseDTO
     {
         public int id { get; set; }
         public string Nama { get; set; }

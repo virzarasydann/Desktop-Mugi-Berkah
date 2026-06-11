@@ -30,7 +30,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private Control[] _semuaKontrol;
         private Dictionary<StatusTransaksi, StatusTransaksi[]> _transisiValid;
         private Dictionary<StatusTransaksi, Control[]> _statusKeKontrolAktif;
-        
+
 
         public ViewTransaksi(ITransaksiApi transaksiApi, MasterDataCacheService cache)
         {
@@ -43,7 +43,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             InisialisasiMappingStatus();
             InisialisasiTransisi();
             ApplyLanguage();
-            
+
             TerapkanStatus(StatusTransaksi.Kosong);
             this.Load += ViewTransaksi_Load;
 
@@ -54,7 +54,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             try
             {
                 await TampilkanKatalog();
-                
+
             }
             catch (Exception ex)
             {
@@ -152,7 +152,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private async Task TampilkanKatalog()
         {
             panelListProduk.Controls.Clear();
-           
+
 
 
 
@@ -193,7 +193,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private void UpdateUIGrandTotal()
         {
             int totalDiKeranjang = _keranjang.HitungGrandTotal();
-          
+
             tbTotal.Text = "Rp " + totalDiKeranjang.ToString("N0");
             string teksUangBersih = tbUangDiterima.Text.Replace("Rp ", "").Replace(".", "");
             int uangDiterima = 0;
@@ -207,9 +207,9 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         {
             int totalKembalian = _keranjang.HitungKembalian(uangDiterima);
 
-           
 
-           
+
+
             if (totalKembalian < 0)
             {
                 string msgKurang = LocalizationService.GetString("msg_uang_kurang");
@@ -311,6 +311,11 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void labelTransaksiJudul_Click(object sender, EventArgs e)
         {
 
         }

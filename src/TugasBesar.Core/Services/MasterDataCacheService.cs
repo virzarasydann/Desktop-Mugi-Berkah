@@ -11,7 +11,8 @@ namespace TugasBesar.Core.Services
         public List<ProdukResponseDTO> DaftarProduk { get; set; } = new List<ProdukResponseDTO>();
         public List<KategoriResponseDTO> DaftarKategori { get; set; } = new List<KategoriResponseDTO>();
 
-        
+        public List<OperasionalResponseDTO> DaftarOperasional { get; set; } = new List<OperasionalResponseDTO>();
+
         public bool IsLoaded { get; set; } = false;
     }
 }

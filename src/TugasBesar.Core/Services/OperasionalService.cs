@@ -4,16 +4,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TugasBesar.Core.Models;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.DTO.Response;
+using TugasBesar.Core.Repositories.Interfaces;
+using TugasBesar.Core.Services.Interfaces;
 
 namespace TugasBesar.Core.Services
 {
-    public class OperasionalService
+    public class OperasionalService : IOperasionalServices
     {
-        private DataGeneric<OperasionalModels> dataOperasional = DataManager.Operasional;
 
-        public IReadOnlyList<OperasionalModels> GetAll()
+        private IOperasionalRepository _OperasionalRepo;
+
+        public async Task<IReadOnlyList<OperasionalModels>> GetAll()
         {
-            return dataOperasional.GetAll();
+            return await _OperasionalRepo.GetAllAsync();
+        }
+
+        public OperasionalService(IOperasionalRepository OperasionalRepo)
+        {
+            _OperasionalRepo = OperasionalRepo;
+        }
+
+        //private DataGeneric<OperasionalModels> dataOperasional = DataManager.Operasional;
+
+        public async Task<OperasionalResponseDTO> GetAllById(int id)
+        {
+            return await _OperasionalRepo.GetOperasionalByIdAsync(id);
         }
 
         //public List<OperasionalModels> GetAll()
@@ -21,55 +38,63 @@ namespace TugasBesar.Core.Services
         //    return dataOperasional.GetAll();
         //}
 
-        public void Tambah(string nama, int harga)
+        public async Task Tambah(OperasionalRequestDTO requestDTO)
         {
-            if (string.IsNullOrWhiteSpace(nama))
+            if (string.IsNullOrWhiteSpace(requestDTO.Nama))
                 throw new Exception("Nama operasional tidak boleh kosong!");
 
-            if (nama.Any(char.IsDigit))
+            if (requestDTO.Nama.Any(char.IsDigit))
                 throw new Exception("Nama tidak boleh mengandung angka!");
 
-            if (harga <= 0)
+            if (requestDTO.Harga <= 0)
                 throw new Exception("Harga harus lebih dari 0!");
 
-            dataOperasional.Add(new OperasionalModels()
+            await _OperasionalRepo.AddAsync(new OperasionalModels
             {
-                Nama = nama.Trim(),
-                Harga = harga
+                Nama = requestDTO.Nama.Trim(),
+                Harga = requestDTO.Harga
             });
+
+            
         }
 
-        public void Edit(int index, string nama, int harga)
+        public async Task Edit(int id, OperasionalRequestDTO requestDTO)
         {
-            var list = dataOperasional.GetAll();
+            //var list = _OperasionalRepo();
 
-            if (index < 0 || index >= list.Count)
-                throw new Exception("Data tidak ditemukan!");
+            //if (_OperasionalRepo.GetAllAsync.index < 0 || requestDTO.index >= list.Count)
+            //    throw new Exception("Data tidak ditemukan!");
 
-            if (string.IsNullOrWhiteSpace(nama))
+            if (string.IsNullOrWhiteSpace(requestDTO.Nama))
                 throw new Exception("Nama tidak boleh kosong!");
 
-            if (nama.Any(char.IsDigit))
+            if (requestDTO.Nama.Any(char.IsDigit))
                 throw new Exception("Nama tidak boleh mengandung angka!");
 
-            if (harga <= 0)
+            if (requestDTO.Harga <= 0)
                 throw new Exception("Harga harus lebih dari 0!");
 
-            dataOperasional.Update(index, new OperasionalModels()
-            {
-                Nama = nama.Trim(),
-                Harga = harga
-            });
+            var existing = await _OperasionalRepo.GetByIdAsync(id);
+            if (existing == null)
+                throw new Exception("Data tidak ditemukan!");
+
+            existing.Nama = requestDTO.Nama.Trim();
+            existing.Harga = requestDTO.Harga;
+
+            await _OperasionalRepo.UpdateAsync(existing);
         }
 
-        public void Hapus(int index)
+        public async Task Hapus(int id)
         {
-            var list = dataOperasional.GetAll();
-
-            if (index < 0 || index >= list.Count)
+            if (id < 0)
                 throw new Exception("Data tidak valid!");
 
-            dataOperasional.RemoveAt(index);
+            var findOperasional = await _OperasionalRepo.GetByIdAsync(id);
+            if (findOperasional == null)
+            {
+                throw new Exception("Operasional Tidak ditemukan");
+            }
+            await _OperasionalRepo.DeleteAsync(id);
         }
     }
 }
