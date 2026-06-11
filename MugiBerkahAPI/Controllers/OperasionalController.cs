@@ -1,56 +1,118 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
-using System.Threading.Tasks;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.Services.Interfaces;
+using TugasBesar.Core.Controllers.Interfaces;
 
 namespace MugiBerkahAPI.Controllers
 {
-    public class OperasionalController
+    [ApiController]
+    [Route("api/[controller]")]
+    public class OperasionalController : ControllerBase
     {
-            OperasionalService service = new OperasionalService();
+        private readonly IOperasionalServices _services;
 
-        public IReadOnlyList<OperasionalModels> GetAll()
+        public OperasionalController(IOperasionalServices services)
         {
-            return service.GetAll();
+            _services = services;
         }
 
-        public void Tambah(string nama, string hargaText)
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
             {
-            if (string.IsNullOrWhiteSpace(nama))
-                throw new Exception("Nama tidak boleh kosong!");
-
-            if (string.IsNullOrWhiteSpace(hargaText) || !int.TryParse(hargaText, out int harga))
-                throw new Exception("Harga tidak boleh kosong! atau Harga harus berupa angka!");
-
-            //if (!int.TryParse(hargaText, out int harga))
-            //        throw new Exception("Harga harus berupa angka!");
-
-
-            service.Tambah(nama, harga);
+                var data = await _services.GetAll();
+                return Ok(data);
             }
-            public void Edit(int index, string nama, string hargaText)
+            catch (Exception ex)
             {
-             if (string.IsNullOrWhiteSpace(nama))
-                    throw new Exception("Nama tidak boleh kosong!");
-
-            if (nama.Any(char.IsDigit))
-                throw new Exception("Nama tidak boleh mengandung angka!");
-
-            if (string.IsNullOrWhiteSpace(hargaText) || !int.TryParse(hargaText, out int harga))
-                throw new Exception("Harga tidak boleh kosong! atau Harga harus berupa angka!");
-
-
-            service.Edit(index, nama, harga);
+                return BadRequest(new { message = ex.Message });
             }
+        }
 
-            public void Hapus(int index)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
             {
-                service.Hapus(index);
+                var data = await _services.GetAllById(id);
+
+                if (data == null)
+                    return NotFound(new { message = "Data operasional tidak ditemukan." });
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Tambah(
+    [FromBody] OperasionalRequestDTO request)
+        {
+            try
+            {
+                await _services.Tambah(request);
+
+                return Ok(new
+                {
+                    message = "Data operasional berhasil ditambahkan."
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new
+                {
+                    message = ex.Message,
+                    detail = ex.InnerException?.Message
+                });
+            }
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(int id, [FromBody] OperasionalRequestDTO request)
+        {
+            try
+            {
+                await _services.Edit(id, request);
+
+                return Ok(new
+                {
+                    message = "Data operasional berhasil diperbarui."
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Hapus(int id)
+        {
+            try
+            {
+                await _services.Hapus(id);
+
+                return Ok(new
+                {
+                    message = "Data operasional berhasil dihapus."
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }
+}
 
-    

@@ -11,15 +11,12 @@
   <ItemGroup>
     <Compile Remove="Views\Admin\**" />
     <Compile Remove="Views\Pegawai\Kategori\**" />
-    <Compile Remove="Views\Pegawai\Operasional\**" />
     <Compile Remove="Views\Pegawai\Produk\**" />
     <EmbeddedResource Remove="Views\Admin\**" />
     <EmbeddedResource Remove="Views\Pegawai\Kategori\**" />
-    <EmbeddedResource Remove="Views\Pegawai\Operasional\**" />
     <EmbeddedResource Remove="Views\Pegawai\Produk\**" />
     <None Remove="Views\Admin\**" />
     <None Remove="Views\Pegawai\Kategori\**" />
-    <None Remove="Views\Pegawai\Operasional\**" />
     <None Remove="Views\Pegawai\Produk\**" />
   </ItemGroup>
 

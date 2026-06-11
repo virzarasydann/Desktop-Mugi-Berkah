@@ -7,24 +7,33 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using TugasBesar.Core.Models;
-using TugasBesar.Localization;
 using TugasBesar.Core.Controllers;
+using TugasBesar.Core.Controllers.Interfaces;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.DTO.Response;
+using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using TugasBesar.Localization;
+
+
+
 namespace TugasBesar.App.Views.Pegawai.Operasional
 {
 
     public partial class ViewOperasional : UserControl
     {
         Dictionary<string, Action<int>> aksiKolom;
-        DataGeneric<OperasionalModels> dataOperasional = DataManager.Operasional;
         int selectedIndex = -1;
-        OperasionalController controller = new OperasionalController();
+        private List<OperasionalResponseDTO> daftarOperasional = new();
 
-        public ViewOperasional()
+        private readonly IOperasionalApi _OperasionalApi;
+        private readonly MasterDataCacheService _cache;
+
+        public ViewOperasional(IOperasionalApi OperasionalApi, MasterDataCacheService cache)
         {
             InitializeComponent();
-
+            _OperasionalApi = OperasionalApi;
+            _cache = cache;
             dgvOperasional.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOperasional.CellClick += dgvOperasional_CellClick;
             dgvOperasional.AllowUserToAddRows = false;
@@ -35,35 +44,40 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             aksiKolom = new Dictionary<string, Action<int>>()
             {
                 {
-                    "Edit", (rowIndex) =>
-                    {
-                        var data = dataOperasional.GetAll()[rowIndex];
-                        FormEditOperasional form = new FormEditOperasional(data, rowIndex);
+                    "Edit", (rowid) =>
+            {
+                var data = daftarOperasional[rowid];
 
-                        if (form.ShowDialog() == DialogResult.OK)
-                        {
-                            TampilkanData();
-                        }
-                    }
-                },
+                    FormEditOperasional form = new FormEditOperasional(data, _OperasionalApi);
+
+                    if (form.ShowDialog() == DialogResult.OK)
                 {
-                    "Hapus", (rowIndex) =>
-                    {
-                        var confirm = MessageBox.Show(
-                            "Anda yakin ingin menghapus ?",
-                            "Konfirmasi",
-                            MessageBoxButtons.YesNo
-                        );
-
-                        if (confirm == DialogResult.Yes)
-                        {
-                            controller.Hapus(rowIndex);
-                            TampilkanData();
-                        }
+            _       = TampilkanData();
                     }
                 }
-            };
+            },
+                {
+                    "Hapus", async (rowIndex) =>
+                {
+                    var confirm = MessageBox.Show(
+                        "Anda yakin ingin menghapus ?",
+                        "Konfirmasi",
+                    MessageBoxButtons.YesNo
+                );
+
+                if (confirm == DialogResult.Yes)
+            {
+                await _OperasionalApi.Hapus(
+                    daftarOperasional[rowIndex].id);
+
+                await TampilkanData();
+                }
+            }
         }
+    };
+}
+
+
 
         public void ApplyLanguage()
         {
@@ -105,13 +119,13 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        private void TampilkanData()
+        private async Task TampilkanData()
         {
             dgvOperasional.DataSource = null;
 
-            var list = dataOperasional.GetAll();
+            daftarOperasional = (await _OperasionalApi.GetAll()).ToList();
 
-            if (list.Count == 0)
+            if (daftarOperasional.Count == 0)
             {
                 dgvOperasional.Columns.Clear();
                 return;
@@ -119,7 +133,8 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
             dgvOperasional.AutoGenerateColumns = true;
 
-            dgvOperasional.DataSource = list;
+            dgvOperasional.DataSource = daftarOperasional;
+
             TambahKolomButton();
 
             if (dgvOperasional.Columns.Contains("Nama"))
@@ -137,11 +152,23 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
         private void label1_Click(object sender, EventArgs e) { }
 
-        private void btnTambahOperasional_Click(object sender, EventArgs e) 
+        private async void btnTambahOperasional_Click(object sender, EventArgs e)
         {
             try
             {
-                controller.Tambah(tbNamaOperasional.Text, tbHargaOperasional.Text);
+                if (!int.TryParse(tbHargaOperasional.Text, out int harga))
+                {
+                    MessageBox.Show("Harga harus berupa angka.");
+                    return;
+                }
+
+                var request = new OperasionalRequestDTO
+                {
+                    Nama = tbNamaOperasional.Text,
+                    Harga = harga
+                };
+
+                await _OperasionalApi.Tambah(request);
 
                 TampilkanData();
                 ClearInput();
@@ -198,12 +225,13 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
         {
             try
             {
-                if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-                if (e.RowIndex >= dataOperasional.GetAll().Count) return;
+                if (e.RowIndex < 0 || e.ColumnIndex < 0)
+                    return;
+
+                if (e.RowIndex >= daftarOperasional.Count)
+                    return;
 
                 selectedIndex = e.RowIndex;
-
-                //var data = dataOperasional.GetAll()[e.RowIndex];
 
                 var columnName = dgvOperasional.Columns[e.ColumnIndex].Name;
 
@@ -211,30 +239,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                 {
                     aksiKolom[columnName].Invoke(e.RowIndex);
                 }
-
-                //if (dgvOperasional.Columns[e.ColumnIndex].Name == "Edit")
-                //{
-                //    FormEditOperasional form = new FormEditOperasional(data, selectedIndex);
-
-                //    if (form.ShowDialog() == DialogResult.OK)
-                //    {
-                //        TampilkanData();
-                //    }
-                //}
-                //else if (dgvOperasional.Columns[e.ColumnIndex].Name == "Hapus")
-                //{
-                //    var confirm = MessageBox.Show(
-                //        "Anda yakin ingin menghapus ?",
-                //        "Konfirmasi",
-                //        MessageBoxButtons.YesNo
-                //    );
-
-                //    if (confirm == DialogResult.Yes)
-                //    {
-                //        controller.Hapus(e.RowIndex);
-                //        TampilkanData();
-                //    }
-                //}
             }
             catch (Exception ex)
             {

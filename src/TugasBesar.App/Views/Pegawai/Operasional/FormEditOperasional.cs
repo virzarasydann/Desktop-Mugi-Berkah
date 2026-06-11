@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Controllers;
+using TugasBesar.Core.Controllers.Interfaces;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
 namespace TugasBesar.App.Views.Pegawai.Operasional
@@ -15,28 +18,33 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
     public partial class FormEditOperasional : Form
     {
 
-        OperasionalController controller = new OperasionalController();
+        private readonly IOperasionalApi _OperasionalApi;
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperasionalModels operasional { get; set; }
+        public OperasionalResponseDTO operasional { get; set; }
 
         int index;
 
-        public FormEditOperasional(OperasionalModels data, int selectedIndex)
+        public FormEditOperasional(OperasionalResponseDTO data, IOperasionalApi operasionalApi)
         {
             InitializeComponent();
 
             operasional = data;
-            this.index = selectedIndex; 
+            _OperasionalApi = operasionalApi;
 
             tbNama.Text = data.Nama;
             tbHarga.Text = data.Harga.ToString();
         }
-
-        private void btnSimpan_Click(object sender, EventArgs e)
+        private async void btnSimpan_Click(object sender, EventArgs e)
         {
             try
             {
-                controller.Edit(index, tbNama.Text, tbHarga.Text);
+                var request = new OperasionalRequestDTO
+                {
+                    Nama = tbNama.Text,
+                    Harga = int.Parse(tbHarga.Text)
+                };
+
+                await _OperasionalApi.Edit(operasional.id, request);
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();
