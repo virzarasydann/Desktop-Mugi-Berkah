@@ -34,9 +34,6 @@ namespace TugasBesar.Core.Services
 
         public async Task Tambah(string nama)
         {
-            if (string.IsNullOrWhiteSpace(nama))
-                throw new Exception("Nama kategori tidak boleh kosong!");
-
             var newName = nama.Trim();
             var list = await _repository.GetAllAsync();
 
@@ -48,9 +45,6 @@ namespace TugasBesar.Core.Services
 
         public async Task Edit(int id, string nama)
         {
-            if (string.IsNullOrWhiteSpace(nama))
-                throw new Exception("nama kategori tidak boleh kosong!");
-
             var newName = nama.Trim();
             var existing = await _repository.GetByIdAsync(id);
 

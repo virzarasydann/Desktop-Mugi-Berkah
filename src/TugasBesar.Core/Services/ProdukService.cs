@@ -37,9 +37,6 @@ namespace TugasBesar.Core.Services
 
         public async Task Tambah(ProdukRequestDTO request)
         {
-            if (request.harga < 0)
-                throw new Exception("Harga harus lebih dari atau sama dengan 0!");
-
             var list =  await GetAll();
             var newName = request.nama.Trim();
             var newKategori = request.kategori_id;
@@ -61,9 +58,6 @@ namespace TugasBesar.Core.Services
            
             if (id < 0)
                 throw new Exception("Data tidak ditemukan!");
-
-            if (request.harga < 0)
-                throw new Exception("Harga harus lebih dari atau sama dengan 0!");
 
             var newName = request.nama.Trim();
             var newKategori = request.kategori_id;
