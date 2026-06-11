@@ -239,6 +239,7 @@
             btnCash.TabIndex = 7;
             btnCash.Text = "Cash";
             btnCash.UseVisualStyleBackColor = true;
+            btnCash.Click += btnCash_Click;
             // 
             // label9
             // 

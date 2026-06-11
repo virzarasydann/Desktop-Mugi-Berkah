@@ -30,6 +30,8 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private Control[] _semuaKontrol;
         private Dictionary<StatusTransaksi, StatusTransaksi[]> _transisiValid;
         private Dictionary<StatusTransaksi, Control[]> _statusKeKontrolAktif;
+        private MetodePembayaran _metodePembayaran;
+        private int _uangDiterima;
 
 
         public ViewTransaksi(ITransaksiApi transaksiApi, MasterDataCacheService cache)
@@ -200,6 +202,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             if (!string.IsNullOrWhiteSpace(teksUangBersih))
                 int.TryParse(teksUangBersih, out uangDiterima);
 
+            _uangDiterima = uangDiterima;
             HitungDanTampilkanKembalian(uangDiterima);
         }
 
@@ -208,7 +211,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             int totalKembalian = _keranjang.HitungKembalian(uangDiterima);
 
 
-
+            
 
             if (totalKembalian < 0)
             {
@@ -256,7 +259,35 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
         // Event handler lainnya tetap sama
 
-        private void btnProsesPembayaran_Click(object sender, EventArgs e) { UbahStatus(StatusTransaksi.Pembayaran); }
+        private async void btnProsesPembayaran_Click(object sender, EventArgs e)
+        {
+            
+
+            UbahStatus(StatusTransaksi.Pembayaran);
+            
+            var request = new TransaksiRequestDTO
+            {
+                NamaPelanggan = tbNamaPembeli.Text,
+                MetodePembayaran = _metodePembayaran,
+                UangDiterima = _uangDiterima,
+                Keranjang = _keranjang.GetKeranjang()
+
+            };
+           
+            var json = System.Text.Json.JsonSerializer.Serialize(request, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
+            Debug.WriteLine(json);
+
+            try
+            {
+                await _transaksiApi.Tambah(request);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
+
+
+        }
         private void tbTotal_TextChanged(object sender, EventArgs e) { UpdateUIGrandTotal(); }
         private void tbUangDiterima_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -307,7 +338,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
         private void btnQris_Click(object sender, EventArgs e)
         {
-
+            _metodePembayaran = MetodePembayaran.qris;
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -315,9 +346,9 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
         }
 
-        private void labelTransaksiJudul_Click(object sender, EventArgs e)
+        private void btnCash_Click(object sender, EventArgs e)
         {
-
+            _metodePembayaran = MetodePembayaran.cash;
         }
     }
 }

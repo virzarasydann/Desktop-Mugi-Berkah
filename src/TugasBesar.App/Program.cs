@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Refit;
 using System;
+using System.Text.Json;
 using System.Windows.Forms;
 using TugasBesar.App.Views;
 using TugasBesar.App.Views.Pegawai;
@@ -24,17 +25,38 @@ namespace TugasBesar.App
 
             var services = new ServiceCollection();
 
-           
+
+            var jsonOptions = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                WriteIndented = false
+            };
+            var refitSettings = new RefitSettings
+            {
+                ContentSerializer = new SystemTextJsonContentSerializer(jsonOptions)
+            };
+
             var apiBaseUrl = new Uri("https://localhost:7008");
 
             services.AddSingleton<MasterDataCacheService>();
-            services.AddRefitClient<IAkunPegawaiApi>().ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
-            services.AddRefitClient<IKategoriApi>().ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
-            services.AddRefitClient<IProdukApi>().ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
-            services.AddRefitClient<ITransaksiApi>().ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
-            services.AddRefitClient<IOperasionalApi>().ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
 
            
+            services.AddRefitClient<IAkunPegawaiApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+            services.AddRefitClient<IKategoriApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+            services.AddRefitClient<IProdukApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+            services.AddRefitClient<ITransaksiApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+            services.AddRefitClient<IOperasionalApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+
             services.AddTransient<LoginForm>();
             services.AddTransient<BaseFormPegawai>();
 
