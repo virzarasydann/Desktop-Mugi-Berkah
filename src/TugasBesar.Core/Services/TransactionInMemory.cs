@@ -52,5 +52,13 @@ namespace TugasBesar.Core.Services
             int grandTotal = HitungGrandTotal();
             return uangDiterima - grandTotal;
         }
+
+
+        public List<KeranjangItem> GetKeranjang()
+        {
+            
+
+            return _keranjang;
+        }
     }
 }

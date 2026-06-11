@@ -11,6 +11,8 @@ namespace TugasBesar.Core.DTO.Request
         public string NamaProduk { get; set; }
         public int HargaSatuan { get; set; }
         public int Jumlah { get; set; }
+
+        [System.Text.Json.Serialization.JsonIgnore]
         public int Subtotal => HargaSatuan * Jumlah;
     }
 }

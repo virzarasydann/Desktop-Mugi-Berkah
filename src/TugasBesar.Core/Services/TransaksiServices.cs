@@ -42,30 +42,38 @@ namespace TugasBesar.Core.Services
 
         public async Task InsertTransactionWithRelation(TransaksiRequestDTO item)
         {
-            int totalHarga = item.Keranjang.Sum(k => k.Subtotal);
-
-            var transaksi = new TransaksiModels
+            try
             {
-                nama = item.NamaPelanggan,
-                total_harga = totalHarga,
-                metode_pembayaran = item.MetodePembayaran
+                int totalHarga = item.Keranjang.Sum(k => k.Subtotal);
 
-            };
-            await  _TransaksiRepo.AddAsync(transaksi);
-
-            foreach (var details in item.Keranjang)
-            {
-                var transaksiDetails = new TransaksiDetailsModels
+                var transaksi = new TransaksiModels
                 {
-                    transaksi_id = transaksi.id,
-                    produk_nama = details.NamaProduk,
-                    quantity = details.Jumlah,
-                    harga = details.HargaSatuan
+                    nama = item.NamaPelanggan,
+                    total_harga = totalHarga,
+                    metode_pembayaran = item.MetodePembayaran
 
                 };
+                await _TransaksiRepo.AddAsync(transaksi);
 
-                await _TransaksiDetailsRepo.AddAsync(transaksiDetails);
+                foreach (var details in item.Keranjang)
+                {
+                    var transaksiDetails = new TransaksiDetailsModels
+                    {
+                        transaksi_id = transaksi.id,
+                        produk_nama = details.NamaProduk,
+                        quantity = details.Jumlah,
+                        harga = details.HargaSatuan
+
+                    };
+
+                    await _TransaksiDetailsRepo.AddAsync(transaksiDetails);
+                }
             }
+            catch (Exception ex)
+            {
+                throw;
+            }
+           
         }
 
 
