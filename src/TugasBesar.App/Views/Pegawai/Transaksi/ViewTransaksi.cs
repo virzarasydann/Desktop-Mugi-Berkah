@@ -211,7 +211,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             int totalKembalian = _keranjang.HitungKembalian(uangDiterima);
 
 
-            
+
 
             if (totalKembalian < 0)
             {
@@ -261,10 +261,10 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
         private async void btnProsesPembayaran_Click(object sender, EventArgs e)
         {
-            
+
 
             UbahStatus(StatusTransaksi.Pembayaran);
-            
+
             var request = new TransaksiRequestDTO
             {
                 NamaPelanggan = tbNamaPembeli.Text,
@@ -273,7 +273,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 Keranjang = _keranjang.GetKeranjang()
 
             };
-           
+
             var json = System.Text.Json.JsonSerializer.Serialize(request, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
             Debug.WriteLine(json);
 
@@ -349,6 +349,11 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private void btnCash_Click(object sender, EventArgs e)
         {
             _metodePembayaran = MetodePembayaran.cash;
+        }
+
+        private void labelTransaksiJudul_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
