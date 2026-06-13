@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -54,28 +54,11 @@ namespace TugasBesar.App.Views
             ApplyLanguage();
         }
 
-        //private void button1_Click(object sender, EventArgs e)
-        //{
-        //    String username = textBoxUsername.Text;
-        //    String password = textBoxPassword.Text;
-
-        //    BaseFormPegawai formPegawai = new BaseFormPegawai();
-        //    formPegawai.FormClosed += (s, args) => this.Close();
-
-        //    this.Hide();
-        //    formPegawai.Show();
-        //}
 
         private void button1_Click(object sender, EventArgs e)
         {
             String username = textBoxUsername.Text;
             String password = textBoxPassword.Text;
-
-            //BaseFormPegawai formPegawai = new BaseFormPegawai();
-            //formPegawai.FormClosed += (s, args) => this.Close();
-
-            //this.Hide();
-            //formPegawai.Show();
 
             var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
             formPegawai.FormClosed += (s, args) => this.Close();
@@ -84,34 +67,6 @@ namespace TugasBesar.App.Views
             formPegawai.Show();
         }
 
-        private void LoginForm_Load(object sender, EventArgs e)
-        {
-        }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void textBoxPassword_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxUsername_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
