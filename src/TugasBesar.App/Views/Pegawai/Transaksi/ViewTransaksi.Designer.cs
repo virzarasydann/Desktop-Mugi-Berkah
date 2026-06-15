@@ -1,4 +1,4 @@
-﻿namespace TugasBesar.App.Views.Pegawai.Transaksi
+namespace TugasBesar.App.Views.Pegawai.Transaksi
 {
     partial class ViewTransaksi
     {
@@ -92,7 +92,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(660, 559);
             panel2.TabIndex = 3;
-            panel2.Paint += panel2_Paint;
             // 
             // btnBelumLunas
             // 
@@ -180,7 +179,6 @@
             label17.Size = new Size(51, 20);
             label17.TabIndex = 1;
             label17.Text = "Total";
-            label17.Click += label17_Click;
             // 
             // label12
             // 
@@ -192,7 +190,6 @@
             label12.Size = new Size(145, 20);
             label12.TabIndex = 13;
             label12.Text = "Uang Kembalian";
-            label12.Click += label12_Click;
             // 
             // tbUangDiterima
             // 
@@ -215,7 +212,6 @@
             label11.Size = new Size(196, 20);
             label11.TabIndex = 11;
             label11.Text = "Jumlah Uang Diterima";
-            label11.Click += label11_Click;
             // 
             // btnQris
             // 
@@ -251,7 +247,6 @@
             label9.Size = new Size(179, 20);
             label9.TabIndex = 6;
             label9.Text = "Metode Pembayaran";
-            label9.Click += label9_Click;
             // 
             // tbNamaPembeli
             // 
@@ -272,7 +267,6 @@
             label8.Size = new Size(130, 20);
             label8.TabIndex = 4;
             label8.Text = "Nama Pembeli";
-            label8.Click += label8_Click;
             // 
             // panel3
             // 
@@ -290,7 +284,7 @@
             panelListKeranjang.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelListKeranjang.AutoScroll = true;
             panelListKeranjang.Location = new Point(70, 26);
-            panelListKeranjang.Margin = new Padding(4, 4, 4, 4);
+            panelListKeranjang.Margin = new Padding(4);
             panelListKeranjang.Name = "panelListKeranjang";
             panelListKeranjang.Size = new Size(572, 275);
             panelListKeranjang.TabIndex = 3;
@@ -305,13 +299,12 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(656, 879);
             panel1.TabIndex = 1;
-            panel1.Paint += panel1_Paint;
             // 
             // panelListProduk
             // 
             panelListProduk.AutoScroll = true;
             panelListProduk.Location = new Point(46, 226);
-            panelListProduk.Margin = new Padding(4, 4, 4, 4);
+            panelListProduk.Margin = new Padding(4);
             panelListProduk.Name = "panelListProduk";
             panelListProduk.Size = new Size(495, 392);
             panelListProduk.TabIndex = 1;

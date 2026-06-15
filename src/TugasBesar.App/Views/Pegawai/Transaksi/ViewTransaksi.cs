@@ -211,7 +211,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             int totalKembalian = _keranjang.HitungKembalian(uangDiterima);
 
 
-            
+
 
             if (totalKembalian < 0)
             {
@@ -261,10 +261,10 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
         private async void btnProsesPembayaran_Click(object sender, EventArgs e)
         {
-            
+
 
             UbahStatus(StatusTransaksi.Pembayaran);
-            
+
             var request = new TransaksiRequestDTO
             {
                 NamaPelanggan = tbNamaPembeli.Text,
@@ -273,7 +273,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 Keranjang = _keranjang.GetKeranjang()
 
             };
-           
+
             var json = System.Text.Json.JsonSerializer.Serialize(request, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
             Debug.WriteLine(json);
 
@@ -304,51 +304,22 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             UbahStatus(StatusTransaksi.SiapProses);
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e) { }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnQris_Click(object sender, EventArgs e)
         {
             _metodePembayaran = MetodePembayaran.qris;
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void btnCash_Click(object sender, EventArgs e)
         {
             _metodePembayaran = MetodePembayaran.cash;
+        }
+
+        private void labelTransaksiJudul_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

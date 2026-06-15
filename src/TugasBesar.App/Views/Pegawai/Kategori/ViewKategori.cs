@@ -74,9 +74,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void button2_Click(object sender, EventArgs e) { }
-
-        private void tbNamaKategori_TextChanged(object sender, EventArgs e) { }
 
         private void btnTambahKategori_Click(object sender, EventArgs e)
         {
@@ -137,7 +134,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             TampilkanData();
         }
 
-        private void dgvKategori_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void TampilkanData()
         {
@@ -230,10 +226,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace TugasBesar.App.Views.Pegawai.Kategori
+namespace TugasBesar.App.Views.Pegawai.Kategori
 {
     partial class ViewKategori
     {
@@ -63,7 +63,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1123, 692);
             this.panel1.TabIndex = 3;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // dgvKategori
             // 
@@ -75,7 +74,6 @@
             this.dgvKategori.RowTemplate.Height = 24;
             this.dgvKategori.Size = new System.Drawing.Size(563, 192);
             this.dgvKategori.TabIndex = 9;
-            this.dgvKategori.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKategori_CellContentClick);
             // 
             // btnSetText
             // 
@@ -97,7 +95,6 @@
             this.tbNamaKategori.Name = "tbNamaKategori";
             this.tbNamaKategori.Size = new System.Drawing.Size(180, 34);
             this.tbNamaKategori.TabIndex = 7;
-            this.tbNamaKategori.TextChanged += new System.EventHandler(this.tbNamaKategori_TextChanged);
             // 
             // label2
             // 
@@ -109,7 +106,6 @@
             this.label2.Size = new System.Drawing.Size(115, 17);
             this.label2.TabIndex = 5;
             this.label2.Text = "Nama Kategori";
-            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // btnTambahKategori
             // 

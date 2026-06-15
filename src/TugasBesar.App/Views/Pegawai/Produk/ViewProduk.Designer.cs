@@ -1,4 +1,4 @@
-﻿namespace TugasBesar.App.Views.Pegawai.Produk
+namespace TugasBesar.App.Views.Pegawai.Produk
 {
     partial class ViewProduk
     {
@@ -71,7 +71,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1123, 692);
             this.panel1.TabIndex = 5;
-            this.panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // dgvProduk
             // 
@@ -88,7 +87,6 @@
             this.dgvProduk.RowTemplate.Height = 24;
             this.dgvProduk.Size = new System.Drawing.Size(649, 270);
             this.dgvProduk.TabIndex = 10;
-            this.dgvProduk.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvProduk_CellContentClick);
             // 
             // btnSetTex
             // 
@@ -110,7 +108,6 @@
             this.tbHargaProduk.Name = "tbHargaProduk";
             this.tbHargaProduk.Size = new System.Drawing.Size(212, 37);
             this.tbHargaProduk.TabIndex = 8;
-            this.tbHargaProduk.TextChanged += new System.EventHandler(this.tbHargaProduk_TextChanged);
             // 
             // cmbKategoriProduk
             // 
@@ -121,7 +118,6 @@
             this.cmbKategoriProduk.Name = "cmbKategoriProduk";
             this.cmbKategoriProduk.Size = new System.Drawing.Size(123, 21);
             this.cmbKategoriProduk.TabIndex = 7;
-            this.cmbKategoriProduk.SelectedIndexChanged += new System.EventHandler(this.cmbKategoriProduk_SelectedIndexChanged);
             // 
             // tbNamaProduk
             // 
@@ -131,7 +127,6 @@
             this.tbNamaProduk.Name = "tbNamaProduk";
             this.tbNamaProduk.Size = new System.Drawing.Size(212, 35);
             this.tbNamaProduk.TabIndex = 6;
-            this.tbNamaProduk.TextChanged += new System.EventHandler(this.tbNamaProduk_TextChanged);
             // 
             // label4
             // 
