@@ -19,7 +19,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public AkunPegawaiModels AkunEdit { get; set; }
 
-        public FormEditAkunPegawai(AkunPegawaiModels data = null)
+        public FormEditAkunPegawai(AkunPegawaiModels? data = null)
         {
             InitializeComponent();
             label2.UseSystemPasswordChar = true;
@@ -32,11 +32,11 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 AkunEdit = new AkunPegawaiModels
                 {
                     id = data.id,
-                    name = data.name,
+                    nama = data.nama,
                     password = data.password
                 };
 
-                label1.Text = data.name;
+                label1.Text = data.nama;
                 label2.Text = data.password;
             }
             else
@@ -55,7 +55,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             btnSimpan.Text = LocalizationService.GetString("btn_simpan");
         }
 
-        private void btnSimpan_Click(object sender, EventArgs e)
+        private void btnSimpan_Click(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(label1.Text) || string.IsNullOrWhiteSpace(label2.Text))
             {
@@ -63,16 +63,16 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 return;
             }
 
-            AkunEdit.name = label1.Text;
+            AkunEdit.nama = label1.Text;
             AkunEdit.password = label2.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void FormEditAkunPegawai_Load(object sender, EventArgs e) { }
-        private void btnSimpan_Click_1(object sender, EventArgs e) { }
-        private void tbUsernameEdit_TextChanged(object sender, EventArgs e) { }
-        private void tbPasswordEdit_TextChanged(object sender, EventArgs e) { }
+        private void FormEditAkunPegawai_Load(object? sender, EventArgs e) { }
+        private void btnSimpan_Click_1(object? sender, EventArgs e) { }
+        private void tbUsernameEdit_TextChanged(object? sender, EventArgs e) { }
+        private void tbPasswordEdit_TextChanged(object? sender, EventArgs e) { }
     }
 }

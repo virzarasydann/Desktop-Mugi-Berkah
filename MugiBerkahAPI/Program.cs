@@ -5,6 +5,7 @@ using TugasBesar.Core.Services;
 using TugasBesar.Core.Services.Interfaces;
 using TugasBesar.Core.Repositories.Interfaces;
 using MysqlDatabaseConnectionLibrary.Repositories; 
+using TugasBesar.Core.Factories;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -22,6 +23,8 @@ builder.Services.AddScoped<IOperasionalRepository, OperasionalRepository>();
 builder.Services.AddScoped<IProdukRepository, ProdukRepository>();
 builder.Services.AddScoped<ITransaksiRepository, TransaksiRepository>();
 builder.Services.AddScoped<ITransaksiDetailsRepository, TransaksiDetailsRepository>();
+
+builder.Services.AddSingleton<IAkunPegawaiFactory, AkunPegawaiFactory>();
 
 builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
 builder.Services.AddScoped<IKategoriServices, KategoriService>();
