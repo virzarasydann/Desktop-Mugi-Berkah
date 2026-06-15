@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -31,15 +31,13 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             {
                 AkunEdit = new AkunPegawaiModels
                 {
-                    Id = data.Id,
-                    Username = data.Username,
-                    Password = data.Password,
-                    Role = data.Role,
-                    NamaLengkap = data.NamaLengkap
+                    id = data.id,
+                    name = data.name,
+                    password = data.password
                 };
 
-                label1.Text = data.Username;
-                label2.Text = data.Password;
+                label1.Text = data.name;
+                label2.Text = data.password;
             }
             else
             {
@@ -51,7 +49,6 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         {
             this.Text = LocalizationService.GetString("title_edit_akun");
 
-            // PERBAIKAN: Memanggil nama Label (label1, label2), bukan TextBox.
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
@@ -66,9 +63,8 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 return;
             }
 
-            AkunEdit.Username = label1.Text;
-            AkunEdit.Password = label2.Text;
-            AkunEdit.NamaLengkap = label1.Text;
+            AkunEdit.name = label1.Text;
+            AkunEdit.password = label2.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

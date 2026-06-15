@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata;
 using TugasBesar.Core.Models;
 
@@ -12,7 +12,7 @@ namespace MysqlDatabaseConnectionLibrary
         //public DbSet<ProdukModels> Produk { get; set; }
         //public DbSet<KategoriModels> Kategori { get; set; }
 
-        //public DbSet<AkunPegawaiModels> AkunPegawai { get; set; }
+        public DbSet<AkunPegawaiModels> AkunPegawai { get; set; }
         //public DbSet<OperasionalModels> Operasional { get; set; }
 
 
