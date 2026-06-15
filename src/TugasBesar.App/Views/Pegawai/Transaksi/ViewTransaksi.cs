@@ -1,4 +1,4 @@
-﻿using ResponseMessageLibrary;
+using ResponseMessageLibrary;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -304,47 +304,13 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             UbahStatus(StatusTransaksi.SiapProses);
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e) { }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label12_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void btnQris_Click(object sender, EventArgs e)
         {
             _metodePembayaran = MetodePembayaran.qris;
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
 
         private void btnCash_Click(object sender, EventArgs e)
         {

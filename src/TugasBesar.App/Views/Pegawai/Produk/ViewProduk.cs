@@ -82,9 +82,6 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             TampilkanData();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-        }
 
         private void btnTambahProduk_Click(object sender, EventArgs e)
         {
@@ -161,10 +158,6 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             tbHargaProduk.Text = "";
         }
 
-        private void tbNamaProduk_TextChanged(object sender, EventArgs e) { }
-        private void cmbKategoriProduk_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void tbHargaProduk_TextChanged(object sender, EventArgs e) { }
-        private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -218,9 +211,5 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
-        private void label2_Click(object sender, EventArgs e) { }
-        private void label3_Click(object sender, EventArgs e) { }
-        private void label4_Click(object sender, EventArgs e) { }
     }
 }
