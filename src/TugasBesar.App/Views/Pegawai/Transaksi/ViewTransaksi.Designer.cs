@@ -290,7 +290,7 @@
             panelListKeranjang.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelListKeranjang.AutoScroll = true;
             panelListKeranjang.Location = new Point(70, 26);
-            panelListKeranjang.Margin = new Padding(4, 4, 4, 4);
+            panelListKeranjang.Margin = new Padding(4);
             panelListKeranjang.Name = "panelListKeranjang";
             panelListKeranjang.Size = new Size(572, 275);
             panelListKeranjang.TabIndex = 3;
@@ -311,7 +311,7 @@
             // 
             panelListProduk.AutoScroll = true;
             panelListProduk.Location = new Point(46, 226);
-            panelListProduk.Margin = new Padding(4, 4, 4, 4);
+            panelListProduk.Margin = new Padding(4);
             panelListProduk.Name = "panelListProduk";
             panelListProduk.Size = new Size(495, 392);
             panelListProduk.TabIndex = 1;
