@@ -13,27 +13,31 @@ using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+
 namespace TugasBesar.App.Views.Pegawai.Operasional
 {
     public partial class FormEditOperasional : Form
     {
-
         private readonly IOperasionalApi _OperasionalApi;
+        private readonly MasterDataCacheService _cache; 
+
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public OperasionalResponseDTO operasional { get; set; }
 
         int index;
 
-        public FormEditOperasional(OperasionalResponseDTO data, IOperasionalApi operasionalApi)
+        public FormEditOperasional(OperasionalResponseDTO data, IOperasionalApi operasionalApi, MasterDataCacheService cache)
         {
             InitializeComponent();
 
             operasional = data;
             _OperasionalApi = operasionalApi;
+            _cache = cache; 
 
             tbNama.Text = data.Nama;
             tbHarga.Text = data.Harga.ToString();
         }
+
         private async void btnSimpan_Click(object sender, EventArgs e)
         {
             try
@@ -45,6 +49,9 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                 };
 
                 await _OperasionalApi.Edit(operasional.id, request);
+
+                var dataBaru = (await _OperasionalApi.GetAll()).ToList();
+                _cache.DaftarOperasional = dataBaru;
 
                 this.DialogResult = DialogResult.OK;
                 this.Close();

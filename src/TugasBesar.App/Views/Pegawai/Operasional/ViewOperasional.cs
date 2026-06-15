@@ -13,18 +13,16 @@ using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using TugasBesar.Core.Services.Interfaces;
 using TugasBesar.Localization;
-
-
 
 namespace TugasBesar.App.Views.Pegawai.Operasional
 {
-
-    public partial class ViewOperasional : UserControl
+    public partial class ViewOperasional : UserControl, IOperasionalObserver
     {
         Dictionary<string, Action<int>> aksiKolom;
         int selectedIndex = -1;
-        private List<OperasionalResponseDTO> daftarOperasional = new();
+        private List<OperasionalResponseDTO> daftarOperasional = new List<OperasionalResponseDTO>();
 
         private readonly IOperasionalApi _OperasionalApi;
         private readonly MasterDataCacheService _cache;
@@ -34,9 +32,14 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             InitializeComponent();
             _OperasionalApi = OperasionalApi;
             _cache = cache;
+
             dgvOperasional.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvOperasional.CellClick += dgvOperasional_CellClick;
             dgvOperasional.AllowUserToAddRows = false;
+
+            _cache.Subscribe(this);
+
+            this.Disposed += (s, e) => _cache.Unsubscribe(this);
 
             ApplyLanguage();
             TampilkanData();
@@ -45,38 +48,45 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             {
                 {
                     "Edit", (rowid) =>
-            {
-                var data = daftarOperasional[rowid];
+                    {
+                        var data = daftarOperasional[rowid];
 
-                    FormEditOperasional form = new FormEditOperasional(data, _OperasionalApi);
+                        FormEditOperasional form = new FormEditOperasional(data, _OperasionalApi, _cache);
 
-                    if (form.ShowDialog() == DialogResult.OK)
-                {
-            _       = TampilkanData();
+                        form.ShowDialog();
                     }
-                }
-            },
+                },
                 {
                     "Hapus", async (rowIndex) =>
-                {
-                    var confirm = MessageBox.Show(
-                        "Anda yakin ingin menghapus ?",
-                        "Konfirmasi",
-                    MessageBoxButtons.YesNo
-                );
+                    {
+                        var confirm = MessageBox.Show(
+                            "Anda yakin ingin menghapus ?",
+                            "Konfirmasi",
+                            MessageBoxButtons.YesNo
+                        );
 
-                if (confirm == DialogResult.Yes)
-            {
-                await _OperasionalApi.Hapus(
-                    daftarOperasional[rowIndex].id);
+                        if (confirm == DialogResult.Yes)
+                        {
+                            await _OperasionalApi.Hapus(daftarOperasional[rowIndex].id);
 
-                await TampilkanData();
+                            await RefreshCache();
+                        }
+                    }
                 }
-            }
+            };
         }
-    };
-}
 
+        public void OnOperasionalChanged()
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(OnOperasionalChanged));
+                return;
+            }
+
+            daftarOperasional = _cache.DaftarOperasional;
+            RefreshGrid();
+        }
 
 
         public void ApplyLanguage()
@@ -85,7 +95,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             label3.Text = LocalizationService.GetString("lbl_biaya_operasional");
 
             btnTambahOperasional.Text = LocalizationService.GetString("btn_tambah");
-            //btnSetText.Text = LocalizationService.GetString("btn_refresh");
 
             if (dgvOperasional.Columns.Contains("Edit"))
                 dgvOperasional.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_edit");
@@ -103,7 +112,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                 btnEdit.HeaderText = LocalizationService.GetString("btn_edit");
                 btnEdit.Text = LocalizationService.GetString("btn_edit");
                 btnEdit.UseColumnTextForButtonValue = true;
-
                 dgvOperasional.Columns.Add(btnEdit);
             }
 
@@ -114,16 +122,23 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                 btnHapus.HeaderText = LocalizationService.GetString("btn_hapus");
                 btnHapus.Text = LocalizationService.GetString("btn_hapus");
                 btnHapus.UseColumnTextForButtonValue = true;
-
                 dgvOperasional.Columns.Add(btnHapus);
             }
         }
-
         private async Task TampilkanData()
         {
-            dgvOperasional.DataSource = null;
+            await RefreshCache();
+        }
 
-            daftarOperasional = (await _OperasionalApi.GetAll()).ToList();
+        private async Task RefreshCache()
+        {
+            var dataBaru = (await _OperasionalApi.GetAll()).ToList();
+            _cache.DaftarOperasional = dataBaru;
+        }
+
+        private void RefreshGrid()
+        {
+            dgvOperasional.DataSource = null;
 
             if (daftarOperasional.Count == 0)
             {
@@ -132,23 +147,26 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
 
             dgvOperasional.AutoGenerateColumns = true;
-
             dgvOperasional.DataSource = daftarOperasional;
 
             TambahKolomButton();
 
+            if (dgvOperasional.Columns.Contains("id"))
+                dgvOperasional.Columns["id"].DisplayIndex = 0;
+
             if (dgvOperasional.Columns.Contains("Nama"))
-                dgvOperasional.Columns["Nama"].DisplayIndex = 0;
+                dgvOperasional.Columns["Nama"].DisplayIndex = 1;
 
             if (dgvOperasional.Columns.Contains("Harga"))
-                dgvOperasional.Columns["Harga"].DisplayIndex = 1;
+                dgvOperasional.Columns["Harga"].DisplayIndex = 2;
 
             if (dgvOperasional.Columns.Contains("Edit"))
-                dgvOperasional.Columns["Edit"].DisplayIndex = 2;
+                dgvOperasional.Columns["Edit"].DisplayIndex = 3;
 
             if (dgvOperasional.Columns.Contains("Hapus"))
-                dgvOperasional.Columns["Hapus"].DisplayIndex = 3;
+                dgvOperasional.Columns["Hapus"].DisplayIndex = 4;
         }
+
 
         private void label1_Click(object sender, EventArgs e) { }
 
@@ -170,7 +188,8 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
                 await _OperasionalApi.Tambah(request);
 
-                TampilkanData();
+                await RefreshCache();
+
                 ClearInput();
             }
             catch (Exception ex)
@@ -179,47 +198,22 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        //private void btnEditOperasional_Click(object sender, EventArgs e) 
-        //{
-        //    try
-        //    {
-        //        controller.Edit(selectedIndex, tbNamaOperasional.Text, tbHargaOperasional.Text);
-
-        //        TampilkanData();
-        //        ClearInput();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}
-
-
         private void label2_Click(object sender, EventArgs e) { }
-
         private void tbNamaOperasional_TextChanged(object sender, EventArgs e) { }
-
         private void label3_Click(object sender, EventArgs e) { }
-
         private void tbHargaOperasional_TextChanged(object sender, EventArgs e) { }
-
         private void label5_Click(object sender, EventArgs e) { }
-
         private void label4_Click(object sender, EventArgs e) { }
-
         private void label6_Click(object sender, EventArgs e) { }
 
-        private void btnSetText_Click(object sender, EventArgs e) 
+        private void btnSetText_Click(object sender, EventArgs e)
         {
             TampilkanData();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e) { }
 
-        private void dgvOperasional_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
+        private void dgvOperasional_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
         private void dgvOperasional_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -252,6 +246,5 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             tbHargaOperasional.Text = "";
             selectedIndex = -1;
         }
-
     }
 }
