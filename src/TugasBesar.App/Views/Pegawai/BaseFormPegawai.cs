@@ -1,4 +1,4 @@
-﻿//using TugasBesar.App.Views.Admin.AkunPegawai;
+using TugasBesar.App.Views.Admin.AkunPegawai;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Services;
 //using TugasBesar.App.Views.Pegawai.Produk;
 //using TugasBesar.App.Views.Pegawai.Kategori;
-using TugasBesar.App.Views.Pegawai.Operasional;
+//using TugasBesar.App.Views.Pegawai.Operasional;
 using TugasBesar.Localization;
 
 namespace TugasBesar.App.Views.Pegawai
@@ -105,7 +105,7 @@ namespace TugasBesar.App.Views.Pegawai
         private void buttonOperasional_Click(object sender, EventArgs e)
         {
             //PindahLayar(new ViewOperasional());
-            PindahLayar(_serviceProvider.GetRequiredService<ViewOperasional>());
+            //PindahLayar(_serviceProvider.GetRequiredService<ViewOperasional>());
         }
 
         private void panelContent_Paint(object sender, PaintEventArgs e) { }
@@ -139,8 +139,8 @@ namespace TugasBesar.App.Views.Pegawai
                 //    tampilanKategori.ApplyLanguage();
                 //else if (layarAktif is ViewOperasional tampilanOperasional)
                 //    tampilanOperasional.ApplyLanguage();
-                //else if (layarAktif is ViewTambahAkunPegawai tampilanAdmin)
-                //    tampilanAdmin.ApplyLanguage(); // <-- Ini yang akan menerjemahkan halaman Admin
+                else if (layarAktif is ViewTambahAkunPegawai tampilanAdmin)
+                    tampilanAdmin.ApplyLanguage(); // <-- Ini yang akan menerjemahkan halaman Admin
             }
         }
     }
