@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,18 +17,29 @@ namespace TugasBesar.App.Views.Pegawai.Produk
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ProdukModels produk { get; set; }
 
-        public FormEditProduk(ProdukModels data)
+        public FormEditProduk(ProdukModels data, IEnumerable<string> categories = null)
         {
             InitializeComponent();
             produk = data;
 
             ApplyLanguage();
 
-            LoadKategori();
+            if (categories != null)
+            {
+                cmbKategori.Items.Clear();
+                foreach (var item in categories)
+                {
+                    cmbKategori.Items.Add(item);
+                }
+            }
+            else
+            {
+                LoadKategori();
+            }
 
-            tbNama.Text = data.Nama;
-            cmbKategori.Text = data.Kategori;
-            tbHarga.Text = data.Harga.ToString();
+            tbNama.Text = data.nama;
+            cmbKategori.Text = data.Kategori?.nama ?? "";
+            tbHarga.Text = data.harga.ToString();
         }
 
         public void ApplyLanguage()
@@ -69,9 +80,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 return;
             }
 
-            produk.Nama = tbNama.Text.Trim();
-            produk.Kategori = cmbKategori.Text.Trim();
-            produk.Harga = harga;
+            produk.nama = tbNama.Text.Trim();
+            if (produk.Kategori == null) produk.Kategori = new KategoriModels { nama = "" };
+            produk.Kategori.nama = cmbKategori.Text.Trim();
+            produk.harga = harga;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -83,7 +95,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
             foreach (var item in DataManager.Kategori.GetAll())
             {
-                cmbKategori.Items.Add(item.Nama);
+                cmbKategori.Items.Add(item.nama);
             }
 
 

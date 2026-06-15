@@ -28,7 +28,7 @@ namespace TugasBesar.Core.Controllers
             _testDb.Add(new AkunPegawaiModels
             {
                 id = _lastId,
-                name = username,
+                nama = username,
                 password = password
             });
 
@@ -51,7 +51,7 @@ namespace TugasBesar.Core.Controllers
                 return false;
             }
 
-            existing.name = username;
+            existing.nama = username;
             existing.password = password;
             pesan = "Akun berhasil diubah!";
             return true;
