@@ -11,7 +11,7 @@ using TugasBesar.Core.Services;
 //using TugasBesar.App.Views.Pegawai.Produk;
 //using TugasBesar.App.Views.Pegawai.Kategori;
 using TugasBesar.App.Views.Pegawai.Operasional;
-//using TugasBesar.App.Views.Admin.AkunPegawai;
+using TugasBesar.App.Views.Admin.AkunPegawai;
 
 namespace TugasBesar.App
 {
@@ -65,7 +65,7 @@ namespace TugasBesar.App
             //services.AddTransient<ViewProduk>();
             //services.AddTransient<ViewKategori>();
             services.AddTransient<ViewOperasional>();
-            //services.AddTransient<ViewTambahAkunPegawai>();
+            services.AddTransient<ViewTambahAkunPegawai>();
 
             using var serviceProvider = services.BuildServiceProvider();
 

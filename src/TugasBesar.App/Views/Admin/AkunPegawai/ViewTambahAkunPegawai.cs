@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -8,33 +8,40 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Localization;
-using TugasBesar.Core.Controllers;
+using TugasBesar.Core.Controllers.Interfaces;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
+using TugasBesar.Core.DTO.Request;
 using System.Diagnostics; 
 
 namespace TugasBesar.App.Views.Admin.AkunPegawai
 {
     public partial class ViewTambahAkunPegawai : UserControl
     {
-        private AkunPegawaiController _controller;
+        private readonly IAkunPegawaiApi _akunPegawaiApi;
+        private readonly MasterDataCacheService _cache;
 
-        public ViewTambahAkunPegawai()
+        public ViewTambahAkunPegawai(IAkunPegawaiApi akunPegawaiApi, MasterDataCacheService cache)
         {
             InitializeComponent();
-            _controller = new AkunPegawaiController();
+            _akunPegawaiApi = akunPegawaiApi;
+            _cache = cache;
 
             ApplyLanguage();
 
             dgvAkunPegawai.CellClick += dgvAkunPegawai_CellClick;
-            TampilkanData();
+            this.Load += ViewTambahAkunPegawai_Load;
+        }
+
+        private async void ViewTambahAkunPegawai_Load(object sender, EventArgs e)
+        {
+            await TampilkanData();
         }
 
         public void ApplyLanguage()
         {
             btnTambahAkunPegawai.Text = LocalizationService.GetString("btn_tambah_akun");
 
-          
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
@@ -56,7 +63,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             }
         }
 
-        private void TampilkanData()
+        private async Task TampilkanData()
         {
             //  3. INVARIANT 
             Debug.Assert(dgvAkunPegawai != null, "DbC Invariant Gagal: Tabel DataGridView hilang dari layar!");
@@ -66,27 +73,28 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
             if (dgvAkunPegawai == null) return;
 
-            dgvAkunPegawai.Columns.Clear();
-            dgvAkunPegawai.DataSource = null;
+            try
+            {
+                var listAkun = await _akunPegawaiApi.GetAllAkun();
+                if (listAkun == null || listAkun.Count == 0) return;
 
-            var listAkun = _controller.GetAllAkun();
-            if (listAkun.Count == 0) return;
+                dgvAkunPegawai.DataSource = listAkun;
 
-            dgvAkunPegawai.DataSource = listAkun;
+                if (dgvAkunPegawai.Columns.Contains("password"))
+                    dgvAkunPegawai.Columns["password"].Visible = false;
 
-            if (dgvAkunPegawai.Columns.Contains("NamaLengkap"))
-                dgvAkunPegawai.Columns["NamaLengkap"].Visible = false;
+                TambahKolomButton();
 
-            if (dgvAkunPegawai.Columns.Contains("Password"))
-                dgvAkunPegawai.Columns["Password"].Visible = false;
+                if (dgvAkunPegawai.Columns.Contains("Edit"))
+                    dgvAkunPegawai.Columns["Edit"].DisplayIndex = dgvAkunPegawai.Columns.Count - 2;
 
-            TambahKolomButton();
-
-            if (dgvAkunPegawai.Columns.Contains("Edit"))
-                dgvAkunPegawai.Columns["Edit"].DisplayIndex = dgvAkunPegawai.Columns.Count - 2;
-
-            if (dgvAkunPegawai.Columns.Contains("Hapus"))
-                dgvAkunPegawai.Columns["Hapus"].DisplayIndex = dgvAkunPegawai.Columns.Count - 1;
+                if (dgvAkunPegawai.Columns.Contains("Hapus"))
+                    dgvAkunPegawai.Columns["Hapus"].DisplayIndex = dgvAkunPegawai.Columns.Count - 1;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal memuat data akun pegawai: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void TambahKolomButton()
@@ -112,42 +120,51 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             }
         }
 
-        private void btnTambahAkunPegawai_Click(object sender, EventArgs e)
+        private async void btnTambahAkunPegawai_Click(object sender, EventArgs e)
         {
             //  PRE-CONDITION (Syarat Awal) 
-            // Memastikan Controller dan komponen layar (TextBox) hilang sebelum memproses data
-            Debug.Assert(_controller != null, "DbC Pre-condition Gagal: Controller belum diinisialisasi!");
+            Debug.Assert(_akunPegawaiApi != null, "DbC Pre-condition Gagal: API Client belum diinisialisasi!");
             Debug.Assert(tbUsername != null && tbPassword != null, "DbC Pre-condition Gagal: TextBox UI tidak terdeteksi!");
 
             string inputUsername = tbUsername.Text;
             string inputPassword = tbPassword.Text;
-            string pesan;
 
-          
-            bool sukses = _controller.TambahAkun(inputUsername, inputPassword, out pesan);
-
-            if (sukses)
+            if (string.IsNullOrWhiteSpace(inputUsername) || string.IsNullOrWhiteSpace(inputPassword))
             {
+                MessageBox.Show("Username dan Password wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var request = new AkunRequestDTO
+                {
+                    name = inputUsername,
+                    password = inputPassword
+                };
+
+                await _akunPegawaiApi.TambahAkun(request);
+
                 tbUsername.Clear();
                 tbPassword.Clear();
-                TampilkanData();
-                MessageBox.Show(pesan, "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await TampilkanData();
+                MessageBox.Show("Akun berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 // POST-CONDITION (Syarat Akhir) 
-                // Memastikan kotak input benar-benarkosong setelah data berhasil disimpan
                 Debug.Assert(string.IsNullOrEmpty(tbUsername.Text) && string.IsNullOrEmpty(tbPassword.Text), "DbC Post-condition Gagal: Form gagal dikosongkan setelah sukses!");
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show(pesan, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Gagal menambahkan akun: {ex.Message}", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-        private void dgvAkunPegawai_CellClick(object sender, DataGridViewCellEventArgs e)
+
+        private async void dgvAkunPegawai_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            var listAkun = _controller.GetAllAkun();
-            if (e.RowIndex >= listAkun.Count) return;
+            var listAkun = dgvAkunPegawai.DataSource as List<AkunPegawaiModels>;
+            if (listAkun == null || e.RowIndex >= listAkun.Count) return;
 
             var dataTerpilih = listAkun[e.RowIndex];
 
@@ -157,22 +174,22 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
                 if (formEdit.ShowDialog() == DialogResult.OK)
                 {
-                    string pesan;
-                    bool sukses = _controller.UpdateAkun(
-                        formEdit.AkunEdit.Id,
-                        formEdit.AkunEdit.Username,
-                        formEdit.AkunEdit.Password,
-                        out pesan
-                    );
+                    try
+                    {
+                        var request = new AkunRequestDTO
+                        {
+                            name = formEdit.AkunEdit.name,
+                            password = formEdit.AkunEdit.password
+                        };
 
-                    if (sukses)
-                    {
-                        TampilkanData();
-                        MessageBox.Show(pesan, LocalizationService.GetString("title_sukses"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await _akunPegawaiApi.UpdateAkun(formEdit.AkunEdit.id, request);
+                        
+                        await TampilkanData();
+                        MessageBox.Show("Akun berhasil diubah!", LocalizationService.GetString("title_sukses"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(pesan, LocalizationService.GetString("title_gagal"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Gagal mengubah akun: {ex.Message}", LocalizationService.GetString("title_gagal"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -182,17 +199,16 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
                 if (confirm == DialogResult.Yes)
                 {
-                    string pesan;
-                    bool sukses = _controller.HapusAkun(dataTerpilih.Id, out pesan);
-
-                    if (sukses)
+                    try
                     {
-                        TampilkanData();
-                        MessageBox.Show(pesan, LocalizationService.GetString("title_sukses"), MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        await _akunPegawaiApi.HapusAkun(dataTerpilih.id);
+                        
+                        await TampilkanData();
+                        MessageBox.Show("Akun berhasil dihapus!", LocalizationService.GetString("title_sukses"), MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show(pesan, LocalizationService.GetString("title_gagal"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"Gagal menghapus akun: {ex.Message}", LocalizationService.GetString("title_gagal"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }

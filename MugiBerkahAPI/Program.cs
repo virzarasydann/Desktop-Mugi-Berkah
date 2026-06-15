@@ -16,14 +16,14 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 
 
- //builder.Services.AddScoped<IAkunPegawaiRepository, AkunPegawaiRepository>(); 
+builder.Services.AddScoped<IAkunPegawaiRepository, AkunPegawaiRepository>(); 
 builder.Services.AddScoped<IKategoriRepository, KategoriRepository>();
 builder.Services.AddScoped<IOperasionalRepository, OperasionalRepository>();
 builder.Services.AddScoped<IProdukRepository, ProdukRepository>();
 builder.Services.AddScoped<ITransaksiRepository, TransaksiRepository>();
 builder.Services.AddScoped<ITransaksiDetailsRepository, TransaksiDetailsRepository>();
 
-//builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
+builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
 builder.Services.AddScoped<IKategoriServices, KategoriService>();
 builder.Services.AddScoped<IOperasionalServices, OperasionalService>();
 builder.Services.AddScoped<IProdukServices, ProdukService>();
