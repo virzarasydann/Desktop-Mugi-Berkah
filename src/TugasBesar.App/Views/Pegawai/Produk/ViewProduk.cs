@@ -30,6 +30,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProduk.CellClick += dgvProduk_CellClick;
 
+            cmbKategoriProduk.DropDownStyle = ComboBoxStyle.DropDownList;
+            tbHargaProduk.TextChanged += tbHargaProduk_TextChanged;
+            tbHargaProduk.KeyPress += tbHargaProduk_KeyPress;
+
             ApplyLanguage();
 
             this.Load += ViewProduk_Load;
@@ -103,9 +107,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 { 
                     nama = tbNamaProduk.Text, 
                     kategori_id = kategori.id, 
-                    harga = int.Parse(tbHargaProduk.Text) 
+                    harga = int.Parse(tbHargaProduk.Text.Replace("Rp ", "").Replace(".", "")) 
                 };
                 await _produkApi.Tambah(request);
+                MessageBox.Show("Produk berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await TampilkanData();
                 ClearInput();
             }
@@ -184,9 +189,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             dgvProduk.DataSource = list;
 
             // Sembunyikan kolom Id jika ada di modelmu
-            if (dgvProduk.Columns.Contains("Id"))
+            if (dgvProduk.Columns.Contains("id"))
             {
-                dgvProduk.Columns["Id"].Visible = false;
+                dgvProduk.Columns["id"].Visible = false;
             }
 
             // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
@@ -272,6 +277,28 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 {
                     cmbKategoriProduk.Items.Add(item.nama);
                 }
+            }
+        }
+
+        private void tbHargaProduk_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbHargaProduk.Text)) return;
+
+            string value = tbHargaProduk.Text.Replace("Rp ", "").Replace(".", "");
+            if (decimal.TryParse(value, out decimal harga))
+            {
+                tbHargaProduk.TextChanged -= tbHargaProduk_TextChanged;
+                tbHargaProduk.Text = "Rp " + harga.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbHargaProduk.SelectionStart = tbHargaProduk.Text.Length;
+                tbHargaProduk.TextChanged += tbHargaProduk_TextChanged;
+            }
+        }
+
+        private void tbHargaProduk_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
             }
         }
 
