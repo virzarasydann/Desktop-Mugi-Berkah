@@ -9,7 +9,7 @@ namespace TugasBesar.Core.Services
     {
         private List<KeranjangItem> _keranjang = new List<KeranjangItem>();
 
-        public List<KeranjangItem> TambahProdukKeKeranjang(string namaProduk, int harga)
+        public List<KeranjangItem> TambahProdukKeKeranjang(int Id, string namaProduk, int harga)
         {
             if (string.IsNullOrWhiteSpace(namaProduk))
                 throw new ArgumentException("Nama produk tidak boleh kosong.");
@@ -20,15 +20,16 @@ namespace TugasBesar.Core.Services
 
             if (itemSudahAda != null)
             {
-                itemSudahAda.Jumlah += 1;
+                itemSudahAda.Qty += 1;
             }
             else
             {
                 _keranjang.Add(new KeranjangItem
                 {
+                    IdProduk = Id,
                     NamaProduk = namaProduk,
                     HargaSatuan = harga,
-                    Jumlah = 1
+                    Qty = 1
                 });
             }
 

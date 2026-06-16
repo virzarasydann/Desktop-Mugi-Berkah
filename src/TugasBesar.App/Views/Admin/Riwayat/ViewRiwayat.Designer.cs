@@ -1,4 +1,4 @@
-﻿namespace TugasBesar.App.Views.Pegawai.Riwayat
+﻿namespace TugasBesar.App.Views.Admin.Riwayat
 {
     partial class ViewRiwayat
     {

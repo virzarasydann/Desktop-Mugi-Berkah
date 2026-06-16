@@ -23,46 +23,21 @@ namespace TugasBesar.App.Views.Pegawai
     public partial class BaseFormPegawai : Form
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IProdukApi _produkApi;
-        private readonly IKategoriApi _kategoriApi;
-        private readonly MasterDataCacheService _cache;
+       
 
-        public BaseFormPegawai(
-            IServiceProvider serviceProvider,
-            IProdukApi produkApi,
-            IKategoriApi kategoriApi,
-            MasterDataCacheService cache)
+        public BaseFormPegawai(IServiceProvider serviceProvider)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
-            _produkApi = produkApi;
-            _kategoriApi = kategoriApi;
-            _cache = cache;
+          
 
             ApplyLanguage();
-            this.Load += BaseFormPegawai_Load;
+            
         }
 
         private async void BaseFormPegawai_Load(object sender, EventArgs e)
         {
-            if (!_cache.IsLoaded)
-            {
-               
-                var taskProduk = _produkApi.GetAll();
-                var taskKategori = _kategoriApi.GetAll();
-
-                await Task.WhenAll(taskProduk, taskKategori);
-
-                var resProduk = taskProduk.Result;
-                if (resProduk.IsSuccessStatusCode)
-                    _cache.DaftarProduk = resProduk.Content?.ToList() ?? new List<ProdukResponseDTO>();
-
-                var resKategori = taskKategori.Result;
-                if (resKategori.IsSuccessStatusCode)
-                    _cache.DaftarKategori = resKategori.Content?.ToList() ?? new List<KategoriResponseDTO>();
-
-                _cache.IsLoaded = true;
-            }
+           
 
             PindahLayar(_serviceProvider.GetRequiredService<ViewTransaksi>());
         }
