@@ -28,7 +28,7 @@ builder.Services.AddSingleton<IAkunPegawaiFactory, AkunPegawaiFactory>();
 
 builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
 builder.Services.AddScoped<IKategoriServices, KategoriService>();
-builder.Services.AddScoped<IOperasionalServices, OperasionalService>();
+builder.Services.AddScoped<IOperasionalService, OperasionalService>();
 builder.Services.AddScoped<IProdukServices, ProdukService>();
 builder.Services.AddScoped<ITransaksiServices, TransaksiServices>();
 

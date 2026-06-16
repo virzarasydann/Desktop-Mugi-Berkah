@@ -7,17 +7,17 @@ using TugasBesar.Core.Models;
 
 namespace TugasBesar.Core.Services.Interfaces
 {
-    public interface IOperasionalServices
+    public interface IOperasionalService
     {
-        public Task<IReadOnlyList<OperasionalModels>> GetAll();
+        Task<IReadOnlyList<OperasionalResponseDTO>> GetAll();
 
-        public Task<OperasionalResponseDTO> GetAllById(int id);
+        Task<OperasionalResponseDTO> GetById(int id);
 
-        public Task Tambah(OperasionalRequestDTO requestDTO);
+        Task Tambah(OperasionalRequestDTO requestDTO);
 
-        public Task Edit(int id, OperasionalRequestDTO requestDTO);
+        Task Edit(int id, OperasionalRequestDTO requestDTO);
 
-        public Task Hapus(int id);
+        Task Hapus(int id);
 
     }
 }
