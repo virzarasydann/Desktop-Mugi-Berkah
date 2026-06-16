@@ -60,5 +60,11 @@ namespace TugasBesar.Core.Services
 
             return _keranjang;
         }
+
+        public void ResetKeranjang()
+        {
+
+            _keranjang.Clear();
+        }
     }
 }
