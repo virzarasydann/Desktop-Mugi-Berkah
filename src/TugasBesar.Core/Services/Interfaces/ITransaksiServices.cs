@@ -1,4 +1,4 @@
-﻿using ResponseMessageLibrary;
+using ResponseMessageLibrary;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,7 +10,7 @@ namespace TugasBesar.Core.Services.Interfaces
     public interface ITransaksiServices
     {
 
-        public  Task InsertTransactionWithRelation(TransaksiRequestDTO item);
+        public Task<MidtransResponseDTO> InsertTransactionWithRelation(TransaksiRequestDTO item);
 
         public Task<IReadOnlyList<TransaksiResponseDTO>> GetAll();
 

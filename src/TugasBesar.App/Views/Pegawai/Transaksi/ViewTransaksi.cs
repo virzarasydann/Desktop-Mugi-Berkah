@@ -41,7 +41,6 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             _transaksiApi = transaksiApi;
             _cache = cache;
             _keranjang = new TransactionInMemory();
-            //_controller = new TransaksiControllers();
             InisialisasiDaftarKontrol();
             InisialisasiMappingStatus();
             InisialisasiTransisi();
@@ -271,8 +270,6 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
 
 
-        // Event handler lainnya tetap sama
-
         private async void btnProsesPembayaran_Click(object sender, EventArgs e)
         {
 
@@ -314,8 +311,13 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             try
             {
-                await _transaksiApi.Tambah(request);
-                MessageBox.Show("Transaksi Berhasil.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var response = await _transaksiApi.Tambah(request);
+                MessageBox.Show(response.message ?? "Transaksi Berhasil.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (response.midtrans != null && !string.IsNullOrEmpty(response.midtrans.redirect_url))
+                {
+                    Process.Start(new ProcessStartInfo(response.midtrans.redirect_url) { UseShellExecute = true });
+                }
 
                 ResetAll();
                 TerapkanStatus(StatusTransaksi.Kosong);

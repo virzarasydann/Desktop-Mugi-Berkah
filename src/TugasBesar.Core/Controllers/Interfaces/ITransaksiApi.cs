@@ -1,4 +1,4 @@
-﻿using Refit;
+using Refit;
 using System.Threading.Tasks;
 using TugasBesar.Core.DTO.Request;
 
@@ -10,6 +10,6 @@ namespace TugasBesar.Core.Controllers.Interfaces
         Task<dynamic> GetAll();
 
         [Post("/api/Transaksi")]
-        Task Tambah([Body] TransaksiRequestDTO request);
+        Task<TugasBesar.Core.DTO.Response.TransaksiResultDTO> Tambah([Body] TransaksiRequestDTO request);
     }
 }
