@@ -17,6 +17,8 @@ using TugasBesar.Core.Services;
 //using TugasBesar.App.Views.Pegawai.Kategori;
 //using TugasBesar.App.Views.Pegawai.Operasional;
 using TugasBesar.Localization;
+using TugasBesar.App.Views.Pegawai.Kategori;
+using TugasBesar.App.Views.Pegawai.Produk;
 
 namespace TugasBesar.App.Views.Pegawai
 {
@@ -53,7 +55,7 @@ namespace TugasBesar.App.Views.Pegawai
         private void button1_Click(object sender, EventArgs e)
         {
             //PindahLayar(new ViewProduk());
-            //PindahLayar(_serviceProvider.GetRequiredService<ViewProduk>());
+            PindahLayar(_serviceProvider.GetRequiredService<ViewProduk>());
         }
 
         private void PindahLayar(UserControl layar)
@@ -74,7 +76,7 @@ namespace TugasBesar.App.Views.Pegawai
         private void buttonKategori_Click(object sender, EventArgs e)
         {
             //PindahLayar(new ViewKategori());
-            //PindahLayar(_serviceProvider.GetRequiredService<ViewKategori>());
+            PindahLayar(_serviceProvider.GetRequiredService<ViewKategori>());
         }
 
         private void buttonOperasional_Click(object sender, EventArgs e)

@@ -12,6 +12,8 @@ using TugasBesar.Core.Services;
 //using TugasBesar.App.Views.Pegawai.Kategori;
 using TugasBesar.App.Views.Pegawai.Operasional;
 using TugasBesar.App.Views.Admin.AkunPegawai;
+using TugasBesar.App.Views.Admin;
+using TugasBesar.App.Views.Admin.Riwayat;
 
 namespace TugasBesar.App
 {
