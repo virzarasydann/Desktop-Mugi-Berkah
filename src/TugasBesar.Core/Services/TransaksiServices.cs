@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Models;
@@ -11,33 +12,18 @@ namespace TugasBesar.Core.Services
 {
     public class TransaksiServices : ITransaksiServices
     {
-        
-        
-        private ITransaksiRepository _TransaksiRepo;
-        private ITransaksiDetailsRepository _TransaksiDetailsRepo;
+        private readonly ITransaksiRepository _transaksiRepo;
+        private readonly ITransaksiDetailsRepository _transaksiDetailsRepo;
 
-        public TransaksiServices(ITransaksiRepository TransaksiRepo, ITransaksiDetailsRepository TransaksiDetailsRepo)
+        public TransaksiServices(ITransaksiRepository transaksiRepo, ITransaksiDetailsRepository transaksiDetailsRepo)
         {
-            _TransaksiRepo = TransaksiRepo;
-            _TransaksiDetailsRepo = TransaksiDetailsRepo;
-
+            _transaksiRepo = transaksiRepo;
+            _transaksiDetailsRepo = transaksiDetailsRepo;
         }
-
-        //public List<ProdukModels> DapatkanKatalog()
-        //{
-        //    return new List<ProdukModels>()
-        //    {
-        //        new ProdukModels { Nama = "Karburator Astrea", Harga = 150000 },
-        //        new ProdukModels { Nama = "Pelampung Tangki", Harga = 35000 },
-        //        new ProdukModels { Nama = "Kampas Rem Depan", Harga = 45000 },
-        //        new ProdukModels { Nama = "Busi Standar", Harga = 15000 },
-        //        new ProdukModels { Nama = "Oli Mesin 0.8L", Harga = 55000 }
-        //    };
-        //}
 
         public async Task<IReadOnlyList<TransaksiResponseDTO>> GetAll()
         {
-            return await _TransaksiRepo.GetTransaksiByIdWithRelationAsync();
+            return await _transaksiRepo.GetTransaksiByIdWithRelationAsync();
         }
 
         public async Task InsertTransactionWithRelation(TransaksiRequestDTO item)
@@ -45,38 +31,48 @@ namespace TugasBesar.Core.Services
             try
             {
                 int totalHarga = item.Keranjang.Sum(k => k.Subtotal);
+                
+                
+                int? uangKembalian = item.UangDiterima.HasValue 
+                    ? (item.UangDiterima.Value - totalHarga) 
+                    : null;
 
                 var transaksi = new TransaksiModels
                 {
-                    nama = item.NamaPelanggan,
-                    total_harga = totalHarga,
-                    metode_pembayaran = item.MetodePembayaran
-
+                    IdUser = item.IdUser,
+                    NamaPembeli = item.NamaPembeli,
+                    IdMetodePembayaran = item.IdMetodePembayaran,
+                    IdStatus = item.IdStatus,
+                    TotalHarga = totalHarga,
+                    UangDiterima = item.UangDiterima,
+                    UangKembalian = uangKembalian,
+                    Tanggal = DateTime.Now,
+                    CreatedAt = DateTime.Now,
+                    UpdatedAt = DateTime.Now
                 };
-                await _TransaksiRepo.AddAsync(transaksi);
+
+                await _transaksiRepo.AddAsync(transaksi);
 
                 foreach (var details in item.Keranjang)
                 {
                     var transaksiDetails = new TransaksiDetailsModels
                     {
-                        transaksi_id = transaksi.id,
-                        produk_nama = details.NamaProduk,
-                        quantity = details.Jumlah,
-                        harga = details.HargaSatuan
-
+                        IdTransaksi = transaksi.IdTransaksi,
+                        IdProduk = details.IdProduk,
+                        Qty = details.Qty,
+                        HargaSatuan = details.HargaSatuan,
+                        Subtotal = details.Subtotal,
+                        CreatedAt = DateTime.Now,
+                        UpdatedAt = DateTime.Now
                     };
 
-                    await _TransaksiDetailsRepo.AddAsync(transaksiDetails);
+                    await _transaksiDetailsRepo.AddAsync(transaksiDetails);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
-           
         }
-
-
-        
     }
 }

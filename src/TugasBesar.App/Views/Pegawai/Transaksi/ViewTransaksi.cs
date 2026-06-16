@@ -31,7 +31,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private Control[] _semuaTextbox;
         private Dictionary<StatusTransaksi, StatusTransaksi[]> _transisiValid;
         private Dictionary<StatusTransaksi, Control[]> _statusKeKontrolAktif;
-        private MetodePembayaran _metodePembayaran;
+        private MetodePembayaranModels _metodePembayaran;
         private int _uangDiterima;
 
 
@@ -47,7 +47,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             InisialisasiTransisi();
             InisialisasiDaftarTextbox();
             ApplyLanguage();
-
+            
             TerapkanStatus(StatusTransaksi.Kosong);
             this.Load += ViewTransaksi_Load;
 
@@ -57,6 +57,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             try
             {
+                LoadDataComboBox();
                 await TampilkanKatalog();
 
             }
@@ -158,8 +159,6 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             label12.Text = LocalizationService.GetString("lbl_kembalian");
             label17.Text = LocalizationService.GetString("lbl_total");
 
-            btnCash.Text = LocalizationService.GetString("btn_cash");
-            btnQris.Text = LocalizationService.GetString("btn_qris");
             btnLunas.Text = LocalizationService.GetString("btn_lunas");
             btnBelumLunas.Text = LocalizationService.GetString("btn_belum_lunas");
             btnProsesPembayaran.Text = LocalizationService.GetString("btn_proses");
@@ -181,7 +180,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
                 ucProduk.ProdukDiklik += (sender, e) =>
                 {
-                    var keranjangResponse = _keranjang.TambahProdukKeKeranjang(ucProduk.NamaProduk, ucProduk.Harga);
+                    var keranjangResponse = _keranjang.TambahProdukKeKeranjang(produk.Id,ucProduk.NamaProduk, ucProduk.Harga);
                     RenderUlangKeranjang(keranjangResponse);
                 };
 
@@ -199,9 +198,9 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 CardKeranjang ucKeranjang = new CardKeranjang();
                 ucKeranjang.NamaProduk = item.NamaProduk;
                 ucKeranjang.HargaSatuan = item.HargaSatuan;
-                ucKeranjang.Jumlah = item.Jumlah;
+                ucKeranjang.Jumlah = item.Qty;
                 panelListKeranjang.Controls.Add(ucKeranjang);
-                
+
             }
 
             UpdateUIGrandTotal();
@@ -280,13 +279,34 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             UbahStatus(StatusTransaksi.Pembayaran);
 
+            if (CbxMetodePembayaran.SelectedIndex == -1)
+            {
+                MessageBox.Show("Pilih metode pembayaran terlebih dahulu.");
+                return;
+            }
+            int idMetodeTerpilih = (int)CbxMetodePembayaran.SelectedValue;
+
+            
+            int idStatusTerpilih = 1;
+            var statusTerpilih = _cache.DaftarStatus?.FirstOrDefault(s =>
+                s.NamaStatus.Equals(tbStatus.Text, StringComparison.OrdinalIgnoreCase));
+
+            if (statusTerpilih != null)
+            {
+                idStatusTerpilih = statusTerpilih.IdStatus;
+            }
+
+          
             var request = new TransaksiRequestDTO
             {
-                NamaPelanggan = tbNamaPembeli.Text,
-                MetodePembayaran = _metodePembayaran,
+                IdUser = 1, 
+                NamaPembeli = tbNamaPembeli.Text,
+                IdMetodePembayaran = idMetodeTerpilih,
+                IdStatus = idStatusTerpilih,
                 UangDiterima = _uangDiterima,
-                Keranjang = _keranjang.GetKeranjang()
 
+                
+                Keranjang = _keranjang.GetKeranjang()
             };
 
             var json = System.Text.Json.JsonSerializer.Serialize(request, new System.Text.Json.JsonSerializerOptions { WriteIndented = true });
@@ -294,14 +314,14 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             try
             {
-               
+
                 await _transaksiApi.Tambah(request);
 
-                
+
                 MessageBox.Show("Transaksi Berhasil.");
                 ResetAll();
 
-               
+
                 TerapkanStatus(StatusTransaksi.Kosong);
             }
             catch (Exception ex)
@@ -316,7 +336,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         {
             panelListKeranjang.Controls.Clear();
             _keranjang.ResetKeranjang();
-            foreach(var text in _semuaTextbox)
+            foreach (var text in _semuaTextbox)
             {
                 text.Text = string.Empty;
             }
@@ -338,22 +358,37 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             UbahStatus(StatusTransaksi.SiapProses);
         }
 
-
-
-        private void btnQris_Click(object sender, EventArgs e)
-        {
-            _metodePembayaran = MetodePembayaran.qris;
-        }
-
-
-        private void btnCash_Click(object sender, EventArgs e)
-        {
-            _metodePembayaran = MetodePembayaran.cash;
-        }
-
         private void labelTransaksiJudul_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void LoadDataComboBox()
+        {
+            Debug.WriteLine("AAAAAAAAAAAAAAAAA");
+            foreach (var item in _cache.DaftarMetodePembayaran)
+            {
+                Debug.WriteLine("INI ADALAH ITEM", item.NamaMetode);
+            }
+            
+        
+            if (_cache.DaftarMetodePembayaran != null && _cache.DaftarMetodePembayaran.Any())
+            {
+            
+                CbxMetodePembayaran.DataSource = _cache.DaftarMetodePembayaran;
+
+               
+                CbxMetodePembayaran.DisplayMember = "NamaMetode";
+
+                
+                CbxMetodePembayaran.ValueMember = "IdMetodePembayaran";
+
+
+                CbxMetodePembayaran.DropDownStyle = ComboBoxStyle.DropDownList;
+
+               
+                CbxMetodePembayaran.SelectedIndex = 0;
+            }
         }
     }
 }

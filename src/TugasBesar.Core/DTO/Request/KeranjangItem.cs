@@ -8,11 +8,12 @@ namespace TugasBesar.Core.DTO.Request
 {
     public class KeranjangItem
     {
+        public long IdProduk { get; set; }
         public string NamaProduk { get; set; }
         public int HargaSatuan { get; set; }
-        public int Jumlah { get; set; }
+        public int Qty { get; set; }
 
         [System.Text.Json.Serialization.JsonIgnore]
-        public int Subtotal => HargaSatuan * Jumlah;
+        public int Subtotal => HargaSatuan * Qty;
     }
 }
