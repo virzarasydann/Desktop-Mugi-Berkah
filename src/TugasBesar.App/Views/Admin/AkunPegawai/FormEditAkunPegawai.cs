@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,7 +19,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public AkunPegawaiModels AkunEdit { get; set; }
 
-        public FormEditAkunPegawai(AkunPegawaiModels data = null)
+        public FormEditAkunPegawai(AkunPegawaiModels? data = null)
         {
             InitializeComponent();
             label2.UseSystemPasswordChar = true;
@@ -31,15 +31,15 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             {
                 AkunEdit = new AkunPegawaiModels
                 {
-                    Id = data.Id,
-                    Username = data.Username,
-                    Password = data.Password,
-                    Role = data.Role,
-                    NamaLengkap = data.NamaLengkap
+                    id = data.id,
+                    nama = data.nama,
+                    password = data.password,
+                    role = data.role,
+                    nama_user = data.nama_user
                 };
 
-                label1.Text = data.Username;
-                label2.Text = data.Password;
+                label1.Text = data.nama;
+                label2.Text = data.password;
             }
             else
             {
@@ -51,14 +51,13 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
         {
             this.Text = LocalizationService.GetString("title_edit_akun");
 
-            // PERBAIKAN: Memanggil nama Label (label1, label2), bukan TextBox.
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
             btnSimpan.Text = LocalizationService.GetString("btn_simpan");
         }
 
-        private void btnSimpan_Click(object sender, EventArgs e)
+        private void btnSimpan_Click(object? sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(label1.Text) || string.IsNullOrWhiteSpace(label2.Text))
             {
@@ -66,17 +65,17 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 return;
             }
 
-            AkunEdit.Username = label1.Text;
-            AkunEdit.Password = label2.Text;
-            AkunEdit.NamaLengkap = label1.Text;
+            AkunEdit.nama = label1.Text;
+            AkunEdit.nama_user = label1.Text;
+            AkunEdit.password = label2.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
 
-        private void FormEditAkunPegawai_Load(object sender, EventArgs e) { }
-        private void btnSimpan_Click_1(object sender, EventArgs e) { }
-        private void tbUsernameEdit_TextChanged(object sender, EventArgs e) { }
-        private void tbPasswordEdit_TextChanged(object sender, EventArgs e) { }
+        private void FormEditAkunPegawai_Load(object? sender, EventArgs e) { }
+        private void btnSimpan_Click_1(object? sender, EventArgs e) { }
+        private void tbUsernameEdit_TextChanged(object? sender, EventArgs e) { }
+        private void tbPasswordEdit_TextChanged(object? sender, EventArgs e) { }
     }
 }

@@ -1,4 +1,4 @@
-﻿//using TugasBesar.App.Views.Admin.AkunPegawai;
+using TugasBesar.App.Views.Admin.AkunPegawai;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -139,8 +139,8 @@ namespace TugasBesar.App.Views.Pegawai
                 //    tampilanKategori.ApplyLanguage();
                 //else if (layarAktif is ViewOperasional tampilanOperasional)
                 //    tampilanOperasional.ApplyLanguage();
-                //else if (layarAktif is ViewTambahAkunPegawai tampilanAdmin)
-                //    tampilanAdmin.ApplyLanguage(); // <-- Ini yang akan menerjemahkan halaman Admin
+                else if (layarAktif is ViewTambahAkunPegawai tampilanAdmin)
+                    tampilanAdmin.ApplyLanguage(); // <-- Ini yang akan menerjemahkan halaman Admin
             }
         }
     }

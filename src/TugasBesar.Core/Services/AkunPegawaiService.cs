@@ -1,51 +1,87 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using TugasBesar.Core.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TugasBesar.Core.DTO.Request;
+using TugasBesar.Core.DTO.Response;
+using TugasBesar.Core.Models;
+using TugasBesar.Core.Repositories.Interfaces;
+using TugasBesar.Core.Services.Interfaces;
+using TugasBesar.Core.Factories;
+using TugasBesar.Core.Security;
 
-//namespace TugasBesar.Core.Services
-//{
-//    public class AkunPegawaiService
-//    {
-//        // List sementara pengganti database
-//        private static List<AkunPegawaiModels> _tabelAkunPegawai = new List<AkunPegawaiModels>();
-//        private static int _lastId = 0;
+namespace TugasBesar.Core.Services
+{
+    /// <summary>
+    /// Layanan bisnis asinkron untuk penanganan data akun pegawai.
+    /// Menggunakan repository pattern dan factory pattern.
+    /// </summary>
+    public class AkunPegawaiService : IAkunPegawaiServices
+    {
+        private readonly IAkunPegawaiRepository _repository;
+        private readonly IAkunPegawaiFactory _factory;
 
-//        public void TambahAkun(AkunPegawaiModels akun)
-//        {
-//            _lastId++;
-//            akun.Id = _lastId;
-//            _tabelAkunPegawai.Add(akun);
-//        }
+        public AkunPegawaiService(IAkunPegawaiRepository repository, IAkunPegawaiFactory factory)
+        {
+            _repository = repository;
+            _factory = factory;
+        }
 
-//        public List<AkunPegawaiModels> AmbilSemuaAkun()
-//        {
-//            return _tabelAkunPegawai;
-//        }
+        public async Task<IReadOnlyList<AkunResponseDTO>> GetAll()
+        {
+            var list = await _repository.GetAllAsync();
+            return list.Select(a => new AkunResponseDTO
+            {
+                Id = a.id,
+                Name = a.nama,
+                Role = a.role
+            }).ToList();
+        }
 
-//        public bool UpdateAkun(AkunPegawaiModels akunUpdate)
-//        {
-//            var akunLama = _tabelAkunPegawai.FirstOrDefault(a => a.Id == akunUpdate.Id);
-//            if (akunLama != null)
-//            {
-//                akunLama.NamaLengkap = akunUpdate.NamaLengkap;
-//                akunLama.Username = akunUpdate.Username;
-//                akunLama.Password = akunUpdate.Password;
-//                akunLama.Role = akunUpdate.Role;
-//                return true;
-//            }
-//            return false;
-//        }
+        public async Task Tambah(AkunRequestDTO request)
+        {
+            var newName = request.name.Trim();
+            var list = await _repository.GetAllAsync();
 
-//        public bool HapusAkun(int id)
-//        {
-//            var akun = _tabelAkunPegawai.FirstOrDefault(a => a.Id == id);
-//            if (akun != null)
-//            {
-//                _tabelAkunPegawai.Remove(akun);
-//                return true;
-//            }
-//            return false;
-//        }
-//    }
-//}
+            if (list.Any(a => string.Equals(a.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Username pegawai sudah ada!");
+
+            // Hash password sebelum disimpan
+            var hashedPassword = PasswordHasher.HashPassword(request.password);
+            var akunBaru = _factory.Create(request.name, hashedPassword);
+            await _repository.AddAsync(akunBaru);
+        }
+
+        public async Task Edit(long id, AkunRequestDTO request)
+        {
+            var newName = request.name.Trim();
+            var existing = await _repository.GetByIdAsync(id);
+
+            if (existing == null)
+                throw new Exception("Data tidak ditemukan!");
+
+            // Verifikasi password lama yang ter-hash dengan password baru masukan
+            bool isPasswordSame = PasswordHasher.VerifyPassword(existing.password, request.password);
+            if (string.Equals((existing.nama ?? string.Empty).Trim(), newName, StringComparison.OrdinalIgnoreCase) && isPasswordSame)
+                throw new Exception("Data masih sama!");
+
+            var list = await _repository.GetAllAsync();
+            if (list.Where(a => a.id != id).Any(a => string.Equals(a.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
+                throw new Exception("Username pegawai sudah ada!");
+
+            existing.nama = newName;
+            existing.nama_user = newName;
+            existing.password = PasswordHasher.HashPassword(request.password);
+            await _repository.UpdateAsync(existing);
+        }
+
+        public async Task Hapus(long id)
+        {
+            var existing = await _repository.GetByIdAsync(id);
+            if (existing == null)
+                throw new Exception("Data tidak valid!");
+
+            await _repository.DeleteAsync(id);
+        }
+    }
+}
