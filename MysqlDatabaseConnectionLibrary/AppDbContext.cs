@@ -9,8 +9,8 @@ namespace MysqlDatabaseConnectionLibrary
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
-        //public DbSet<ProdukModels> Produk { get; set; }
-        //public DbSet<KategoriModels> Kategori { get; set; }
+        public DbSet<ProdukModels> Produk { get; set; }
+        public DbSet<KategoriModels> Kategori { get; set; }
 
         public DbSet<AkunPegawaiModels> AkunPegawai { get; set; }
         //public DbSet<OperasionalModels> Operasional { get; set; }
@@ -18,14 +18,29 @@ namespace MysqlDatabaseConnectionLibrary
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<ProdukModels>()
-                .ToTable("produk")
-                .HasOne(p => p.Kategori)
-                .WithMany(k => k.Produk)
-                .HasForeignKey(d => d.kategori_id);
+            modelBuilder.Entity<ProdukModels>(entity =>
+            {
+                entity.ToTable("produk");
+                
+                entity.HasKey(e => e.id);
+                entity.Property(e => e.id).HasColumnName("id_produk");
+                entity.Property(e => e.nama).HasColumnName("nama_produk");
+                entity.Property(e => e.kategori_id).HasColumnName("id_kategori");
+                entity.Property(e => e.harga).HasColumnName("harga");
 
-            modelBuilder.Entity<KategoriModels>()
-                .ToTable("kategori");
+                entity.HasOne(p => p.Kategori)
+                      .WithMany(k => k.Produk)
+                      .HasForeignKey(d => d.kategori_id);
+            });
+
+            modelBuilder.Entity<KategoriModels>(entity =>
+            {
+                entity.ToTable("kategori");
+                
+                entity.HasKey(e => e.id);
+                entity.Property(e => e.id).HasColumnName("id_kategori");
+                entity.Property(e => e.nama).HasColumnName("nama_kategori");
+            });
 
             modelBuilder.Entity<AkunPegawaiModels>()
                 .ToTable("pegawai");
