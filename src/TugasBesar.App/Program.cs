@@ -29,6 +29,7 @@ namespace TugasBesar.App
             var jsonOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                PropertyNameCaseInsensitive = true, 
                 WriteIndented = false
             };
             var refitSettings = new RefitSettings
@@ -56,11 +57,17 @@ namespace TugasBesar.App
             services.AddRefitClient<IOperasionalApi>(refitSettings)
                     .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
 
+            services.AddRefitClient<IMetodePembayaranApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
+
+            services.AddRefitClient<IStatusApi>(refitSettings)
+                    .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
 
             services.AddTransient<LoginForm>();
             services.AddTransient<BaseFormPegawai>();
+            services.AddTransient<BaseFormAdmin>();
+            services.AddTransient<ViewRiwayat>();
 
-          
             services.AddTransient<ViewTransaksi>();
             //services.AddTransient<ViewProduk>();
             //services.AddTransient<ViewKategori>();

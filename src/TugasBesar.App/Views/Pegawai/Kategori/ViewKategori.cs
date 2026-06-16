@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using TugasBesar.Core.Controllers.Interfaces;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -17,18 +18,25 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 {
     public partial class ViewKategori : UserControl
     {
-        DataGeneric<KategoriModels> dataKategori = DataManager.Kategori;
-        KategoriController _kategoriController = new KategoriController();
+        private readonly IKategoriApi _kategoriApi;
+        private readonly MasterDataCacheService _cache;
         int selectedIndex = -1;
 
-        public ViewKategori()
+        public ViewKategori(IKategoriApi kategoriApi, MasterDataCacheService cache)
         {
             InitializeComponent();
+            _kategoriApi = kategoriApi;
+            _cache = cache;
 
             ApplyLanguage();
 
             dgvKategori.CellClick += dgvKategori_CellClick;
-            TampilkanData();
+            this.Load += ViewKategori_Load;
+        }
+
+        private async void ViewKategori_Load(object sender, EventArgs e)
+        {
+            await TampilkanData();
         }
 
         public void ApplyLanguage()
@@ -74,16 +82,15 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void button2_Click(object sender, EventArgs e) { }
 
-        private void tbNamaKategori_TextChanged(object sender, EventArgs e) { }
-
-        private void btnTambahKategori_Click(object sender, EventArgs e)
+        private async void btnTambahKategori_Click(object sender, EventArgs e)
         {
             try
             {
-                _kategoriController.Tambah(tbNamaKategori.Text);
-                TampilkanData();
+                var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = tbNamaKategori.Text };
+                await _kategoriApi.Tambah(request);
+                MessageBox.Show("Kategori berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await TampilkanData();
                 tbNamaKategori.Text = string.Empty;
             }
             catch (Exception ex)
@@ -92,7 +99,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void btnEditKategori_Click(object sender, EventArgs e)
+        private async void btnEditKategori_Click(object sender, EventArgs e)
         {
             if (selectedIndex < 0)
             {
@@ -102,8 +109,10 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             
             try
             {
-                _kategoriController.Edit(selectedIndex, tbNamaKategori.Text);
-                TampilkanData();
+                int id = _cache.DaftarKategori[selectedIndex].id;
+                var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = tbNamaKategori.Text };
+                await _kategoriApi.Edit(id, request);
+                await TampilkanData();
                 tbNamaKategori.Text = string.Empty;
             }
             catch (Exception ex)
@@ -112,7 +121,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void btnHapusKategori_Click(object sender, EventArgs e)
+        private async void btnHapusKategori_Click(object sender, EventArgs e)
         {
             if (selectedIndex < 0)
             {
@@ -122,8 +131,9 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
             try
             {
-                _kategoriController.Hapus(selectedIndex);
-                TampilkanData();
+                int id = _cache.DaftarKategori[selectedIndex].id;
+                await _kategoriApi.Hapus(id);
+                await TampilkanData();
                 tbNamaKategori.Text = "";
             }
             catch (Exception ex)
@@ -132,28 +142,45 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void btnSetText_Click(object sender, EventArgs e)
+        private async void btnSetText_Click(object sender, EventArgs e)
         {
-            TampilkanData();
+            await TampilkanData();
         }
 
-        private void dgvKategori_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-        private void TampilkanData()
+        private async Task TampilkanData()
         {
+            try
+            {
+                var response = await _kategoriApi.GetAll();
+                if (response != null && response.Content != null)
+                {
+                    _cache.DaftarKategori = response.Content.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal memuat data kategori dari server: {ex.Message}");
+            }
+
             dgvKategori.Columns.Clear();
 
             dgvKategori.DataSource = null;
 
-            var list = dataKategori.GetAll();
+            var list = _cache.DaftarKategori;
 
-            if (list.Count == 0)
+            if (list == null || list.Count == 0)
             {
                 dgvKategori.DataSource = null;
                 return;
             }
 
             dgvKategori.DataSource = list;
+
+            if (dgvKategori.Columns.Contains("id"))
+            {
+                dgvKategori.Columns["id"].Visible = false;
+            }
 
             TambahKolomButton();
 
@@ -183,23 +210,27 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-            if (e.RowIndex >= dataKategori.GetAll().Count) return;
+            if (e.RowIndex >= _cache.DaftarKategori.Count) return;
 
-            var data = dataKategori.GetAll()[e.RowIndex];
+            var data = _cache.DaftarKategori[e.RowIndex];
+
+            // Map response DTO back to Model for the edit form
+            var modelData = new KategoriModels { id = data.id, nama = data.nama };
 
             if (dgvKategori.Columns[e.ColumnIndex].Name == "Edit")
             {
-                FormEditKategori form = new FormEditKategori(data);
+                FormEditKategori form = new FormEditKategori(modelData);
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        _kategoriController.Edit(e.RowIndex, form.kategori?.Nama);
-                        TampilkanData();
+                        var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = form.kategori?.nama };
+                        await _kategoriApi.Edit(data.id, request);
+                        await TampilkanData();
                     }
                     catch (Exception ex)
                     {
@@ -219,8 +250,8 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 {
                     try
                     {
-                        _kategoriController.Hapus(e.RowIndex);
-                        TampilkanData();
+                        await _kategoriApi.Hapus(data.id);
+                        await TampilkanData();
                     }
                     catch (Exception ex)
                     {
@@ -230,10 +261,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
     }
 }

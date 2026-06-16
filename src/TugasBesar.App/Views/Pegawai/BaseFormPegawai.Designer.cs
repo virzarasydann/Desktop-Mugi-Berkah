@@ -28,104 +28,100 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonTransaksi = new System.Windows.Forms.Button();
-            this.buttonProduk = new System.Windows.Forms.Button();
-            this.buttonKategori = new System.Windows.Forms.Button();
-            this.buttonOperasional = new System.Windows.Forms.Button();
-            this.cmbLanguageUtama = new System.Windows.Forms.ComboBox();
-            this.panelContent = new System.Windows.Forms.Panel();
-            this.flowLayoutPanel1.SuspendLayout();
-            this.SuspendLayout();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            buttonTransaksi = new Button();
+            buttonProduk = new Button();
+            buttonKategori = new Button();
+            buttonOperasional = new Button();
+            cmbLanguageUtama = new ComboBox();
+            panelContent = new Panel();
+            flowLayoutPanel1.SuspendLayout();
+            SuspendLayout();
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.Controls.Add(this.buttonTransaksi);
-            this.flowLayoutPanel1.Controls.Add(this.buttonProduk);
-            this.flowLayoutPanel1.Controls.Add(this.buttonKategori);
-            this.flowLayoutPanel1.Controls.Add(this.buttonOperasional);
-            this.flowLayoutPanel1.Controls.Add(this.cmbLanguageUtama);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(72, 12);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(626, 64);
-            this.flowLayoutPanel1.TabIndex = 0;
+            flowLayoutPanel1.Controls.Add(buttonTransaksi);
+            flowLayoutPanel1.Controls.Add(buttonProduk);
+            flowLayoutPanel1.Controls.Add(buttonKategori);
+            flowLayoutPanel1.Controls.Add(buttonOperasional);
+            flowLayoutPanel1.Controls.Add(cmbLanguageUtama);
+            flowLayoutPanel1.Location = new Point(72, 12);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(626, 64);
+            flowLayoutPanel1.TabIndex = 0;
             // 
             // buttonTransaksi
             // 
-            this.buttonTransaksi.Location = new System.Drawing.Point(3, 3);
-            this.buttonTransaksi.Name = "buttonTransaksi";
-            this.buttonTransaksi.Size = new System.Drawing.Size(122, 23);
-            this.buttonTransaksi.TabIndex = 3;
-            this.buttonTransaksi.Text = "Menu Transaksi";
-            this.buttonTransaksi.UseVisualStyleBackColor = true;
-            this.buttonTransaksi.Click += new System.EventHandler(this.buttonTransaksi_Click);
+            buttonTransaksi.Location = new Point(3, 3);
+            buttonTransaksi.Name = "buttonTransaksi";
+            buttonTransaksi.Size = new Size(122, 23);
+            buttonTransaksi.TabIndex = 3;
+            buttonTransaksi.Text = "Menu Transaksi";
+            buttonTransaksi.UseVisualStyleBackColor = true;
+            buttonTransaksi.Click += buttonTransaksi_Click;
             // 
             // buttonProduk
             // 
-            this.buttonProduk.Location = new System.Drawing.Point(131, 3);
-            this.buttonProduk.Name = "buttonProduk";
-            this.buttonProduk.Size = new System.Drawing.Size(106, 23);
-            this.buttonProduk.TabIndex = 0;
-            this.buttonProduk.Text = "Menu Produk";
-            this.buttonProduk.UseVisualStyleBackColor = true;
-            this.buttonProduk.Click += new System.EventHandler(this.button1_Click);
+            buttonProduk.Location = new Point(131, 3);
+            buttonProduk.Name = "buttonProduk";
+            buttonProduk.Size = new Size(106, 23);
+            buttonProduk.TabIndex = 0;
+            buttonProduk.Text = "Menu Produk";
+            buttonProduk.UseVisualStyleBackColor = true;
+            buttonProduk.Click += button1_Click;
             // 
             // buttonKategori
             // 
-            this.buttonKategori.Location = new System.Drawing.Point(243, 3);
-            this.buttonKategori.Name = "buttonKategori";
-            this.buttonKategori.Size = new System.Drawing.Size(95, 23);
-            this.buttonKategori.TabIndex = 1;
-            this.buttonKategori.Text = "Menu Kategori";
-            this.buttonKategori.UseVisualStyleBackColor = true;
-            this.buttonKategori.Click += new System.EventHandler(this.buttonKategori_Click);
+            buttonKategori.Location = new Point(243, 3);
+            buttonKategori.Name = "buttonKategori";
+            buttonKategori.Size = new Size(95, 23);
+            buttonKategori.TabIndex = 1;
+            buttonKategori.Text = "Menu Kategori";
+            buttonKategori.UseVisualStyleBackColor = true;
+            buttonKategori.Click += buttonKategori_Click;
             // 
             // buttonOperasional
             // 
-            this.buttonOperasional.Location = new System.Drawing.Point(344, 3);
-            this.buttonOperasional.Name = "buttonOperasional";
-            this.buttonOperasional.Size = new System.Drawing.Size(122, 23);
-            this.buttonOperasional.TabIndex = 2;
-            this.buttonOperasional.Text = "Menu Operasional";
-            this.buttonOperasional.UseVisualStyleBackColor = true;
-            this.buttonOperasional.Click += new System.EventHandler(this.buttonOperasional_Click);
+            buttonOperasional.Location = new Point(344, 3);
+            buttonOperasional.Name = "buttonOperasional";
+            buttonOperasional.Size = new Size(122, 23);
+            buttonOperasional.TabIndex = 2;
+            buttonOperasional.Text = "Menu Operasional";
+            buttonOperasional.UseVisualStyleBackColor = true;
+            buttonOperasional.Click += buttonOperasional_Click;
             // 
             // cmbLanguageUtama
             // 
-            this.cmbLanguageUtama.FormattingEnabled = true;
-            this.cmbLanguageUtama.Items.AddRange(new object[] {
-            "Indonesia",
-            "English"});
-            this.cmbLanguageUtama.Location = new System.Drawing.Point(472, 3);
-            this.cmbLanguageUtama.Name = "cmbLanguageUtama";
-            this.cmbLanguageUtama.Size = new System.Drawing.Size(121, 21);
-            this.cmbLanguageUtama.TabIndex = 2;
-            this.cmbLanguageUtama.SelectedIndexChanged += new System.EventHandler(this.cmbLanguageUtama_SelectedIndexChanged);
+            cmbLanguageUtama.FormattingEnabled = true;
+            cmbLanguageUtama.Items.AddRange(new object[] { "Indonesia", "English" });
+            cmbLanguageUtama.Location = new Point(472, 3);
+            cmbLanguageUtama.Name = "cmbLanguageUtama";
+            cmbLanguageUtama.Size = new Size(121, 23);
+            cmbLanguageUtama.TabIndex = 2;
+            cmbLanguageUtama.SelectedIndexChanged += cmbLanguageUtama_SelectedIndexChanged;
             // 
             // panelContent
             // 
-            this.panelContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelContent.Location = new System.Drawing.Point(0, 82);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(800, 366);
-            this.panelContent.TabIndex = 1;
-            this.panelContent.Paint += new System.Windows.Forms.PaintEventHandler(this.panelContent_Paint);
+            panelContent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            panelContent.Location = new Point(0, 82);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(800, 366);
+            panelContent.TabIndex = 1;
+            panelContent.Paint += panelContent_Paint;
             // 
             // BaseFormPegawai
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.panelContent);
-            this.Controls.Add(this.flowLayoutPanel1);
-            this.Name = "BaseFormPegawai";
-            this.Text = "NavbarForm";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.BaseFormPegawai_Load);
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleMode = AutoScaleMode.Dpi;
+            ClientSize = new Size(800, 450);
+            Controls.Add(panelContent);
+            Controls.Add(flowLayoutPanel1);
+            Name = "BaseFormPegawai";
+            Text = "NavbarForm";
+            WindowState = FormWindowState.Maximized;
+            Load += BaseFormPegawai_Load;
+            flowLayoutPanel1.ResumeLayout(false);
+            ResumeLayout(false);
 
         }
 

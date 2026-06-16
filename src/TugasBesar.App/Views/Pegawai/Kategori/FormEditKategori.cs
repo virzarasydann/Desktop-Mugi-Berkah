@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -26,11 +26,11 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             if (data != null)
             {
                 kategori = data;
-                tbNama.Text = data.Nama;
+                tbNama.Text = data.nama;
             }
             else
             {
-                kategori = new KategoriModels();
+                kategori = new KategoriModels { nama = "" };
             }
         }
 
@@ -63,7 +63,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 return;
             }
 
-            kategori.Nama = tbNama.Text;
+            kategori.nama = tbNama.Text;
 
             this.DialogResult = DialogResult.OK;
             this.Close();

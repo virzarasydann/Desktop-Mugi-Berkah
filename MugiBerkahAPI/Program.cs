@@ -23,15 +23,18 @@ builder.Services.AddScoped<IOperasionalRepository, OperasionalRepository>();
 builder.Services.AddScoped<IProdukRepository, ProdukRepository>();
 builder.Services.AddScoped<ITransaksiRepository, TransaksiRepository>();
 builder.Services.AddScoped<ITransaksiDetailsRepository, TransaksiDetailsRepository>();
+builder.Services.AddScoped<IMetodePembayaranRepository, MetodePembayaranRepository>();
+builder.Services.AddScoped<IStatusRepository, StatusRepository>();
 
 builder.Services.AddSingleton<IAkunPegawaiFactory, AkunPegawaiFactory>();
 
 builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
 builder.Services.AddScoped<IKategoriServices, KategoriService>();
-builder.Services.AddScoped<IOperasionalServices, OperasionalService>();
+builder.Services.AddScoped<IOperasionalService, OperasionalService>();
 builder.Services.AddScoped<IProdukServices, ProdukService>();
 builder.Services.AddScoped<ITransaksiServices, TransaksiServices>();
-
+builder.Services.AddScoped<IMetodePembayaranServices, MetodePembayaranService>();
+builder.Services.AddScoped<IStatusServices, StatusService>();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

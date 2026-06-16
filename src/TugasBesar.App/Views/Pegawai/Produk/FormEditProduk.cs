@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -17,18 +17,32 @@ namespace TugasBesar.App.Views.Pegawai.Produk
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ProdukModels produk { get; set; }
 
-        public FormEditProduk(ProdukModels data)
+        public FormEditProduk(ProdukModels data, IEnumerable<string> categories = null)
         {
             InitializeComponent();
             produk = data;
 
             ApplyLanguage();
 
-            LoadKategori();
+            cmbKategori.DropDownStyle = ComboBoxStyle.DropDownList;
+            tbHarga.KeyPress += tbHarga_KeyPress;
 
-            tbNama.Text = data.Nama;
-            cmbKategori.Text = data.Kategori;
-            tbHarga.Text = data.Harga.ToString();
+            if (categories != null)
+            {
+                cmbKategori.Items.Clear();
+                foreach (var item in categories)
+                {
+                    cmbKategori.Items.Add(item);
+                }
+            }
+            else
+            {
+                LoadKategori();
+            }
+
+            tbNama.Text = data.nama;
+            cmbKategori.Text = data.Kategori?.nama ?? "";
+            tbHarga.Text = "Rp " + data.harga.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         public void ApplyLanguage()
@@ -57,9 +71,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 return;
             }
 
-            if (!int.TryParse(tbHarga.Text, out int harga))
+            if (!int.TryParse(tbHarga.Text.Replace("Rp ", "").Replace(".", ""), out int harga))
             {
-                MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
+                MessageBox.Show(LocalizationService.GetString("msg_harga_angka") ?? "Harga harus berupa angka!");
                 return;
             }
 
@@ -69,9 +83,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 return;
             }
 
-            produk.Nama = tbNama.Text.Trim();
-            produk.Kategori = cmbKategori.Text.Trim();
-            produk.Harga = harga;
+            produk.nama = tbNama.Text.Trim();
+            if (produk.Kategori == null) produk.Kategori = new KategoriModels { nama = "" };
+            produk.Kategori.nama = cmbKategori.Text.Trim();
+            produk.harga = harga;
 
             this.DialogResult = DialogResult.OK;
             this.Close();
@@ -83,13 +98,33 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
             foreach (var item in DataManager.Kategori.GetAll())
             {
-                cmbKategori.Items.Add(item.Nama);
+                cmbKategori.Items.Add(item.nama);
             }
 
 
         }
 
-        private void tbHarga_TextChanged(object sender, EventArgs e) { }
+        private void tbHarga_TextChanged(object sender, EventArgs e) 
+        { 
+            if (string.IsNullOrEmpty(tbHarga.Text)) return;
+
+            string value = tbHarga.Text.Replace("Rp ", "").Replace(".", "");
+            if (decimal.TryParse(value, out decimal hargaValue))
+            {
+                tbHarga.TextChanged -= tbHarga_TextChanged;
+                tbHarga.Text = "Rp " + hargaValue.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbHarga.SelectionStart = tbHarga.Text.Length;
+                tbHarga.TextChanged += tbHarga_TextChanged;
+            }
+        }
+
+        private void tbHarga_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
         private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e) { }
         private void tbNama_TextChanged(object sender, EventArgs e) { }
         private void FormEditProduk_Load(object sender, EventArgs e) { }

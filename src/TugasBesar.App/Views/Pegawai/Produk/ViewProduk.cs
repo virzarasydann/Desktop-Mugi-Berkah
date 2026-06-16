@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using TugasBesar.Core.Controllers.Interfaces;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -16,20 +17,32 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 {
     public partial class ViewProduk : UserControl
     {
-        DataGeneric<ProdukModels> dataProduk = DataManager.Produk;
-        ProdukController _produkController = new ProdukController();
+        private readonly IProdukApi _produkApi;
+        private readonly MasterDataCacheService _cache;
         int selectedIndex = -1;
 
-        public ViewProduk()
+        public ViewProduk(IProdukApi produkApi, MasterDataCacheService cache)
         {
             InitializeComponent();
+            _produkApi = produkApi;
+            _cache = cache;
+
             dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvProduk.CellClick += dgvProduk_CellClick;
 
+            cmbKategoriProduk.DropDownStyle = ComboBoxStyle.DropDownList;
+            tbHargaProduk.TextChanged += tbHargaProduk_TextChanged;
+            tbHargaProduk.KeyPress += tbHargaProduk_KeyPress;
+
             ApplyLanguage();
 
+            this.Load += ViewProduk_Load;
+        }
+
+        private async void ViewProduk_Load(object sender, EventArgs e)
+        {
             LoadKategori();
-            TampilkanData();
+            await TampilkanData();
         }
 
         public void ApplyLanguage()
@@ -76,22 +89,29 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             }
         }
 
-        private void ViewProduk_Enter(object sender, EventArgs e)
+        private async void ViewProduk_Enter(object sender, EventArgs e)
         {
             LoadKategori();
-            TampilkanData();
+            await TampilkanData();
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-        }
 
-        private void btnTambahProduk_Click(object sender, EventArgs e)
+        private async void btnTambahProduk_Click(object sender, EventArgs e)
         {
             try
             {
-                _produkController.Tambah(tbNamaProduk.Text, cmbKategoriProduk.Text, tbHargaProduk.Text);
-                TampilkanData();
+                var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == cmbKategoriProduk.Text);
+                if (kategori == null) throw new Exception("Kategori tidak valid!");
+
+                var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
+                { 
+                    nama = tbNamaProduk.Text, 
+                    kategori_id = kategori.id, 
+                    harga = int.Parse(tbHargaProduk.Text.Replace("Rp ", "").Replace(".", "")) 
+                };
+                await _produkApi.Tambah(request);
+                MessageBox.Show("Produk berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await TampilkanData();
                 ClearInput();
             }
             catch (Exception ex)
@@ -100,21 +120,33 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             }
         }
 
-        private void btnEditProduk_Click(object sender, EventArgs e)
+        private async void btnEditProduk_Click(object sender, EventArgs e)
         {
             if (selectedIndex < 0) return;
 
-            var data = dataProduk.GetAll()[selectedIndex];
+            var data = _cache.DaftarProduk[selectedIndex];
+            
+            // Map back to old model for FormEditProduk compatibility
+            var modelData = new ProdukModels { id = data.Id, nama = data.Nama, Kategori = new KategoriModels { id = data.KategoriId, nama = data.NamaKategori }, harga = data.Harga };
 
-            FormEditProduk form = new FormEditProduk(data);
+            var categories = _cache.DaftarKategori?.Select(k => k.nama).ToList();
+            FormEditProduk form = new FormEditProduk(modelData, categories);
 
             if (form.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    // Since FormEditProduk modifies data by reference, we get the updated values
-                    _produkController.Edit(selectedIndex, data.Nama, data.Kategori, data.Harga.ToString());
-                    TampilkanData();
+                    var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == form.produk.Kategori?.nama);
+                    if (kategori == null) throw new Exception("Kategori tidak valid!");
+
+                    var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
+                    { 
+                        nama = form.produk.nama, 
+                        kategori_id = kategori.id, 
+                        harga = form.produk.harga 
+                    };
+                    await _produkApi.Edit(data.Id, request);
+                    await TampilkanData();
                 }
                 catch (Exception ex)
                 {
@@ -123,18 +155,30 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             }
         }
 
-        private void btnSetTex_Click(object sender, EventArgs e)
+        private async void btnSetTex_Click(object sender, EventArgs e)
         {
-            TampilkanData();
+            await TampilkanData();
         }
 
-        private void TampilkanData()
+        private async Task TampilkanData()
         {
-            // 1. JURUS SAPU JAGAT: Kosongkan data dan hancurkan semua kolom tanpa sisa!
-            dgvProduk.DataSource = null;
-            dgvProduk.Columns.Clear(); // <-- INI KUNCI UTAMANYA
+            try
+            {
+                var response = await _produkApi.GetAll();
+                if (response != null && response.Content != null)
+                {
+                    _cache.DaftarProduk = response.Content.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Gagal memuat data produk: {ex.Message}");
+            }
 
-            var list = dataProduk.GetAll();
+            dgvProduk.DataSource = null;
+            dgvProduk.Columns.Clear(); 
+
+            var list = _cache.DaftarProduk;
 
             if (list == null || list.Count == 0)
             {
@@ -145,9 +189,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             dgvProduk.DataSource = list;
 
             // Sembunyikan kolom Id jika ada di modelmu
-            if (dgvProduk.Columns.Contains("Id"))
+            if (dgvProduk.Columns.Contains("id"))
             {
-                dgvProduk.Columns["Id"].Visible = false;
+                dgvProduk.Columns["id"].Visible = false;
             }
 
             // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
@@ -161,28 +205,43 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             tbHargaProduk.Text = "";
         }
 
-        private void tbNamaProduk_TextChanged(object sender, EventArgs e) { }
-        private void cmbKategoriProduk_SelectedIndexChanged(object sender, EventArgs e) { }
-        private void tbHargaProduk_TextChanged(object sender, EventArgs e) { }
-        private void dgvProduk_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
 
-        private void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
 
-            if (e.RowIndex >= dataProduk.GetAll().Count) return;
+            if (e.RowIndex >= _cache.DaftarProduk.Count) return;
 
             selectedIndex = e.RowIndex;
 
-            var data = dataProduk.GetAll()[e.RowIndex];
+            var data = _cache.DaftarProduk[e.RowIndex];
+            var modelData = new ProdukModels { id = data.Id, nama = data.Nama, Kategori = new KategoriModels { id = data.KategoriId, nama = data.NamaKategori }, harga = data.Harga };
 
             if (dgvProduk.Columns[e.ColumnIndex].Name == "Edit")
             {
-                FormEditProduk form = new FormEditProduk(data);
+                var categories = _cache.DaftarKategori?.Select(k => k.nama).ToList();
+                FormEditProduk form = new FormEditProduk(modelData, categories);
 
                 if (form.ShowDialog() == DialogResult.OK)
                 {
-                    TampilkanData();
+                    try
+                    {
+                        var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == form.produk.Kategori?.nama);
+                        if (kategori == null) throw new Exception("Kategori tidak valid!");
+
+                        var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
+                        { 
+                            nama = form.produk.nama, 
+                            kategori_id = kategori.id, 
+                            harga = form.produk.harga 
+                        };
+                        await _produkApi.Edit(data.Id, request);
+                        await TampilkanData();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             else if (dgvProduk.Columns[e.ColumnIndex].Name == "Hapus")
@@ -197,8 +256,8 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 {
                     try
                     {
-                        _produkController.Hapus(e.RowIndex);
-                        TampilkanData();
+                        await _produkApi.Hapus(data.Id);
+                        await TampilkanData();
                     }
                     catch (Exception ex)
                     {
@@ -212,15 +271,36 @@ namespace TugasBesar.App.Views.Pegawai.Produk
         {
             cmbKategoriProduk.Items.Clear();
 
-            foreach (var item in DataManager.Kategori.GetAll())
+            if (_cache.DaftarKategori != null)
             {
-                cmbKategoriProduk.Items.Add(item.Nama);
+                foreach (var item in _cache.DaftarKategori)
+                {
+                    cmbKategoriProduk.Items.Add(item.nama);
+                }
             }
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e) { }
-        private void label2_Click(object sender, EventArgs e) { }
-        private void label3_Click(object sender, EventArgs e) { }
-        private void label4_Click(object sender, EventArgs e) { }
+        private void tbHargaProduk_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbHargaProduk.Text)) return;
+
+            string value = tbHargaProduk.Text.Replace("Rp ", "").Replace(".", "");
+            if (decimal.TryParse(value, out decimal harga))
+            {
+                tbHargaProduk.TextChanged -= tbHargaProduk_TextChanged;
+                tbHargaProduk.Text = "Rp " + harga.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbHargaProduk.SelectionStart = tbHargaProduk.Text.Length;
+                tbHargaProduk.TextChanged += tbHargaProduk_TextChanged;
+            }
+        }
+
+        private void tbHargaProduk_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }
