@@ -35,6 +35,7 @@ builder.Services.AddScoped<IProdukServices, ProdukService>();
 builder.Services.AddScoped<ITransaksiServices, TransaksiServices>();
 builder.Services.AddScoped<IMetodePembayaranServices, MetodePembayaranService>();
 builder.Services.AddScoped<IStatusServices, StatusService>();
+builder.Services.AddHttpClient<IMidtransService, MidtransService>();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

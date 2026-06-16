@@ -14,11 +14,13 @@ namespace TugasBesar.Core.Services
     {
         private readonly ITransaksiRepository _transaksiRepo;
         private readonly ITransaksiDetailsRepository _transaksiDetailsRepo;
+        private readonly IMidtransService _midtransService;
 
-        public TransaksiServices(ITransaksiRepository transaksiRepo, ITransaksiDetailsRepository transaksiDetailsRepo)
+        public TransaksiServices(ITransaksiRepository transaksiRepo, ITransaksiDetailsRepository transaksiDetailsRepo, IMidtransService midtransService)
         {
             _transaksiRepo = transaksiRepo;
             _transaksiDetailsRepo = transaksiDetailsRepo;
+            _midtransService = midtransService;
         }
 
         public async Task<IReadOnlyList<TransaksiResponseDTO>> GetAll()
@@ -26,7 +28,7 @@ namespace TugasBesar.Core.Services
             return await _transaksiRepo.GetTransaksiByIdWithRelationAsync();
         }
 
-        public async Task InsertTransactionWithRelation(TransaksiRequestDTO item)
+        public async Task<MidtransResponseDTO> InsertTransactionWithRelation(TransaksiRequestDTO item)
         {
             try
             {
@@ -66,7 +68,16 @@ namespace TugasBesar.Core.Services
                         UpdatedAt = DateTime.Now
                     };
 
-                // No Midtrans logic
+                    await _transaksiDetailsRepo.AddAsync(transaksiDetails);
+                }
+
+                if (item.IdMetodePembayaran == 2)
+                {
+                    string orderId = "ORDER-" + transaksi.IdTransaksi + "-" + DateTime.Now.Ticks;
+                    return await _midtransService.CreateTransactionAsync(orderId, totalHarga, item.NamaPembeli ?? "Pelanggan");
+                }
+
+                return new MidtransResponseDTO { token = null, redirect_url = null };
             }
             catch (Exception)
             {

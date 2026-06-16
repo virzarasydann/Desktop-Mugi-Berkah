@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc; 
 using TugasBesar.Core.Models;
@@ -42,8 +42,8 @@ namespace MugiBerkahAPI.Controllers
         {
             try
             {
-                await _services.InsertTransactionWithRelation(request);
-                return Ok(new { message = "Transaksi berhasil ditambahkan." });
+                var midtransResponse = await _services.InsertTransactionWithRelation(request);
+                return Ok(new { message = "Transaksi berhasil ditambahkan.", midtrans = midtransResponse });
             }
             catch (Exception ex)
             {
