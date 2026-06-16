@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TugasBesar.Core.Services;
-namespace TugasBesar.App.Views.Pegawai.Riwayat
+namespace TugasBesar.App.Views.Admin.Riwayat
 {
     public partial class ViewRiwayat : UserControl
     {

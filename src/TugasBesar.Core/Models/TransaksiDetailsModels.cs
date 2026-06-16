@@ -7,15 +7,16 @@ namespace TugasBesar.Core.Models
    
     public class TransaksiDetailsModels
     {
-        public int id { get; set; }
-        public int transaksi_id { get; set; }
-        public string produk_nama { get; set; }
-        public int quantity { get; set; }
+        public long IdDetail { get; set; }
+        public long IdTransaksi { get; set; }
+        public long IdProduk { get; set; }
+        public int Qty { get; set; }
+        public int HargaSatuan { get; set; }
+        public int Subtotal { get; set; }
+        public DateTime? CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public decimal harga { get; set; } = 0.00m;
-        public DateTime created_at { get; set; } = DateTime.Now;
-        public DateTime updated_at { get; set; } = DateTime.Now;
-
+        
         public TransaksiModels Transaksi { get; set; } = null!;
 
     }
