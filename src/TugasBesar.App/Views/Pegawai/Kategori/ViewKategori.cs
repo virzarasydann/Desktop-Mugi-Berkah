@@ -89,6 +89,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             {
                 var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = tbNamaKategori.Text };
                 await _kategoriApi.Tambah(request);
+                MessageBox.Show("Kategori berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await TampilkanData();
                 tbNamaKategori.Text = string.Empty;
             }
@@ -175,6 +176,11 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             }
 
             dgvKategori.DataSource = list;
+
+            if (dgvKategori.Columns.Contains("id"))
+            {
+                dgvKategori.Columns["id"].Visible = false;
+            }
 
             TambahKolomButton();
 

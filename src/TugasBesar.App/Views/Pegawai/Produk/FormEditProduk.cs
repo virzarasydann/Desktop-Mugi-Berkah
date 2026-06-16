@@ -24,6 +24,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
             ApplyLanguage();
 
+            cmbKategori.DropDownStyle = ComboBoxStyle.DropDownList;
+            tbHarga.KeyPress += tbHarga_KeyPress;
+
             if (categories != null)
             {
                 cmbKategori.Items.Clear();
@@ -39,7 +42,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
             tbNama.Text = data.nama;
             cmbKategori.Text = data.Kategori?.nama ?? "";
-            tbHarga.Text = data.harga.ToString();
+            tbHarga.Text = "Rp " + data.harga.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
         }
 
         public void ApplyLanguage()
@@ -68,9 +71,9 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 return;
             }
 
-            if (!int.TryParse(tbHarga.Text, out int harga))
+            if (!int.TryParse(tbHarga.Text.Replace("Rp ", "").Replace(".", ""), out int harga))
             {
-                MessageBox.Show(LocalizationService.GetString("msg_harga_angka"));
+                MessageBox.Show(LocalizationService.GetString("msg_harga_angka") ?? "Harga harus berupa angka!");
                 return;
             }
 
@@ -101,7 +104,27 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 
         }
 
-        private void tbHarga_TextChanged(object sender, EventArgs e) { }
+        private void tbHarga_TextChanged(object sender, EventArgs e) 
+        { 
+            if (string.IsNullOrEmpty(tbHarga.Text)) return;
+
+            string value = tbHarga.Text.Replace("Rp ", "").Replace(".", "");
+            if (decimal.TryParse(value, out decimal hargaValue))
+            {
+                tbHarga.TextChanged -= tbHarga_TextChanged;
+                tbHarga.Text = "Rp " + hargaValue.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbHarga.SelectionStart = tbHarga.Text.Length;
+                tbHarga.TextChanged += tbHarga_TextChanged;
+            }
+        }
+
+        private void tbHarga_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
         private void cmbKategori_SelectedIndexChanged(object sender, EventArgs e) { }
         private void tbNama_TextChanged(object sender, EventArgs e) { }
         private void FormEditProduk_Load(object sender, EventArgs e) { }
