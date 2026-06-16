@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -66,8 +66,7 @@ namespace TugasBesar.Core.Services
                         UpdatedAt = DateTime.Now
                     };
 
-                    await _transaksiDetailsRepo.AddAsync(transaksiDetails);
-                }
+                // No Midtrans logic
             }
             catch (Exception)
             {

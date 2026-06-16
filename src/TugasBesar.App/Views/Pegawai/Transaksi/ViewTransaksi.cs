@@ -314,14 +314,10 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             try
             {
-
                 await _transaksiApi.Tambah(request);
+                MessageBox.Show("Transaksi Berhasil.", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-                MessageBox.Show("Transaksi Berhasil.");
                 ResetAll();
-
-
                 TerapkanStatus(StatusTransaksi.Kosong);
             }
             catch (Exception ex)
