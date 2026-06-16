@@ -25,7 +25,7 @@ namespace TugasBesar.Core.Models
         public DateTime? UpdatedAt { get; set; }
 
        
-        public UsersModels User { get; set; } = null!;
+        public AkunPegawaiModels User { get; set; } = null!;
         public MetodePembayaranModels MetodePembayaran { get; set; } = null!;
         public StatusModels Status { get; set; } = null!;
         public ICollection<TransaksiDetailsModels> TransaksiDetails { get; set; } = new List<TransaksiDetailsModels>();

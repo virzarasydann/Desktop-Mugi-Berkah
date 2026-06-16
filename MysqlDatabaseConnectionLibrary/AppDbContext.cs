@@ -67,20 +67,6 @@ namespace MysqlDatabaseConnectionLibrary
                       .HasColumnName("harga");
             });
 
-            modelBuilder.Entity<UsersModels>(entity =>
-            {
-                entity.ToTable("users");
-                entity.HasKey(e => e.IdUser);
-                entity.Property(e => e.IdUser).HasColumnName("id_user");
-                entity.Property(e => e.NamaUser).HasColumnName("nama_user");
-                entity.Property(e => e.Username).HasColumnName("username");
-                entity.Property(e => e.Password).HasColumnName("password");
-                entity.Property(e => e.Role).HasColumnName("role");
-                entity.Property(e => e.RememberToken).HasColumnName("remember_token");
-                entity.Property(e => e.CreatedAt).HasColumnName("created_at");
-                entity.Property(e => e.UpdatedAt).HasColumnName("updated_at");
-            });
-
            
             modelBuilder.Entity<StatusModels>(entity =>
             {

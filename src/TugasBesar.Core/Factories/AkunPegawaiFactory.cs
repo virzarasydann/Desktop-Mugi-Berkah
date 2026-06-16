@@ -25,7 +25,7 @@ namespace TugasBesar.Core.Factories
                 nama = nama.Trim(),
                 nama_user = nama.Trim(),
                 password = password,
-                role = "kasir"
+                role = "PEGAWAI"
             };
         }
     }

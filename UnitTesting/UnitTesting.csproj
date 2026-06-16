@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\src\TugasBesar.Core\TugasBesar.Core.csproj" />
+    <ProjectReference Include="..\MysqlDatabaseConnectionLibrary\MysqlDatabaseConnectionLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
