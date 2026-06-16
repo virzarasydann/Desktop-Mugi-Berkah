@@ -65,7 +65,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             labelTransaksiJudul.Size = new Size(91, 20);
             labelTransaksiJudul.TabIndex = 2;
             labelTransaksiJudul.Text = "Transaksi";
-            labelTransaksiJudul.Click += labelTransaksiJudul_Click;
+            //labelTransaksiJudul.Click += labelTransaksiJudul_Click;
             // 
             // panel2
             // 
