@@ -33,7 +33,9 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 {
                     id = data.id,
                     nama = data.nama,
-                    password = data.password
+                    password = data.password,
+                    role = data.role,
+                    nama_user = data.nama_user
                 };
 
                 label1.Text = data.nama;
@@ -64,6 +66,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             }
 
             AkunEdit.nama = label1.Text;
+            AkunEdit.nama_user = label1.Text;
             AkunEdit.password = label2.Text;
 
             this.DialogResult = DialogResult.OK;

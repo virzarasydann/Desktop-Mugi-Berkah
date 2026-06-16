@@ -1,18 +1,18 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
-using TugasBesar.Core.Models;
 
 namespace TugasBesar.Core.Services.Interfaces
 {
+    /// <summary>
+    /// Antarmuka untuk layanan bisnis manajemen AkunPegawai.
+    /// </summary>
     public interface IAkunPegawaiServices
     {
         Task<IReadOnlyList<AkunResponseDTO>> GetAll();
         Task Tambah(AkunRequestDTO request);
-        Task Edit(int id, AkunRequestDTO request);
-        Task Hapus(int id);
+        Task Edit(long id, AkunRequestDTO request);
+        Task Hapus(long id);
     }
 }

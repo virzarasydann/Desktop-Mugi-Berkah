@@ -21,29 +21,35 @@ namespace MysqlDatabaseConnectionLibrary
             modelBuilder.Entity<ProdukModels>(entity =>
             {
                 entity.ToTable("produk");
-                
-                entity.HasKey(e => e.id);
-                entity.Property(e => e.id).HasColumnName("id_produk");
-                entity.Property(e => e.nama).HasColumnName("nama_produk");
-                entity.Property(e => e.kategori_id).HasColumnName("id_kategori");
-                entity.Property(e => e.harga).HasColumnName("harga");
+                entity.HasKey(p => p.id);
+                entity.Property(p => p.id).HasColumnName("id_produk");
+                entity.Property(p => p.nama).HasColumnName("nama_produk");
+                entity.Property(p => p.harga).HasColumnName("harga");
+                entity.Property(p => p.kategori_id).HasColumnName("id_kategori");
 
                 entity.HasOne(p => p.Kategori)
-                      .WithMany(k => k.Produk)
-                      .HasForeignKey(d => d.kategori_id);
+                    .WithMany(k => k.Produk)
+                    .HasForeignKey(d => d.kategori_id);
             });
 
             modelBuilder.Entity<KategoriModels>(entity =>
             {
                 entity.ToTable("kategori");
-                
-                entity.HasKey(e => e.id);
-                entity.Property(e => e.id).HasColumnName("id_kategori");
-                entity.Property(e => e.nama).HasColumnName("nama_kategori");
+                entity.HasKey(k => k.id);
+                entity.Property(k => k.id).HasColumnName("id_kategori");
+                entity.Property(k => k.nama).HasColumnName("nama_kategori");
             });
 
-            modelBuilder.Entity<AkunPegawaiModels>()
-                .ToTable("pegawai");
+            modelBuilder.Entity<AkunPegawaiModels>(entity =>
+            {
+                entity.ToTable("users");
+                entity.HasKey(a => a.id);
+                entity.Property(a => a.id).HasColumnName("id_user");
+                entity.Property(a => a.nama).HasColumnName("username");
+                entity.Property(a => a.password).HasColumnName("password");
+                entity.Property(a => a.role).HasColumnName("role");
+                entity.Property(a => a.nama_user).HasColumnName("nama_user");
+            });
 
             modelBuilder.Entity<OperasionalModels>(entity =>
             {

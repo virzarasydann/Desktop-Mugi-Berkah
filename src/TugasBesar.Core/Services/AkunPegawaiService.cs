@@ -8,9 +8,14 @@ using TugasBesar.Core.Models;
 using TugasBesar.Core.Repositories.Interfaces;
 using TugasBesar.Core.Services.Interfaces;
 using TugasBesar.Core.Factories;
+using TugasBesar.Core.Security;
 
 namespace TugasBesar.Core.Services
 {
+    /// <summary>
+    /// Layanan bisnis asinkron untuk penanganan data akun pegawai.
+    /// Menggunakan repository pattern dan factory pattern.
+    /// </summary>
     public class AkunPegawaiService : IAkunPegawaiServices
     {
         private readonly IAkunPegawaiRepository _repository;
@@ -41,11 +46,13 @@ namespace TugasBesar.Core.Services
             if (list.Any(a => string.Equals(a.nama?.Trim(), newName, StringComparison.OrdinalIgnoreCase)))
                 throw new Exception("Username pegawai sudah ada!");
 
-            var akunBaru = _factory.Create(request.name, request.password);
+            // Hash password sebelum disimpan
+            var hashedPassword = PasswordHasher.HashPassword(request.password);
+            var akunBaru = _factory.Create(request.name, hashedPassword);
             await _repository.AddAsync(akunBaru);
         }
 
-        public async Task Edit(int id, AkunRequestDTO request)
+        public async Task Edit(long id, AkunRequestDTO request)
         {
             var newName = request.name.Trim();
             var existing = await _repository.GetByIdAsync(id);
@@ -53,7 +60,9 @@ namespace TugasBesar.Core.Services
             if (existing == null)
                 throw new Exception("Data tidak ditemukan!");
 
-            if (string.Equals((existing.nama ?? string.Empty).Trim(), newName, StringComparison.OrdinalIgnoreCase) && existing.password == request.password)
+            // Verifikasi password lama yang ter-hash dengan password baru masukan
+            bool isPasswordSame = PasswordHasher.VerifyPassword(existing.password, request.password);
+            if (string.Equals((existing.nama ?? string.Empty).Trim(), newName, StringComparison.OrdinalIgnoreCase) && isPasswordSame)
                 throw new Exception("Data masih sama!");
 
             var list = await _repository.GetAllAsync();
@@ -61,11 +70,12 @@ namespace TugasBesar.Core.Services
                 throw new Exception("Username pegawai sudah ada!");
 
             existing.nama = newName;
-            existing.password = request.password;
+            existing.nama_user = newName;
+            existing.password = PasswordHasher.HashPassword(request.password);
             await _repository.UpdateAsync(existing);
         }
 
-        public async Task Hapus(int id)
+        public async Task Hapus(long id)
         {
             var existing = await _repository.GetByIdAsync(id);
             if (existing == null)

@@ -9,9 +9,10 @@ namespace TugasBesar.Core.Models
 {
     public class AkunPegawaiModels
     {
-        public int id { get; set; }
-        public string nama { get; set; }
-        public string password { get; set; }
-        public string role { get; } = "PEGAWAI"; 
+        public long id { get; set; }
+        public string nama { get; set; } = string.Empty;
+        public string password { get; set; } = string.Empty;
+        public string role { get; set; } = "kasir"; 
+        public string nama_user { get; set; } = string.Empty;
     }
 }

@@ -8,13 +8,10 @@ using TugasBesar.App.Views.Pegawai;
 using TugasBesar.App.Views.Pegawai.Transaksi;
 using TugasBesar.Core.Controllers.Interfaces; 
 using TugasBesar.Core.Services;
-using TugasBesar.App.Views.Pegawai.Produk;
-using TugasBesar.App.Views.Pegawai.Kategori;
-//using TugasBesar.App.Views.Pegawai.Operasional;
+//using TugasBesar.App.Views.Pegawai.Produk;
+//using TugasBesar.App.Views.Pegawai.Kategori;
+using TugasBesar.App.Views.Pegawai.Operasional;
 using TugasBesar.App.Views.Admin.AkunPegawai;
-using TugasBesar.App.Views.Admin;
-
-using TugasBesar.App.Views.Admin.Riwayat;
 
 namespace TugasBesar.App
 {
@@ -72,8 +69,8 @@ namespace TugasBesar.App
             services.AddTransient<ViewRiwayat>();
 
             services.AddTransient<ViewTransaksi>();
-            services.AddTransient<ViewProduk>();
-            services.AddTransient<ViewKategori>();
+            //services.AddTransient<ViewProduk>();
+            //services.AddTransient<ViewKategori>();
             //services.AddTransient<ViewOperasional>();
             services.AddTransient<ViewTambahAkunPegawai>();
 

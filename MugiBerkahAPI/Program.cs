@@ -17,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddControllers();
 
 
-builder.Services.AddScoped<IAkunPegawaiRepository, AkunPegawaiRepository>(); 
+ builder.Services.AddScoped<IAkunPegawaiRepository, AkunPegawaiRepository>(); 
 builder.Services.AddScoped<IKategoriRepository, KategoriRepository>();
 builder.Services.AddScoped<IOperasionalRepository, OperasionalRepository>();
 builder.Services.AddScoped<IProdukRepository, ProdukRepository>();

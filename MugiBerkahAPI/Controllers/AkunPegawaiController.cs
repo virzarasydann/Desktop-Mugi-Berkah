@@ -3,11 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TugasBesar.Core.DTO.Request;
-using TugasBesar.Core.Models;
+using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Services.Interfaces;
 
 namespace MugiBerkahAPI.Controllers
 {
+    /// <summary>
+    /// Controller REST API untuk mengelola data akun pegawai (users).
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class AkunPegawaiController : ControllerBase
@@ -48,7 +51,7 @@ namespace MugiBerkahAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(int id, [FromBody] AkunRequestDTO request)
+        public async Task<IActionResult> Edit(long id, [FromBody] AkunRequestDTO request)
         {
             try
             {
@@ -62,7 +65,7 @@ namespace MugiBerkahAPI.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Hapus(int id)
+        public async Task<IActionResult> Hapus(long id)
         {
             try
             {

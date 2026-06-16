@@ -10,7 +10,8 @@ namespace TugasBesar.Core.Factories
     public class AkunPegawaiFactory : IAkunPegawaiFactory
     {
         /// <summary>
-        /// Membuat instansi AkunPegawaiModels dengan melakukan trimming username dan validasi null/kosong.
+        /// Membuat instansi AkunPegawaiModels dengan melakukan trimming username,
+        /// mengisi nama_user, dan menetapkan default role ke "kasir" (enum database).
         /// </summary>
         public AkunPegawaiModels Create(string nama, string password)
         {
@@ -22,7 +23,9 @@ namespace TugasBesar.Core.Factories
             return new AkunPegawaiModels
             {
                 nama = nama.Trim(),
-                password = password
+                nama_user = nama.Trim(),
+                password = password,
+                role = "kasir"
             };
         }
     }
