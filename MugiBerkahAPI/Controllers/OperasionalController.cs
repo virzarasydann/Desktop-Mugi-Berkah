@@ -1,14 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using TugasBesar.Core.Models;
-using TugasBesar.Core.Services;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.Services.Interfaces;
-using TugasBesar.Core.Controllers.Interfaces;
 
 namespace MugiBerkahAPI.Controllers
 {
@@ -16,11 +10,11 @@ namespace MugiBerkahAPI.Controllers
     [Route("api/[controller]")]
     public class OperasionalController : ControllerBase
     {
-        private readonly IOperasionalServices _services;
+        private readonly IOperasionalService _operasionalService;
 
-        public OperasionalController(IOperasionalServices services)
+        public OperasionalController(IOperasionalService operasionalService)
         {
-            _services = services;
+            _operasionalService = operasionalService;
         }
 
         [HttpGet]
@@ -28,12 +22,12 @@ namespace MugiBerkahAPI.Controllers
         {
             try
             {
-                var data = await _services.GetAll();
+                var data = await _operasionalService.GetAll();
                 return Ok(data);
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return HandleError(ex);
             }
         }
 
@@ -42,7 +36,7 @@ namespace MugiBerkahAPI.Controllers
         {
             try
             {
-                var data = await _services.GetAllById(id);
+                var data = await _operasionalService.GetById(id);
 
                 if (data == null)
                     return NotFound(new { message = "Data operasional tidak ditemukan." });
@@ -51,30 +45,21 @@ namespace MugiBerkahAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return HandleError(ex);
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Tambah(
-    [FromBody] OperasionalRequestDTO request)
+        public async Task<IActionResult> Tambah([FromBody] OperasionalRequestDTO request)
         {
             try
             {
-                await _services.Tambah(request);
-
-                return Ok(new
-                {
-                    message = "Data operasional berhasil ditambahkan."
-                });
+                await _operasionalService.Tambah(request);
+                return Ok(new { message = "Data operasional berhasil ditambahkan." });
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new
-                {
-                    message = ex.Message,
-                    detail = ex.InnerException?.Message
-                });
+                return HandleError(ex);
             }
         }
 
@@ -83,16 +68,12 @@ namespace MugiBerkahAPI.Controllers
         {
             try
             {
-                await _services.Edit(id, request);
-
-                return Ok(new
-                {
-                    message = "Data operasional berhasil diperbarui."
-                });
+                await _operasionalService.Edit(id, request);
+                return Ok(new { message = "Data operasional berhasil diperbarui." });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return HandleError(ex);
             }
         }
 
@@ -101,18 +82,22 @@ namespace MugiBerkahAPI.Controllers
         {
             try
             {
-                await _services.Hapus(id);
-
-                return Ok(new
-                {
-                    message = "Data operasional berhasil dihapus."
-                });
+                await _operasionalService.Hapus(id);
+                return Ok(new { message = "Data operasional berhasil dihapus." });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message });
+                return HandleError(ex);
             }
+        }
+
+        private IActionResult HandleError(Exception ex)
+        {
+            return BadRequest(new
+            {
+                message = ex.Message,
+                detail = ex.InnerException?.Message
+            });
         }
     }
 }
-

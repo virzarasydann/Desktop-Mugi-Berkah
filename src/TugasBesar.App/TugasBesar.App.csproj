@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -7,12 +7,6 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="Views\Pegawai\Operasional\**" />
-    <EmbeddedResource Remove="Views\Pegawai\Operasional\**" />
-    <None Remove="Views\Pegawai\Operasional\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Refit.HttpClientFactory" Version="10.1.6" />
