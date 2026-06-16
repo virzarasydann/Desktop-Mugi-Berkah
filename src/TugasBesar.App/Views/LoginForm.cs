@@ -83,8 +83,8 @@ namespace TugasBesar.App.Views
             String username = textBoxUsername.Text;
             String password = textBoxPassword.Text;
 
-            var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
-            //var formPegawai = _serviceProvider.GetRequiredService<BaseFormAdmin>();
+            //var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
+            var formPegawai = _serviceProvider.GetRequiredService<BaseFormAdmin>();
             formPegawai.FormClosed += (s, args) => this.Close();
 
             this.Hide();

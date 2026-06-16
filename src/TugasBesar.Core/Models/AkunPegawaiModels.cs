@@ -12,7 +12,9 @@ namespace TugasBesar.Core.Models
         public long id { get; set; }
         public string nama { get; set; } = string.Empty;
         public string password { get; set; } = string.Empty;
-        public string role { get; set; } = "kasir"; 
+        public string role { get; set; } = "PEGAWAI"; 
         public string nama_user { get; set; } = string.Empty;
+
+        public ICollection<TransaksiModels> Transaksi { get; set; } = new List<TransaksiModels>();
     }
 }
