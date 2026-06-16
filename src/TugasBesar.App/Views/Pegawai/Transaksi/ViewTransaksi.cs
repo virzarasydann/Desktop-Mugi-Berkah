@@ -28,6 +28,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
         private TransactionInMemory _keranjang;
         private StatusTransaksi _statusSekarang;
         private Control[] _semuaKontrol;
+        private Control[] _semuaTextbox;
         private Dictionary<StatusTransaksi, StatusTransaksi[]> _transisiValid;
         private Dictionary<StatusTransaksi, Control[]> _statusKeKontrolAktif;
         private MetodePembayaran _metodePembayaran;
@@ -44,6 +45,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             InisialisasiDaftarKontrol();
             InisialisasiMappingStatus();
             InisialisasiTransisi();
+            InisialisasiDaftarTextbox();
             ApplyLanguage();
 
             TerapkanStatus(StatusTransaksi.Kosong);
@@ -109,6 +111,18 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 btnLunas,
                 btnBelumLunas,
                 panelListProduk
+            };
+        }
+
+        private void InisialisasiDaftarTextbox()
+        {
+            _semuaTextbox = new Control[]
+            {
+                tbNamaPembeli,
+                tbUangKembalian,
+                tbUangDiterima,
+                tbTotal,
+                tbStatus
             };
         }
 
@@ -187,6 +201,7 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 ucKeranjang.HargaSatuan = item.HargaSatuan;
                 ucKeranjang.Jumlah = item.Jumlah;
                 panelListKeranjang.Controls.Add(ucKeranjang);
+                
             }
 
             UpdateUIGrandTotal();
@@ -279,13 +294,32 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
 
             try
             {
+               
                 await _transaksiApi.Tambah(request);
+
+                
+                MessageBox.Show("Transaksi Berhasil.");
+                ResetAll();
+
+               
+                TerapkanStatus(StatusTransaksi.Kosong);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error: {ex.Message}");
             }
 
+
+        }
+
+        private void ResetAll()
+        {
+            panelListKeranjang.Controls.Clear();
+            _keranjang.ResetKeranjang();
+            foreach(var text in _semuaTextbox)
+            {
+                text.Text = string.Empty;
+            }
 
         }
         private void tbTotal_TextChanged(object sender, EventArgs e) { UpdateUIGrandTotal(); }
