@@ -231,10 +231,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 -- Dumping data for table mugi_berkah.users: ~6 rows (approximately)
 INSERT INTO `users` (`id_user`, `nama_user`, `username`, `password`, `role`, `remember_token`, `created_at`, `updated_at`) VALUES
 	(1, 'Admin Sistem', 'admin', '$2y$12$aljtYySmpQxdbmzoLWusMOAZt.LDs1t6DUoRfcN1Qtf5Qp4L.hcWu', 'admin', NULL, '2026-01-01 09:17:34', '2026-01-01 09:17:34'),
-	(2, 'Kasir Toko', 'kasir', '$2y$12$ugv95al8dK788UcS1wIkh.sQhsVqib2ldvUSRAbNzcupAMH4KzZwS', 'kasir', NULL, '2026-01-01 09:17:35', '2026-01-02 06:51:43'),
-	(3, 'Kasir 2', 'kasir2', '$2y$12$MRgeUusNuIynxd0ib5x5o.I5WnEFvynjWDrwjxanuWjvXp1LLcepa', 'kasir', NULL, '2026-01-01 09:17:35', '2026-01-01 09:17:35'),
-	(4, '123123', '123123123', '$2y$12$LmBIB2hRaf7YM75Gv.p/I.AeN8BdoznXJyUrHuhuVCfUNtfSixRj6', 'kasir', NULL, '2026-01-11 21:47:05', '2026-01-11 21:47:05'),
-	(5, 'lala', 'lulu', '$2y$12$JRPtgaqbRI03IldCa1/deuWcgM9KFsWKC4pUA3HYuIOiFAa2LJ/dy', 'kasir', NULL, '2026-01-13 18:57:35', '2026-01-13 18:57:35');
+	(2, 'Kasir Toko', 'kasir', '$2y$12$ugv95al8dK788UcS1wIkh.sQhsVqib2ldvUSRAbNzcupAMH4KzZwS', 'PEGAWAI', NULL, '2026-01-01 09:17:35', '2026-01-02 06:51:43'),
+	(3, 'Kasir 2', 'kasir2', '$2y$12$MRgeUusNuIynxd0ib5x5o.I5WnEFvynjWDrwjxanuWjvXp1LLcepa', 'PEGAWAI', NULL, '2026-01-01 09:17:35', '2026-01-01 09:17:35'),
+	(4, '123123', '123123123', '$2y$12$LmBIB2hRaf7YM75Gv.p/I.AeN8BdoznXJyUrHuhuVCfUNtfSixRj6', 'PEGAWAI', NULL, '2026-01-11 21:47:05', '2026-01-11 21:47:05'),
+	(5, 'lala', 'lulu', '$2y$12$JRPtgaqbRI03IldCa1/deuWcgM9KFsWKC4pUA3HYuIOiFAa2LJ/dy', 'PEGAWAI', NULL, '2026-01-13 18:57:35', '2026-01-13 18:57:35');
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

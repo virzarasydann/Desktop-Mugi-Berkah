@@ -11,7 +11,7 @@ namespace TugasBesar.Core.Factories
     {
         /// <summary>
         /// Membuat instansi AkunPegawaiModels dengan melakukan trimming username,
-        /// mengisi nama_user, dan menetapkan default role ke "kasir" (enum database).
+        /// mengisi nama_user, dan menetapkan default role ke "PEGAWAI".
         /// </summary>
         public AkunPegawaiModels Create(string nama, string password)
         {
