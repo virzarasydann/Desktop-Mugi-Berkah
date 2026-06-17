@@ -216,10 +216,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        /// <summary>
-        /// Mengambil pesan error asli dari body response API (format { message, detail })
-        /// agar lebih informatif dibanding pesan generik bawaan Refit.
-        /// </summary>
         private static string TampilkanPesanError(ApiException ex)
         {
             var statusInfo = $"Status: {(int)ex.StatusCode} {ex.StatusCode}";
@@ -252,10 +248,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        /// <summary>
-        /// Validasi input form sebelum dikirim ke API.
-        /// Mengembalikan false dan menampilkan alert jika ada input yang tidak valid.
-        /// </summary>
         private bool ValidasiInput(string nama, string hargaText, out int harga)
         {
             harga = 0;

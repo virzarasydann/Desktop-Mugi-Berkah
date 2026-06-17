@@ -75,7 +75,7 @@ namespace TugasBesar.App
             services.AddTransient<ViewTransaksi>();
             services.AddTransient<ViewProduk>();
             services.AddTransient<ViewKategori>();
-            //services.AddTransient<ViewOperasional>();
+            services.AddTransient<ViewOperasional>();
             services.AddTransient<ViewTambahAkunPegawai>();
 
             using var serviceProvider = services.BuildServiceProvider();
