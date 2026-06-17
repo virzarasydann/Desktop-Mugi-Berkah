@@ -52,9 +52,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseHttpsRedirection(); // Dinonaktifkan agar HTTP bisa diakses langsung
+// Automatically migrate/update the database schema on startup
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        context.Database.ExecuteSqlRaw("ALTER TABLE `users` MODIFY COLUMN `role` varchar(50) NOT NULL DEFAULT 'PEGAWAI';");
+        context.Database.ExecuteSqlRaw("UPDATE `users` SET `role` = 'PEGAWAI' WHERE `role` = 'kasir';");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("Database schema update error: " + ex.Message);
+    }
+}
 
-// 4. Map ke Controllers Route
 app.MapControllers();
 
 app.Run();
