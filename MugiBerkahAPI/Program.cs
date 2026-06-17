@@ -60,6 +60,14 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.ExecuteSqlRaw("ALTER TABLE `users` MODIFY COLUMN `role` varchar(50) NOT NULL DEFAULT 'PEGAWAI';");
         context.Database.ExecuteSqlRaw("UPDATE `users` SET `role` = 'PEGAWAI' WHERE `role` = 'kasir';");
+
+        // Force reset admin password to 'admin' (hashed with PBKDF2) if it starts with php/bcrypt style '$2y$'
+        var adminUser = context.AkunPegawai.FirstOrDefault(u => u.nama == "admin");
+        if (adminUser != null && adminUser.password.StartsWith("$2y$"))
+        {
+            adminUser.password = TugasBesar.Core.Security.PasswordHasher.HashPassword("admin");
+            context.SaveChanges();
+        }
     }
     catch (Exception ex)
     {

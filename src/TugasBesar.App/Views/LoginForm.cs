@@ -18,6 +18,8 @@ using TugasBesar.Core.DTO.Response;
 using TugasBesar.Core.Services;
 using TugasBesar.Localization;
 
+using TugasBesar.Core.DTO.Request;
+
 namespace TugasBesar.App.Views
 {
     public partial class LoginForm : Form
@@ -28,13 +30,15 @@ namespace TugasBesar.App.Views
         private readonly IMetodePembayaranApi _metodePembayaranApi;
         private readonly IStatusApi _statusApi;
         private readonly MasterDataCacheService _cache;
+        private readonly IAkunPegawaiApi _akunPegawaiApi;
 
 
         public LoginForm(IServiceProvider serviceProvider, IProdukApi produkApi,
             IKategoriApi kategoriApi,
             IMetodePembayaranApi metodePembayaranApi,
             IStatusApi statusApi,
-            MasterDataCacheService cache)
+            MasterDataCacheService cache,
+            IAkunPegawaiApi akunPegawaiApi)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -43,6 +47,7 @@ namespace TugasBesar.App.Views
             _metodePembayaranApi = metodePembayaranApi;
             _statusApi = statusApi;
             _cache = cache;
+            _akunPegawaiApi = akunPegawaiApi;
 
             cmbLanguage.Items.Clear();
             cmbLanguage.Items.Add("Indonesia");
@@ -78,17 +83,64 @@ namespace TugasBesar.App.Views
         }
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {
-            String username = textBoxUsername.Text;
-            String password = textBoxPassword.Text;
+            string username = textBoxUsername.Text;
+            string password = textBoxPassword.Text;
 
-            //var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
-            var formPegawai = _serviceProvider.GetRequiredService<BaseFormAdmin>();
-            formPegawai.FormClosed += (s, args) => this.Close();
+            string placeholderUsername = LocalizationService.GetString("placeholder_username") ?? "Username";
+            string placeholderPassword = LocalizationService.GetString("placeholder_password") ?? "Password";
 
-            this.Hide();
-            formPegawai.Show();
+            // Validate if inputs are empty or placeholder values
+            if (string.IsNullOrWhiteSpace(username) || username == placeholderUsername ||
+                string.IsNullOrWhiteSpace(password) || password == placeholderPassword)
+            {
+                MessageBox.Show("Username dan Password wajib diisi!", "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                button1.Enabled = false;
+                button1.Text = "Memproses...";
+
+                var response = await _akunPegawaiApi.Login(new LoginRequestDTO
+                {
+                    Username = username,
+                    Password = password
+                });
+
+                if (response != null && response.IsSuccess)
+                 {
+                     Form nextForm;
+                     // Redirect to Admin or Pegawai form depending on the role
+                     if (string.Equals(response.Role, "admin", StringComparison.OrdinalIgnoreCase))
+                     {
+                         nextForm = _serviceProvider.GetRequiredService<BaseFormAdmin>();
+                     }
+                     else
+                     {
+                         nextForm = _serviceProvider.GetRequiredService<BaseFormPegawai>();
+                     }
+
+                     nextForm.FormClosed += (s, args) => this.Close();
+                     this.Hide();
+                     nextForm.Show();
+                 }
+                 else
+                 {
+                     MessageBox.Show(response?.Message ?? "Username atau Password salah!", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                 }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Username atau Password salah!", "Login Gagal", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                button1.Enabled = true;
+                button1.Text = LocalizationService.GetString("btn_login") ?? "Login";
+            }
         }
 
         private async void LoginForm_Load(object sender, EventArgs e)

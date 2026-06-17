@@ -14,5 +14,6 @@ namespace TugasBesar.Core.Services.Interfaces
         Task Tambah(AkunRequestDTO request);
         Task Edit(long id, AkunRequestDTO request);
         Task Hapus(long id);
+        Task<LoginResponseDTO> Login(LoginRequestDTO request);
     }
 }

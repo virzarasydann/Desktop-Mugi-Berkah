@@ -77,5 +77,23 @@ namespace MugiBerkahAPI.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginRequestDTO request)
+        {
+            try
+            {
+                var response = await _service.Login(request);
+                if (!response.IsSuccess)
+                {
+                    return BadRequest(response);
+                }
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new LoginResponseDTO { IsSuccess = false, Message = ex.Message });
+            }
+        }
     }
 }

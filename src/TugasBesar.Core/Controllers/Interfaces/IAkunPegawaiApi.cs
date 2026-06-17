@@ -19,5 +19,8 @@ namespace TugasBesar.Core.Controllers.Interfaces
 
         [Delete("/api/AkunPegawai/{id}")]
         Task HapusAkun(long id);
+
+        [Post("/api/AkunPegawai/login")]
+        Task<LoginResponseDTO> Login([Body] LoginRequestDTO request);
     }
 }
