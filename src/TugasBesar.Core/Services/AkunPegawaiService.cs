@@ -83,5 +83,40 @@ namespace TugasBesar.Core.Services
 
             await _repository.DeleteAsync(id);
         }
+
+        public async Task<LoginResponseDTO> Login(LoginRequestDTO request)
+        {
+            var username = request.Username.Trim();
+            var list = await _repository.GetAllAsync();
+
+            var user = list.FirstOrDefault(a => string.Equals(a.nama?.Trim(), username, StringComparison.OrdinalIgnoreCase));
+            if (user == null)
+            {
+                return new LoginResponseDTO
+                {
+                    IsSuccess = false,
+                    Message = "Username tidak ditemukan!"
+                };
+            }
+
+            // Verify the hashed password
+            bool isPasswordCorrect = PasswordHasher.VerifyPassword(user.password, request.Password);
+            if (!isPasswordCorrect)
+            {
+                return new LoginResponseDTO
+                {
+                    IsSuccess = false,
+                    Message = "Password salah!"
+                };
+            }
+
+            return new LoginResponseDTO
+            {
+                IsSuccess = true,
+                Message = "Login berhasil!",
+                Username = user.nama,
+                Role = user.role
+            };
+        }
     }
 }

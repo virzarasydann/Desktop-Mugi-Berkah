@@ -161,6 +161,26 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 // POST-CONDITION (Syarat Akhir)
                 Debug.Assert(string.IsNullOrEmpty(tbUsername.Text) && string.IsNullOrEmpty(tbPassword.Text), "DbC Post-condition Gagal: Form gagal dikosongkan setelah sukses!");
             }
+            catch (Refit.ApiException apiEx)
+            {
+                string errMsg = "Penyebab tidak diketahui.";
+                try
+                {
+                    var content = apiEx.Content;
+                    if (!string.IsNullOrWhiteSpace(content))
+                    {
+                        using (var doc = System.Text.Json.JsonDocument.Parse(content))
+                        {
+                            if (doc.RootElement.TryGetProperty("message", out var messageProp))
+                            {
+                                errMsg = messageProp.GetString() ?? errMsg;
+                            }
+                        }
+                    }
+                }
+                catch { }
+                TampilkanPesanPeringatan($"Gagal menambahkan akun: {errMsg}");
+            }
             catch (Exception ex)
             {
                 TampilkanPesanPeringatan($"Gagal menambahkan akun: {ex.Message}");
