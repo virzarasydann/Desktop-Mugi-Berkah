@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
-using TugasBesar.Core.Models;
+using TugasBesar.Core.Factories;
+using TugasBesar.Core.Factories.Payments;
 using TugasBesar.Core.Repositories.Interfaces;
 using TugasBesar.Core.Services.Interfaces;
 
@@ -14,13 +14,17 @@ namespace TugasBesar.Core.Services
     {
         private readonly ITransaksiRepository _transaksiRepo;
         private readonly ITransaksiDetailsRepository _transaksiDetailsRepo;
-        private readonly IMidtransService _midtransService;
+        private readonly PaymentFactory _paymentFactory;
 
-        public TransaksiServices(ITransaksiRepository transaksiRepo, ITransaksiDetailsRepository transaksiDetailsRepo, IMidtransService midtransService)
+        
+        public TransaksiServices(
+            ITransaksiRepository transaksiRepo,
+            ITransaksiDetailsRepository transaksiDetailsRepo,
+            PaymentFactory paymentFactory)
         {
             _transaksiRepo = transaksiRepo;
             _transaksiDetailsRepo = transaksiDetailsRepo;
-            _midtransService = midtransService;
+            _paymentFactory = paymentFactory;
         }
 
         public async Task<IReadOnlyList<TransaksiResponseDTO>> GetAll()
@@ -32,52 +36,22 @@ namespace TugasBesar.Core.Services
         {
             try
             {
-                int totalHarga = item.Keranjang.Sum(k => k.Subtotal);
                 
+                var (transaksi, details) = TransactionFactory.Create(item);
+
                 
-                int? uangKembalian = item.UangDiterima.HasValue 
-                    ? (item.UangDiterima.Value - totalHarga) 
-                    : null;
-
-                var transaksi = new TransaksiModels
-                {
-                    IdUser = item.IdUser,
-                    NamaPembeli = item.NamaPembeli,
-                    IdMetodePembayaran = item.IdMetodePembayaran,
-                    IdStatus = item.IdStatus,
-                    TotalHarga = totalHarga,
-                    UangDiterima = item.UangDiterima,
-                    UangKembalian = uangKembalian,
-                    Tanggal = DateTime.Now,
-                    CreatedAt = DateTime.Now,
-                    UpdatedAt = DateTime.Now
-                };
-
                 await _transaksiRepo.AddAsync(transaksi);
 
-                foreach (var details in item.Keranjang)
+             
+                foreach (var detail in details)
                 {
-                    var transaksiDetails = new TransaksiDetailsModels
-                    {
-                        IdTransaksi = transaksi.IdTransaksi,
-                        IdProduk = details.IdProduk,
-                        Qty = details.Qty,
-                        HargaSatuan = details.HargaSatuan,
-                        Subtotal = details.Subtotal,
-                        CreatedAt = DateTime.Now,
-                        UpdatedAt = DateTime.Now
-                    };
-
-                    await _transaksiDetailsRepo.AddAsync(transaksiDetails);
+                    detail.IdTransaksi = transaksi.IdTransaksi; 
+                    await _transaksiDetailsRepo.AddAsync(detail);
                 }
 
-                if (item.IdMetodePembayaran == 2)
-                {
-                    string orderId = "ORDER-" + transaksi.IdTransaksi + "-" + DateTime.Now.Ticks;
-                    return await _midtransService.CreateTransactionAsync(orderId, totalHarga, item.NamaPembeli ?? "Pelanggan");
-                }
-
-                return new MidtransResponseDTO { token = null, redirect_url = null };
+                
+                var paymentProcessor = _paymentFactory.CreateProcessor(item.IdMetodePembayaran);
+                return await paymentProcessor.ProcessPaymentAsync(transaksi);
             }
             catch (Exception)
             {
