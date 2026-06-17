@@ -1,7 +1,6 @@
-﻿ 
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Repositories.Interfaces;
@@ -27,9 +26,18 @@ namespace MysqlDatabaseConnectionLibrary.Repositories
                 {
                     id = x.id,
                     Nama = x.Nama,
-                    Harga = x.Harga
+                    Harga = x.Harga,
+                    IdUser = x.IdUser,
+                    NamaUser = x.User.nama_user
                 })
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<IReadOnlyList<OperasionalModels>> GetAllWithUserAsync()
+        {
+            return await _dbSet
+                .Include(x => x.User)
+                .ToListAsync();
         }
     }
 }

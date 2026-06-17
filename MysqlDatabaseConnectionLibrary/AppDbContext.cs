@@ -40,17 +40,6 @@ namespace MysqlDatabaseConnectionLibrary
                 entity.Property(k => k.nama).HasColumnName("nama_kategori");
             });
 
-            modelBuilder.Entity<AkunPegawaiModels>(entity =>
-            {
-                entity.ToTable("users");
-                entity.HasKey(a => a.id);
-                entity.Property(a => a.id).HasColumnName("id_user");
-                entity.Property(a => a.nama).HasColumnName("username");
-                entity.Property(a => a.password).HasColumnName("password");
-                entity.Property(a => a.role).HasColumnName("role");
-                entity.Property(a => a.nama_user).HasColumnName("nama_user");
-            });
-
             modelBuilder.Entity<OperasionalModels>(entity =>
             {
                 entity.ToTable("operasional");
@@ -58,16 +47,49 @@ namespace MysqlDatabaseConnectionLibrary
                 entity.HasKey(e => e.id);
 
                 entity.Property(e => e.id)
-                      .HasColumnName("id");
+                      .HasColumnName("id_pengeluaran");
 
                 entity.Property(e => e.Nama)
-                      .HasColumnName("nama");
+                      .HasColumnName("nama_pengeluaran");
 
                 entity.Property(e => e.Harga)
-                      .HasColumnName("harga");
+                      .HasColumnName("nominal");
+
+                entity.Property(e => e.IdUser)
+                      .HasColumnName("id_user");
+
+                entity.Property(e => e.Tanggal)
+                      .HasColumnName("tanggal");
+
+                entity.HasOne(o => o.User)
+                      .WithMany(u => u.Operasional)
+                      .HasForeignKey(o => o.IdUser)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
 
-           
+            modelBuilder.Entity<AkunPegawaiModels>(entity =>
+            {
+                entity.ToTable("users");
+
+                entity.HasKey(e => e.id);
+
+                entity.Property(e => e.id)
+                      .HasColumnName("id_user");
+
+                entity.Property(e => e.nama)
+                      .HasColumnName("username");
+
+                entity.Property(e => e.nama_user)
+                      .HasColumnName("nama_user");
+
+                entity.Property(e => e.password)
+                      .HasColumnName("password");
+
+                entity.Property(e => e.role)
+                      .HasColumnName("role");
+            });
+
+
             modelBuilder.Entity<StatusModels>(entity =>
             {
                 entity.ToTable("status");

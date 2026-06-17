@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Refit;
 using TugasBesar.Core.Controllers.Interfaces;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
@@ -17,6 +18,7 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
         private const string KolomEdit = "Edit";
         private const string KolomHapus = "Hapus";
         private const string KolomId = "id";
+        private const string KolomNamaUser = "NamaUser";
         private const string KolomNama = "Nama";
         private const string KolomHarga = "Harga";
 
@@ -79,8 +81,15 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             if (confirm != DialogResult.Yes)
                 return;
 
-            await _operasionalApi.Hapus(_daftarOperasional[rowIndex].id);
-            await RefreshCache();
+            try
+            {
+                await _operasionalApi.Hapus(_daftarOperasional[rowIndex].id);
+                await RefreshCache();
+            }
+            catch (ApiException ex)
+            {
+                MessageBox.Show(TampilkanPesanError(ex));
+            }
         }
 
         public void ApplyLanguage()
@@ -120,7 +129,14 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
         private async Task TampilkanData()
         {
-            await RefreshCache();
+            try
+            {
+                await RefreshCache();
+            }
+            catch (ApiException ex)
+            {
+                MessageBox.Show(TampilkanPesanError(ex));
+            }
         }
 
         private async Task RefreshCache()
@@ -148,28 +164,38 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
         private void AturUrutanKolom()
         {
-            var urutan = new[] { KolomId, KolomNama, KolomHarga, KolomEdit, KolomHapus };
+            // id -> NamaUser -> Nama -> Harga -> Edit -> Hapus
+            var urutan = new[] { KolomId, KolomNamaUser, KolomNama, KolomHarga, KolomEdit, KolomHapus };
 
             for (int i = 0; i < urutan.Length; i++)
             {
                 if (dgvOperasional.Columns.Contains(urutan[i]))
                     dgvOperasional.Columns[urutan[i]].DisplayIndex = i;
             }
+
+            // IdUser tidak ditampilkan ke pengguna, cukup NamaUser saja yang terlihat
+            if (dgvOperasional.Columns.Contains("IdUser"))
+                dgvOperasional.Columns["IdUser"].Visible = false;
+
+            if (dgvOperasional.Columns.Contains(KolomNamaUser))
+                dgvOperasional.Columns[KolomNamaUser].HeaderText = "Diinput Oleh";
         }
 
         private async void btnTambahOperasional_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!int.TryParse(tbHargaOperasional.Text, out int harga))
-                {
-                    MessageBox.Show("Harga harus berupa angka.");
+                var nama = tbNamaOperasional.Text.Trim();
+                var hargaText = tbHargaOperasional.Text.Trim();
+
+                if (!ValidasiInput(nama, hargaText, out int harga))
                     return;
-                }
 
                 var request = new OperasionalRequestDTO
                 {
-                    Nama = tbNamaOperasional.Text,
+                    IdUser = 2,
+                    NamaUser = "Kasir",
+                    Nama = nama,
                     Harga = harga
                 };
 
@@ -178,10 +204,87 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
                 ClearInput();
             }
+            catch (ApiException ex)
+            {
+                // Tangkap error spesifik dari Refit agar pesan asli dari server (message/detail) terlihat,
+                // bukan cuma "Response status code does not indicate success: 400 (Bad Request)".
+                MessageBox.Show("[ApiException]\n" + TampilkanPesanError(ex));
+            }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show($"[{ex.GetType().FullName}]\n{ex.Message}\n\nInner: {ex.InnerException?.Message}");
             }
+        }
+
+        /// <summary>
+        /// Mengambil pesan error asli dari body response API (format { message, detail })
+        /// agar lebih informatif dibanding pesan generik bawaan Refit.
+        /// </summary>
+        private static string TampilkanPesanError(ApiException ex)
+        {
+            var statusInfo = $"Status: {(int)ex.StatusCode} {ex.StatusCode}";
+            var isiBody = ex.Content;
+
+            if (string.IsNullOrWhiteSpace(isiBody))
+                return $"{statusInfo}\n\n{ex.Message}\n\n(Body response kosong)";
+
+            try
+            {
+                var json = System.Text.Json.JsonDocument.Parse(isiBody);
+                var root = json.RootElement;
+
+                var pesan = root.TryGetProperty("message", out var messageProp)
+                    ? messageProp.GetString()
+                    : ex.Message;
+
+                if (root.TryGetProperty("detail", out var detailProp) && detailProp.ValueKind == System.Text.Json.JsonValueKind.String)
+                {
+                    var detail = detailProp.GetString();
+                    if (!string.IsNullOrWhiteSpace(detail))
+                        pesan += "\n\nDetail: " + detail;
+                }
+
+                return $"{statusInfo}\n\n{pesan}";
+            }
+            catch
+            {
+                return $"{statusInfo}\n\nBody mentah:\n{isiBody}";
+            }
+        }
+
+        /// <summary>
+        /// Validasi input form sebelum dikirim ke API.
+        /// Mengembalikan false dan menampilkan alert jika ada input yang tidak valid.
+        /// </summary>
+        private bool ValidasiInput(string nama, string hargaText, out int harga)
+        {
+            harga = 0;
+
+            if (string.IsNullOrWhiteSpace(nama))
+            {
+                MessageBox.Show("Nama operasional tidak boleh kosong.");
+                return false;
+            }
+
+            if (nama.Any(char.IsDigit))
+            {
+                MessageBox.Show("Nama operasional harus berupa huruf, tidak boleh mengandung angka.");
+                return false;
+            }
+
+            if (!int.TryParse(hargaText, out harga))
+            {
+                MessageBox.Show("Harga harus berupa angka.");
+                return false;
+            }
+
+            if (harga <= 0)
+            {
+                MessageBox.Show("Harga operasional harus lebih dari 0.");
+                return false;
+            }
+
+            return true;
         }
 
         private void btnSetText_Click(object sender, EventArgs e)

@@ -12,9 +12,13 @@ namespace TugasBesar.Core.Models
         public int id { get; set; }
         public string Nama { get; set; }
         public int Harga { get; set; }
+        public long IdUser { get; set; }
+        public DateTime Tanggal { get; set; }
 
+        public DateTime? created_at { get; set; }
+        public DateTime? updated_at { get; set; }
 
-        public DateTime created_at { get; set; } = DateTime.Now;
-        public DateTime updated_at { get; set; } = DateTime.Now;
+        // Navigation property - relasi ke AkunPegawaiModels (tabel users)
+        public AkunPegawaiModels User { get; set; } = null!;
     }
 }

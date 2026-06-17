@@ -42,6 +42,8 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
                 var request = new OperasionalRequestDTO
                 {
+                    IdUser = 2,
+                    NamaUser = "Kasir",
                     Nama = tbNama.Text,
                     Harga = harga
                 };
