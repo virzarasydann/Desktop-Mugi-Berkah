@@ -30,6 +30,7 @@ namespace UnitTesting
                 {
                     // Alter users.role column to varchar(50) to allow 'PEGAWAI'
                     context.Database.ExecuteSqlRaw("ALTER TABLE `users` MODIFY COLUMN `role` varchar(50) NOT NULL DEFAULT 'PEGAWAI';");
+                    context.Database.ExecuteSqlRaw("UPDATE `users` SET `role` = 'PEGAWAI' WHERE `role` = 'kasir';");
 
                     var count = context.AkunPegawai.Count();
                     Assert.True(count >= 0);
@@ -57,6 +58,7 @@ namespace UnitTesting
             {
                 // Ensure table structure is altered
                 context.Database.ExecuteSqlRaw("ALTER TABLE `users` MODIFY COLUMN `role` varchar(50) NOT NULL DEFAULT 'PEGAWAI';");
+                context.Database.ExecuteSqlRaw("UPDATE `users` SET `role` = 'PEGAWAI' WHERE `role` = 'kasir';");
 
                 var uniqueUsername = "test_pegawai_" + Guid.NewGuid().ToString().Substring(0, 8);
                 var testPegawai = new AkunPegawaiModels
