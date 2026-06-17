@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MysqlDatabaseConnectionLibrary; 
-using TugasBesar.Core.Services;
-using TugasBesar.Core.Services.Interfaces;
-using TugasBesar.Core.Repositories.Interfaces;
 using MysqlDatabaseConnectionLibrary.Repositories; 
 using TugasBesar.Core.Factories;
+using TugasBesar.Core.Factories.Payments;
+using TugasBesar.Core.Repositories.Interfaces;
+using TugasBesar.Core.Services;
+using TugasBesar.Core.Services.Interfaces;
 var builder = WebApplication.CreateBuilder(args);
 
 // Paksa API listen di semua interface port 5141
@@ -28,7 +29,7 @@ builder.Services.AddScoped<ITransaksiRepository, TransaksiRepository>();
 builder.Services.AddScoped<ITransaksiDetailsRepository, TransaksiDetailsRepository>();
 builder.Services.AddScoped<IMetodePembayaranRepository, MetodePembayaranRepository>();
 builder.Services.AddScoped<IStatusRepository, StatusRepository>();
-
+builder.Services.AddScoped<PaymentFactory>();
 builder.Services.AddSingleton<IAkunPegawaiFactory, AkunPegawaiFactory>();
 
 builder.Services.AddScoped<IAkunPegawaiServices, AkunPegawaiService>();
@@ -52,28 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Automatically migrate/update the database schema on startup
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    try
-    {
-        context.Database.ExecuteSqlRaw("ALTER TABLE `users` MODIFY COLUMN `role` varchar(50) NOT NULL DEFAULT 'PEGAWAI';");
-        context.Database.ExecuteSqlRaw("UPDATE `users` SET `role` = 'PEGAWAI' WHERE `role` = 'kasir';");
 
-        // Force reset admin password to 'admin' (hashed with PBKDF2) if it starts with php/bcrypt style '$2y$'
-        var adminUser = context.AkunPegawai.FirstOrDefault(u => u.nama == "admin");
-        if (adminUser != null && adminUser.password.StartsWith("$2y$"))
-        {
-            adminUser.password = TugasBesar.Core.Security.PasswordHasher.HashPassword("admin");
-            context.SaveChanges();
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("Database schema update error: " + ex.Message);
-    }
-}
 
 app.MapControllers();
 
