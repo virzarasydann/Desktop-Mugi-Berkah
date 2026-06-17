@@ -10,5 +10,9 @@ namespace TugasBesar.Core.Repositories.Interfaces
     {
         //public Task<OperasionalModels> GetOperasionalByIdAsync(int id);
         Task<OperasionalResponseDTO> GetOperasionalByIdAsync(int id);
+
+        Task<IReadOnlyList<OperasionalModels>> GetAllWithUserAsync();
     }
 }
+
+

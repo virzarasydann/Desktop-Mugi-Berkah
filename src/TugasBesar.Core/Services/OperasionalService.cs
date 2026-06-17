@@ -12,6 +12,8 @@ namespace TugasBesar.Core.Services
 {
     public class OperasionalService : IOperasionalService
     {
+        private const int DefaultIdUser = 1;
+
         private readonly IOperasionalRepository _operasionalRepo;
 
         public OperasionalService(IOperasionalRepository operasionalRepo)
@@ -21,7 +23,7 @@ namespace TugasBesar.Core.Services
 
         public async Task<IReadOnlyList<OperasionalResponseDTO>> GetAll()
         {
-            var data = await _operasionalRepo.GetAllAsync();
+            var data = await _operasionalRepo.GetAllWithUserAsync();
 
             return data
                 .Select(MapToResponseDTO)
@@ -40,7 +42,9 @@ namespace TugasBesar.Core.Services
             await _operasionalRepo.AddAsync(new OperasionalModels
             {
                 Nama = requestDTO.Nama.Trim(),
-                Harga = requestDTO.Harga
+                Harga = requestDTO.Harga,
+                IdUser = DefaultIdUser,
+                Tanggal = DateTime.Today
             });
         }
 
@@ -88,7 +92,9 @@ namespace TugasBesar.Core.Services
             {
                 id = model.id,
                 Nama = model.Nama,
-                Harga = model.Harga
+                Harga = model.Harga,
+                IdUser = model.IdUser,
+                NamaUser = model.User?.nama_user
             };
         }
     }
