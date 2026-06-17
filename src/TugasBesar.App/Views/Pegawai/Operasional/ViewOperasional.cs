@@ -164,7 +164,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
         private void AturUrutanKolom()
         {
-            // id -> NamaUser -> Nama -> Harga -> Edit -> Hapus
             var urutan = new[] { KolomId, KolomNamaUser, KolomNama, KolomHarga, KolomEdit, KolomHapus };
 
             for (int i = 0; i < urutan.Length; i++)
@@ -173,7 +172,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                     dgvOperasional.Columns[urutan[i]].DisplayIndex = i;
             }
 
-            // IdUser tidak ditampilkan ke pengguna, cukup NamaUser saja yang terlihat
             if (dgvOperasional.Columns.Contains("IdUser"))
                 dgvOperasional.Columns["IdUser"].Visible = false;
 
@@ -206,8 +204,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
             catch (ApiException ex)
             {
-                // Tangkap error spesifik dari Refit agar pesan asli dari server (message/detail) terlihat,
-                // bukan cuma "Response status code does not indicate success: 400 (Bad Request)".
                 MessageBox.Show("[ApiException]\n" + TampilkanPesanError(ex));
             }
             catch (Exception ex)
@@ -216,10 +212,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        /// <summary>
-        /// Mengambil pesan error asli dari body response API (format { message, detail })
-        /// agar lebih informatif dibanding pesan generik bawaan Refit.
-        /// </summary>
         private static string TampilkanPesanError(ApiException ex)
         {
             var statusInfo = $"Status: {(int)ex.StatusCode} {ex.StatusCode}";
@@ -252,10 +244,6 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             }
         }
 
-        /// <summary>
-        /// Validasi input form sebelum dikirim ke API.
-        /// Mengembalikan false dan menampilkan alert jika ada input yang tidak valid.
-        /// </summary>
         private bool ValidasiInput(string nama, string hargaText, out int harga)
         {
             harga = 0;
