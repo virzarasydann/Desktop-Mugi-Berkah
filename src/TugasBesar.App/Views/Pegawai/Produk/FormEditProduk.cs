@@ -25,6 +25,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             ApplyLanguage();
 
             cmbKategori.DropDownStyle = ComboBoxStyle.DropDownList;
+            tbHarga.TextChanged += tbHarga_TextChanged;
             tbHarga.KeyPress += tbHarga_KeyPress;
 
             if (categories != null)
@@ -80,6 +81,14 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             if (produk == null)
             {
                 MessageBox.Show(LocalizationService.GetString("msg_data_tidak_ditemukan"));
+                return;
+            }
+
+            if (produk.nama == tbNama.Text.Trim() && 
+                (produk.Kategori?.nama ?? "") == cmbKategori.Text.Trim() && 
+                produk.harga == harga)
+            {
+                MessageBox.Show("Tidak ada perubahan pada data produk.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 

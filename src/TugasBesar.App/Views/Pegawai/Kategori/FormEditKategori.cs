@@ -57,13 +57,19 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
         private void btnSimpan_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(tbNama.Text))
+            if (string.IsNullOrEmpty(tbNama.Text.Trim()))
             {
                 MessageBox.Show(LocalizationService.GetString("msg_nama_kategori_kosong"));
                 return;
             }
 
-            kategori.nama = tbNama.Text;
+            if (kategori.nama == tbNama.Text.Trim())
+            {
+                MessageBox.Show("Tidak ada perubahan pada nama kategori.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            kategori.nama = tbNama.Text.Trim();
 
             this.DialogResult = DialogResult.OK;
             this.Close();

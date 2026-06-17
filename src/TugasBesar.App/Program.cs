@@ -39,7 +39,7 @@ namespace TugasBesar.App
                 ContentSerializer = new SystemTextJsonContentSerializer(jsonOptions)
             };
 
-            var apiBaseUrl = new Uri("https://localhost:7008");
+            var apiBaseUrl = new Uri("http://127.0.0.1:5141");
 
             services.AddSingleton<MasterDataCacheService>();
 
