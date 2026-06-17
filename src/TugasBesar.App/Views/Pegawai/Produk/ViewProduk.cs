@@ -189,9 +189,18 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             dgvProduk.DataSource = list;
 
             // Sembunyikan kolom Id jika ada di modelmu
+            if (dgvProduk.Columns.Contains("Id"))
+            {
+                dgvProduk.Columns["Id"].Visible = false;
+            }
             if (dgvProduk.Columns.Contains("id"))
             {
                 dgvProduk.Columns["id"].Visible = false;
+            }
+            // Sembunyikan kolom KategoriId
+            if (dgvProduk.Columns.Contains("KategoriId"))
+            {
+                dgvProduk.Columns["KategoriId"].Visible = false;
             }
 
             // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
@@ -236,6 +245,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                             harga = form.produk.harga 
                         };
                         await _produkApi.Edit(data.Id, request);
+                        MessageBox.Show("Produk berhasil diubah!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         await TampilkanData();
                     }
                     catch (Exception ex)
@@ -247,9 +257,10 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             else if (dgvProduk.Columns[e.ColumnIndex].Name == "Hapus")
             {
                 var confirm = MessageBox.Show(
-                    LocalizationService.GetString("msg_hapus_konfirmasi"),
-                    LocalizationService.GetString("title_konfirmasi"),
-                    MessageBoxButtons.YesNo
+                    "Yakin mau menghapus produk ini?",
+                    "Konfirmasi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
 
                 if (confirm == DialogResult.Yes)
@@ -257,6 +268,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                     try
                     {
                         await _produkApi.Hapus(data.Id);
+                        MessageBox.Show("Produk berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         await TampilkanData();
                     }
                     catch (Exception ex)

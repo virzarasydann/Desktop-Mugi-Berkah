@@ -110,8 +110,17 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             try
             {
                 int id = _cache.DaftarKategori[selectedIndex].id;
-                var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = tbNamaKategori.Text };
+                string oldName = _cache.DaftarKategori[selectedIndex].nama;
+
+                if (oldName == tbNamaKategori.Text.Trim())
+                {
+                    MessageBox.Show("Tidak ada perubahan pada nama kategori.", "Informasi", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                var request = new TugasBesar.Core.DTO.Request.KategoriRequestDTO { Nama = tbNamaKategori.Text.Trim() };
                 await _kategoriApi.Edit(id, request);
+                MessageBox.Show("Kategori berhasil diubah!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await TampilkanData();
                 tbNamaKategori.Text = string.Empty;
             }
@@ -133,6 +142,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             {
                 int id = _cache.DaftarKategori[selectedIndex].id;
                 await _kategoriApi.Hapus(id);
+                MessageBox.Show("Kategori berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await TampilkanData();
                 tbNamaKategori.Text = "";
             }
@@ -241,9 +251,10 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             else if (dgvKategori.Columns[e.ColumnIndex].Name == "Hapus")
             {
                 var confirm = MessageBox.Show(
-                    LocalizationService.GetString("msg_hapus_kategori_konfirmasi"),
-                    LocalizationService.GetString("title_konfirmasi"),
-                    MessageBoxButtons.YesNo
+                    "Yakin mau menghapus kategori ini?",
+                    "Konfirmasi",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
                 );
 
                 if (confirm == DialogResult.Yes)
@@ -251,6 +262,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                     try
                     {
                         await _kategoriApi.Hapus(data.id);
+                        MessageBox.Show("Kategori berhasil dihapus!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         await TampilkanData();
                     }
                     catch (Exception ex)

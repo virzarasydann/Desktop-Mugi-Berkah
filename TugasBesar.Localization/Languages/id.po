@@ -147,6 +147,7 @@ msgstr "Username"
 
 msgid "lbl_password"
 msgstr "Password"
+
 msgid "msg_hapus_konfirmasi"
 msgstr "Yakin mau menghapus data ini?"
 

@@ -83,8 +83,8 @@ namespace TugasBesar.App.Views
             String username = textBoxUsername.Text;
             String password = textBoxPassword.Text;
 
-            //var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
-            var formPegawai = _serviceProvider.GetRequiredService<BaseFormAdmin>();
+            var formPegawai = _serviceProvider.GetRequiredService<BaseFormPegawai>();
+            //var formPegawai = _serviceProvider.GetRequiredService<BaseFormAdmin>();
             formPegawai.FormClosed += (s, args) => this.Close();
 
             this.Hide();
@@ -97,35 +97,52 @@ namespace TugasBesar.App.Views
             {
                 if (!_cache.IsLoaded)
                 {
+                    // Retry mechanism: tunggu API siap (max 10x percobaan, jeda 2 detik)
+                    int maxRetries = 10;
+                    for (int attempt = 1; attempt <= maxRetries; attempt++)
+                    {
+                        try
+                        {
+                            button1.Text = $"Menunggu API... ({attempt}/{maxRetries})";
 
-                    var taskProduk = _produkApi.GetAll();
-                    var taskKategori = _kategoriApi.GetAll();
-                    var taskMetodePembayaran = _metodePembayaranApi.GetAll();
-                    var taskStatus = _statusApi.GetAll();
+                            var taskProduk = _produkApi.GetAll();
+                            var taskKategori = _kategoriApi.GetAll();
+                            var taskMetodePembayaran = _metodePembayaranApi.GetAll();
+                            var taskStatus = _statusApi.GetAll();
 
-                    await Task.WhenAll(taskProduk, taskKategori, taskMetodePembayaran, taskStatus);
-                    //await Task.WhenAll(taskMetodePembayaran, taskStatus);
+                            await Task.WhenAll(taskProduk, taskKategori, taskMetodePembayaran, taskStatus);
 
-                    var resProduk = taskProduk.Result;
-                    if (resProduk.IsSuccessStatusCode)
-                        _cache.DaftarProduk = resProduk.Content?.ToList() ?? new List<ProdukResponseDTO>();
+                            var resProduk = taskProduk.Result;
+                            if (resProduk.IsSuccessStatusCode)
+                                _cache.DaftarProduk = resProduk.Content?.ToList() ?? new List<ProdukResponseDTO>();
 
-                    var resKategori = taskKategori.Result;
-                    if (resKategori.IsSuccessStatusCode)
-                        _cache.DaftarKategori = resKategori.Content?.ToList() ?? new List<KategoriResponseDTO>();
+                            var resKategori = taskKategori.Result;
+                            if (resKategori.IsSuccessStatusCode)
+                                _cache.DaftarKategori = resKategori.Content?.ToList() ?? new List<KategoriResponseDTO>();
 
-                    var resMetodePembayaran = taskMetodePembayaran.Result;
-                    Debug.WriteLine(resMetodePembayaran);
-                    if (resMetodePembayaran.IsSuccessStatusCode)
-                        _cache.DaftarMetodePembayaran = resMetodePembayaran.Content?.ToList() ?? new List<MetodePembayaranResponseDTO>();
+                            var resMetodePembayaran = taskMetodePembayaran.Result;
+                            Debug.WriteLine(resMetodePembayaran);
+                            if (resMetodePembayaran.IsSuccessStatusCode)
+                                _cache.DaftarMetodePembayaran = resMetodePembayaran.Content?.ToList() ?? new List<MetodePembayaranResponseDTO>();
 
-                    var resStatus = taskStatus.Result;
-                    if (resStatus.IsSuccessStatusCode)
-                        _cache.DaftarStatus = resStatus.Content?.ToList() ?? new List<StatusResponseDTO>();
+                            var resStatus = taskStatus.Result;
+                            if (resStatus.IsSuccessStatusCode)
+                                _cache.DaftarStatus = resStatus.Content?.ToList() ?? new List<StatusResponseDTO>();
 
-                    _cache.IsLoaded = true;
-                    button1.Enabled = true;
-                    button1.Text = LocalizationService.GetString("btn_login");
+                            _cache.IsLoaded = true;
+                            button1.Enabled = true;
+                            button1.Text = LocalizationService.GetString("btn_login");
+                            return; // Berhasil, keluar dari loop
+                        }
+                        catch (Exception) when (attempt < maxRetries)
+                        {
+                            // API belum siap, tunggu 2 detik lalu coba lagi
+                            await Task.Delay(2000);
+                        }
+                    }
+
+                    // Jika semua percobaan gagal
+                    throw new Exception("API tidak dapat dihubungi setelah beberapa percobaan.");
                 }
                 else
                 {

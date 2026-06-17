@@ -8,6 +8,9 @@ using MysqlDatabaseConnectionLibrary.Repositories;
 using TugasBesar.Core.Factories;
 var builder = WebApplication.CreateBuilder(args);
 
+// Paksa API listen di semua interface port 5141
+builder.WebHost.UseUrls("http://0.0.0.0:5141");
+
 
 var connectionString = "Server=localhost;Database=mugi_berkah;User=root;Password=;";
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -49,7 +52,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Dinonaktifkan agar HTTP bisa diakses langsung
 
 // 4. Map ke Controllers Route
 app.MapControllers();
