@@ -7,7 +7,9 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using TugasBesar.App.Views.Admin.AkunPegawai;
+using TugasBesar.App.Views.Admin.MetodePembayaran;
 using TugasBesar.App.Views.Admin.Riwayat;
+using TugasBesar.App.Views.Admin.Status;
 using TugasBesar.App.Views.Pegawai.Transaksi;
 
 namespace TugasBesar.App.Views.Admin
@@ -37,6 +39,16 @@ namespace TugasBesar.App.Views.Admin
         private void btnMenuAkunPegawai_Click(object sender, EventArgs e)
         {
             PindahLayar(_serviceProvider.GetRequiredService<ViewTambahAkunPegawai>());
+        }
+
+        private void btnMetodePembayaran_Click(object sender, EventArgs e)
+        {
+            PindahLayar(_serviceProvider.GetRequiredService<ViewMetodePembayaran>());
+        }
+
+        private void MenuStatus_Click(object sender, EventArgs e)
+        {
+            PindahLayar(_serviceProvider.GetRequiredService<ViewStatus>());
         }
     }
 }

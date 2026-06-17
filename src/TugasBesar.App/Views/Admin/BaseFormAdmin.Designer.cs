@@ -31,7 +31,9 @@
             panelNavbarAdmin = new FlowLayoutPanel();
             btnMenuRiwayat = new Button();
             btnMenuAkunPegawai = new Button();
+            btnMetodePembayaran = new Button();
             panelContent = new Panel();
+            MenuStatus = new Button();
             panelNavbarAdmin.SuspendLayout();
             SuspendLayout();
             // 
@@ -39,6 +41,8 @@
             // 
             panelNavbarAdmin.Controls.Add(btnMenuRiwayat);
             panelNavbarAdmin.Controls.Add(btnMenuAkunPegawai);
+            panelNavbarAdmin.Controls.Add(btnMetodePembayaran);
+            panelNavbarAdmin.Controls.Add(MenuStatus);
             panelNavbarAdmin.Location = new Point(72, 12);
             panelNavbarAdmin.Name = "panelNavbarAdmin";
             panelNavbarAdmin.Size = new Size(626, 64);
@@ -64,6 +68,16 @@
             btnMenuAkunPegawai.UseVisualStyleBackColor = true;
             btnMenuAkunPegawai.Click += btnMenuAkunPegawai_Click;
             // 
+            // btnMetodePembayaran
+            // 
+            btnMetodePembayaran.Location = new Point(272, 3);
+            btnMetodePembayaran.Name = "btnMetodePembayaran";
+            btnMetodePembayaran.Size = new Size(165, 23);
+            btnMetodePembayaran.TabIndex = 2;
+            btnMetodePembayaran.Text = "Menu Metode Pembayaran";
+            btnMetodePembayaran.UseVisualStyleBackColor = true;
+            btnMetodePembayaran.Click += btnMetodePembayaran_Click;
+            // 
             // panelContent
             // 
             panelContent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
@@ -72,14 +86,24 @@
             panelContent.Size = new Size(776, 338);
             panelContent.TabIndex = 2;
             // 
-            // BaseForm
+            // MenuStatus
+            // 
+            MenuStatus.Location = new Point(443, 3);
+            MenuStatus.Name = "MenuStatus";
+            MenuStatus.Size = new Size(165, 23);
+            MenuStatus.TabIndex = 3;
+            MenuStatus.Text = "Menu Status";
+            MenuStatus.UseVisualStyleBackColor = true;
+            MenuStatus.Click += MenuStatus_Click;
+            // 
+            // BaseFormAdmin
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             ClientSize = new Size(800, 450);
             Controls.Add(panelContent);
             Controls.Add(panelNavbarAdmin);
-            Name = "BaseForm";
+            Name = "BaseFormAdmin";
             Text = "BaseForm";
             WindowState = FormWindowState.Maximized;
             panelNavbarAdmin.ResumeLayout(false);
@@ -92,5 +116,7 @@
         private Button btnMenuRiwayat;
         private Button btnMenuAkunPegawai;
         private Panel panelContent;
+        private Button btnMetodePembayaran;
+        private Button MenuStatus;
     }
 }

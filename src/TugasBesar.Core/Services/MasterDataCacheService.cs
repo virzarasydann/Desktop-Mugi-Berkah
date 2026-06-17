@@ -15,7 +15,7 @@ namespace TugasBesar.Core.Services
         public List<StatusResponseDTO> DaftarStatus { get; set; } = new List<StatusResponseDTO>();
         public bool IsLoaded { get; set; } = false;
 
-        //public List<OperasionalResponseDTO> DaftarOperasional { get; set; } = new List<OperasionalResponseDTO>();
+        
         private readonly List<IOperasionalObserver> _observers = new List<IOperasionalObserver>();
 
         private List<OperasionalResponseDTO> _daftarOperasional = new List<OperasionalResponseDTO>();

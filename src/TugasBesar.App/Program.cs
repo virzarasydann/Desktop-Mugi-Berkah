@@ -14,6 +14,8 @@ using TugasBesar.App.Views.Pegawai.Operasional;
 using TugasBesar.App.Views.Admin.AkunPegawai;
 using TugasBesar.App.Views.Admin;
 using TugasBesar.App.Views.Admin.Riwayat;
+using TugasBesar.App.Views.Admin.MetodePembayaran;
+using TugasBesar.App.Views.Admin.Status;
 
 namespace TugasBesar.App
 {
@@ -64,16 +66,16 @@ namespace TugasBesar.App
 
             services.AddRefitClient<IStatusApi>(refitSettings)
                     .ConfigureHttpClient(c => c.BaseAddress = apiBaseUrl);
-
+            services.AddTransient<ViewMetodePembayaran>();
             services.AddTransient<LoginForm>();
             services.AddTransient<BaseFormPegawai>();
             services.AddTransient<BaseFormAdmin>();
             services.AddTransient<ViewRiwayat>();
-
+            services.AddTransient<ViewStatus>();
             services.AddTransient<ViewTransaksi>();
             services.AddTransient<ViewProduk>();
             services.AddTransient<ViewKategori>();
-            services.AddTransient<ViewOperasional>();
+            //services.AddTransient<ViewOperasional>();
             services.AddTransient<ViewTambahAkunPegawai>();
 
             using var serviceProvider = services.BuildServiceProvider();
