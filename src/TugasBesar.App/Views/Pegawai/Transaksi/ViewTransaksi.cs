@@ -256,7 +256,12 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
             if (int.TryParse(teksBersih, out int uangDiterima))
             {
                 UbahStatus(StatusTransaksi.Pembayaran);
-                tbUangDiterima.Text = "Rp " + uangDiterima.ToString("N0");
+                
+                tbUangDiterima.TextChanged -= tbUangDiterima_TextChanged;
+                tbUangDiterima.Text = "Rp " + uangDiterima.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbUangDiterima.SelectionStart = tbUangDiterima.Text.Length;
+                tbUangDiterima.TextChanged += tbUangDiterima_TextChanged;
+                
                 HitungDanTampilkanKembalian(uangDiterima);
             }
             else
