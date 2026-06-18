@@ -31,14 +31,15 @@ namespace TugasBesar.App.Views
         private readonly IStatusApi _statusApi;
         private readonly MasterDataCacheService _cache;
         private readonly IAkunPegawaiApi _akunPegawaiApi;
-
+        private readonly ITransaksiApi _transaksiApi;
 
         public LoginForm(IServiceProvider serviceProvider, IProdukApi produkApi,
             IKategoriApi kategoriApi,
             IMetodePembayaranApi metodePembayaranApi,
             IStatusApi statusApi,
             MasterDataCacheService cache,
-            IAkunPegawaiApi akunPegawaiApi)
+            IAkunPegawaiApi akunPegawaiApi,
+            ITransaksiApi transaksiApi)
         {
             InitializeComponent();
             _serviceProvider = serviceProvider;
@@ -48,6 +49,7 @@ namespace TugasBesar.App.Views
             _statusApi = statusApi;
             _cache = cache;
             _akunPegawaiApi = akunPegawaiApi;
+            _transaksiApi = transaksiApi;
 
             cmbLanguage.Items.Clear();
             cmbLanguage.Items.Add("Indonesia");
@@ -156,13 +158,13 @@ namespace TugasBesar.App.Views
                         try
                         {
                             button1.Text = $"Menunggu API... ({attempt}/{maxRetries})";
-
+                            var taskTransaksi =  _transaksiApi.GetAll();
                             var taskProduk = _produkApi.GetAll();
                             var taskKategori = _kategoriApi.GetAll();
                             var taskMetodePembayaran = _metodePembayaranApi.GetAll();
                             var taskStatus = _statusApi.GetAll();
 
-                            await Task.WhenAll(taskProduk, taskKategori, taskMetodePembayaran, taskStatus);
+                            await Task.WhenAll(taskProduk, taskKategori, taskMetodePembayaran, taskStatus,taskTransaksi);
 
                             var resProduk = taskProduk.Result;
                             if (resProduk.IsSuccessStatusCode)
@@ -173,13 +175,16 @@ namespace TugasBesar.App.Views
                                 _cache.DaftarKategori = resKategori.Content?.ToList() ?? new List<KategoriResponseDTO>();
 
                             var resMetodePembayaran = taskMetodePembayaran.Result;
-                            Debug.WriteLine(resMetodePembayaran);
+                            
                             if (resMetodePembayaran.IsSuccessStatusCode)
                                 _cache.DaftarMetodePembayaran = resMetodePembayaran.Content?.ToList() ?? new List<MetodePembayaranResponseDTO>();
 
                             var resStatus = taskStatus.Result;
                             if (resStatus.IsSuccessStatusCode)
                                 _cache.DaftarStatus = resStatus.Content?.ToList() ?? new List<StatusResponseDTO>();
+
+                            var resTransaksi = taskTransaksi.Result;
+                            _cache.DaftarTransaksi = resTransaksi ?? new List<TransaksiResponseDTO>();
 
                             _cache.IsLoaded = true;
                             button1.Enabled = true;

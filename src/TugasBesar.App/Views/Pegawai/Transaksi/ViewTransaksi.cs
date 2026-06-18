@@ -318,7 +318,8 @@ namespace TugasBesar.App.Views.Pegawai.Transaksi
                 {
                     Process.Start(new ProcessStartInfo(response.midtrans.redirect_url) { UseShellExecute = true });
                 }
-
+                var updatedData = await _transaksiApi.GetAll();
+                _cache.DaftarTransaksi = updatedData;
                 ResetAll();
                 TerapkanStatus(StatusTransaksi.Kosong);
             }
