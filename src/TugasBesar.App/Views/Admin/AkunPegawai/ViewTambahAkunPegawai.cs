@@ -13,12 +13,18 @@ using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
 using TugasBesar.Core.DTO.Request;
 using TugasBesar.Core.DTO.Response;
-using System.Diagnostics; 
+using System.Diagnostics;
 
 namespace TugasBesar.App.Views.Admin.AkunPegawai
 {
     public partial class ViewTambahAkunPegawai : UserControl
     {
+        private const string KolomId = "Id";
+        private const string KolomName = "Name";
+        private const string KolomRole = "Role";
+        private const string KolomEdit = "Edit";
+        private const string KolomHapus = "Hapus";
+
         private readonly IAkunPegawaiApi _akunPegawaiApi;
         private readonly MasterDataCacheService _cache;
 
@@ -28,9 +34,13 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             _akunPegawaiApi = akunPegawaiApi;
             _cache = cache;
 
-            ApplyLanguage();
-
+            dgvAkunPegawai.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvAkunPegawai.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvAkunPegawai.CellClick += dgvAkunPegawai_CellClick;
+
+            ApplyLanguage();
+            BuatKolomTetap();
+
             this.Load += ViewTambahAkunPegawai_Load;
         }
 
@@ -39,9 +49,6 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             await TampilkanData();
         }
 
-        /// <summary>
-        /// Menerapkan lokalisasi bahasa untuk kontrol UI.
-        /// </summary>
         public void ApplyLanguage()
         {
             btnTambahAkunPegawai.Text = LocalizationService.GetString("btn_tambah_akun");
@@ -49,52 +56,95 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             label1.Text = LocalizationService.GetString("lbl_username");
             label2.Text = LocalizationService.GetString("lbl_password");
 
-            if (dgvAkunPegawai.Columns.Contains("Edit"))
-            {
-                dgvAkunPegawai.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_aksi");
-                foreach (DataGridViewRow row in dgvAkunPegawai.Rows)
-                {
-                    row.Cells["Edit"].Value = LocalizationService.GetString("btn_edit");
-                }
-            }
-            if (dgvAkunPegawai.Columns.Contains("Hapus"))
-            {
-                dgvAkunPegawai.Columns["Hapus"].HeaderText = LocalizationService.GetString("btn_hapus");
-                foreach (DataGridViewRow row in dgvAkunPegawai.Rows)
-                {
-                    row.Cells["Hapus"].Value = LocalizationService.GetString("btn_hapus");
-                }
-            }
+            if (dgvAkunPegawai.Columns.Contains(KolomEdit))
+                dgvAkunPegawai.Columns[KolomEdit].HeaderText = "Aksi";
+
+            if (dgvAkunPegawai.Columns.Contains(KolomHapus))
+                dgvAkunPegawai.Columns[KolomHapus].HeaderText = LocalizationService.GetString("btn_hapus");
         }
 
-        /// <summary>
-        /// Mengambil data pegawai terbaru dari API dan menampilkannya di DataGridView.
-        /// </summary>
+        private void BuatKolomTetap()
+        {
+            dgvAkunPegawai.AutoGenerateColumns = false;
+            dgvAkunPegawai.Columns.Clear();
+
+            dgvAkunPegawai.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomId,
+                DataPropertyName = KolomId,
+                HeaderText = "id",
+                Visible = false
+            });
+
+            dgvAkunPegawai.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomName,
+                DataPropertyName = KolomName,
+                HeaderText = "Username"
+            });
+
+            dgvAkunPegawai.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomRole,
+                DataPropertyName = KolomRole,
+                HeaderText = "Role"
+            });
+
+            dgvAkunPegawai.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomEdit,
+                HeaderText = "Aksi",
+                Text = LocalizationService.GetString("btn_edit"),
+                UseColumnTextForButtonValue = true
+            });
+
+            dgvAkunPegawai.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomHapus,
+                HeaderText = LocalizationService.GetString("btn_hapus"),
+                Text = LocalizationService.GetString("btn_hapus"),
+                UseColumnTextForButtonValue = true
+            });
+
+            SesuaikanUkuranGrid();
+        }
+
+        private void SesuaikanUkuranGrid()
+        {
+            int lebarTotal = dgvAkunPegawai.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in dgvAkunPegawai.Columns)
+            {
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
+            }
+
+            int tinggiTotal = dgvAkunPegawai.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in dgvAkunPegawai.Rows)
+            {
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
+            }
+
+            dgvAkunPegawai.Width = lebarTotal + 2;
+            dgvAkunPegawai.Height = tinggiTotal + 2;
+        }
+
         private async Task TampilkanData()
         {
-            // INVARIANT (Syarat Kelas)
             Debug.Assert(dgvAkunPegawai != null, "DbC Invariant Gagal: Tabel DataGridView hilang dari layar!");
-
-            dgvAkunPegawai.Columns.Clear();
-            dgvAkunPegawai.DataSource = null;
 
             if (dgvAkunPegawai == null) return;
 
             try
             {
                 var listAkun = await _akunPegawaiApi.GetAllAkun();
-                if (listAkun == null || listAkun.Count == 0) return;
 
-                dgvAkunPegawai.DataSource = listAkun;
+                dgvAkunPegawai.DataSource = listAkun ?? new List<AkunResponseDTO>();
 
-                TambahKolomButton();
+                if (listAkun != null && listAkun.Count > 0)
+                    dgvAkunPegawai.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
-                // Menyusun letak tombol aksi agar berada di kolom paling kanan
-                if (dgvAkunPegawai.Columns.Contains("Edit"))
-                    dgvAkunPegawai.Columns["Edit"].DisplayIndex = dgvAkunPegawai.Columns.Count - 2;
-
-                if (dgvAkunPegawai.Columns.Contains("Hapus"))
-                    dgvAkunPegawai.Columns["Hapus"].DisplayIndex = dgvAkunPegawai.Columns.Count - 1;
+                SesuaikanUkuranGrid();
             }
             catch (Exception ex)
             {
@@ -102,35 +152,8 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
             }
         }
 
-        /// <summary>
-        /// Menambahkan tombol Aksi (Edit dan Hapus) secara dinamis ke dalam tabel.
-        /// </summary>
-        private void TambahKolomButton()
-        {
-            if (!dgvAkunPegawai.Columns.Contains("Edit"))
-            {
-                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
-                btnEdit.Name = "Edit";
-                btnEdit.HeaderText = LocalizationService.GetString("btn_aksi");
-                btnEdit.Text = LocalizationService.GetString("btn_edit");
-                btnEdit.UseColumnTextForButtonValue = true;
-                dgvAkunPegawai.Columns.Add(btnEdit);
-            }
-
-            if (!dgvAkunPegawai.Columns.Contains("Hapus"))
-            {
-                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
-                btnHapus.Name = "Hapus";
-                btnHapus.HeaderText = LocalizationService.GetString("btn_hapus");
-                btnHapus.Text = LocalizationService.GetString("btn_hapus");
-                btnHapus.UseColumnTextForButtonValue = true;
-                dgvAkunPegawai.Columns.Add(btnHapus);
-            }
-        }
-
         private async void btnTambahAkunPegawai_Click(object? sender, EventArgs e)
         {
-            // PRE-CONDITION (Syarat Awal)
             Debug.Assert(_akunPegawaiApi != null, "DbC Pre-condition Gagal: API Client belum diinisialisasi!");
             Debug.Assert(tbUsername != null && tbPassword != null, "DbC Pre-condition Gagal: TextBox UI tidak terdeteksi!");
 
@@ -157,8 +180,6 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                 tbPassword.Clear();
                 await TampilkanData();
                 TampilkanPesanSukses("Akun berhasil ditambahkan!");
-
-                // POST-CONDITION (Syarat Akhir)
                 Debug.Assert(string.IsNullOrEmpty(tbUsername.Text) && string.IsNullOrEmpty(tbPassword.Text), "DbC Post-condition Gagal: Form gagal dikosongkan setelah sukses!");
             }
             catch (Refit.ApiException apiEx)
@@ -196,7 +217,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
 
             var dataTerpilih = listAkun[e.RowIndex];
 
-            if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == "Edit")
+            if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == KolomEdit)
             {
                 var modelForEdit = new AkunPegawaiModels
                 {
@@ -216,7 +237,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                         };
 
                         await _akunPegawaiApi.UpdateAkun(formEdit.AkunEdit.id, request);
-                        
+
                         await TampilkanData();
                         TampilkanPesanSukses("Akun berhasil diubah!");
                     }
@@ -226,12 +247,12 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                     }
                 }
             }
-            else if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == "Hapus")
+            else if (dgvAkunPegawai.Columns[e.ColumnIndex].Name == KolomHapus)
             {
                 var confirm = MessageBox.Show(
-                    LocalizationService.GetString("msg_konfirmasi_hapus_akun"), 
-                    LocalizationService.GetString("title_konfirmasi"), 
-                    MessageBoxButtons.YesNo, 
+                    LocalizationService.GetString("msg_konfirmasi_hapus_akun"),
+                    LocalizationService.GetString("title_konfirmasi"),
+                    MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
 
@@ -240,7 +261,7 @@ namespace TugasBesar.App.Views.Admin.AkunPegawai
                     try
                     {
                         await _akunPegawaiApi.HapusAkun(dataTerpilih.Id);
-                        
+
                         await TampilkanData();
                         TampilkanPesanSukses("Akun berhasil dihapus!");
                     }

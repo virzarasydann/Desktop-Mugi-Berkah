@@ -17,6 +17,13 @@ namespace TugasBesar.App.Views.Pegawai.Produk
 {
     public partial class ViewProduk : UserControl
     {
+        private const string KolomId = "id";
+        private const string KolomNama = "Nama";
+        private const string KolomKategori = "NamaKategori";
+        private const string KolomHarga = "Harga";
+        private const string KolomEdit = "Edit";
+        private const string KolomHapus = "Hapus";
+
         private readonly IProdukApi _produkApi;
         private readonly MasterDataCacheService _cache;
         int selectedIndex = -1;
@@ -27,7 +34,8 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             _produkApi = produkApi;
             _cache = cache;
 
-            dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvProduk.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvProduk.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvProduk.CellClick += dgvProduk_CellClick;
 
             cmbKategoriProduk.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -35,6 +43,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             tbHargaProduk.KeyPress += tbHargaProduk_KeyPress;
 
             ApplyLanguage();
+            BuatKolomTetap();
 
             this.Load += ViewProduk_Load;
         }
@@ -52,41 +61,85 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             label4.Text = LocalizationService.GetString("lbl_harga_produk");
 
             btnTambahProduk.Text = LocalizationService.GetString("btn_tambah");
-            btnSetTex.Text = LocalizationService.GetString("btn_refresh");
 
-            if (dgvProduk.Columns.Contains("Edit"))
-            {
-                dgvProduk.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_edit");
-            }
-            if (dgvProduk.Columns.Contains("Hapus"))
-            {
-                dgvProduk.Columns["Hapus"].HeaderText = LocalizationService.GetString("btn_hapus");
-            }
+            if (dgvProduk.Columns.Contains(KolomEdit))
+                dgvProduk.Columns[KolomEdit].HeaderText = "Aksi";
+
+            if (dgvProduk.Columns.Contains(KolomHapus))
+                dgvProduk.Columns[KolomHapus].HeaderText = LocalizationService.GetString("btn_hapus");
         }
 
-        private void TambahKolomButton()
+        private void BuatKolomTetap()
         {
-            if (!dgvProduk.Columns.Contains("Edit"))
-            {
-                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
-                btnEdit.Name = "Edit";
-                btnEdit.HeaderText = LocalizationService.GetString("btn_edit");
-                btnEdit.Text = LocalizationService.GetString("btn_edit");
-                btnEdit.UseColumnTextForButtonValue = true;
+            dgvProduk.AutoGenerateColumns = false;
+            dgvProduk.Columns.Clear();
 
-                dgvProduk.Columns.Add(btnEdit);
+            dgvProduk.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomId,
+                DataPropertyName = "Id",
+                HeaderText = "id",
+                Visible = false
+            });
+
+            dgvProduk.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomNama,
+                DataPropertyName = "Nama",
+                HeaderText = "Nama"
+            });
+
+            dgvProduk.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomKategori,
+                DataPropertyName = "NamaKategori",
+                HeaderText = "Kategori"
+            });
+
+            dgvProduk.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomHarga,
+                DataPropertyName = "Harga",
+                HeaderText = "Harga"
+            });
+
+            dgvProduk.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomEdit,
+                HeaderText = "Aksi",
+                Text = LocalizationService.GetString("btn_edit"),
+                UseColumnTextForButtonValue = true
+            });
+
+            dgvProduk.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomHapus,
+                HeaderText = LocalizationService.GetString("btn_hapus"),
+                Text = LocalizationService.GetString("btn_hapus"),
+                UseColumnTextForButtonValue = true
+            });
+
+            SesuaikanUkuranGrid();
+        }
+
+        private void SesuaikanUkuranGrid()
+        {
+            int lebarTotal = dgvProduk.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in dgvProduk.Columns)
+            {
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
             }
 
-            if (!dgvProduk.Columns.Contains("Hapus"))
+            int tinggiTotal = dgvProduk.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in dgvProduk.Rows)
             {
-                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
-                btnHapus.Name = "Hapus";
-                btnHapus.HeaderText = LocalizationService.GetString("btn_hapus");
-                btnHapus.Text = LocalizationService.GetString("btn_hapus");
-                btnHapus.UseColumnTextForButtonValue = true;
-
-                dgvProduk.Columns.Add(btnHapus);
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
             }
+
+            dgvProduk.Width = lebarTotal + 2;
+            dgvProduk.Height = tinggiTotal + 2;
         }
 
         private async void ViewProduk_Enter(object sender, EventArgs e)
@@ -95,7 +148,6 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             await TampilkanData();
         }
 
-
         private async void btnTambahProduk_Click(object sender, EventArgs e)
         {
             try
@@ -103,11 +155,11 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == cmbKategoriProduk.Text);
                 if (kategori == null) throw new Exception("Kategori tidak valid!");
 
-                var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
-                { 
-                    nama = tbNamaProduk.Text, 
-                    kategori_id = kategori.id, 
-                    harga = int.Parse(tbHargaProduk.Text.Replace("Rp ", "").Replace(".", "")) 
+                var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO
+                {
+                    nama = tbNamaProduk.Text,
+                    kategori_id = kategori.id,
+                    harga = int.Parse(tbHargaProduk.Text.Replace("Rp ", "").Replace(".", ""))
                 };
                 await _produkApi.Tambah(request);
                 MessageBox.Show("Produk berhasil ditambahkan!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -125,8 +177,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             if (selectedIndex < 0) return;
 
             var data = _cache.DaftarProduk[selectedIndex];
-            
-            // Map back to old model for FormEditProduk compatibility
+
             var modelData = new ProdukModels { id = data.Id, nama = data.Nama, Kategori = new KategoriModels { id = data.KategoriId, nama = data.NamaKategori }, harga = data.Harga };
 
             var categories = _cache.DaftarKategori?.Select(k => k.nama).ToList();
@@ -139,11 +190,11 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                     var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == form.produk.Kategori?.nama);
                     if (kategori == null) throw new Exception("Kategori tidak valid!");
 
-                    var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
-                    { 
-                        nama = form.produk.nama, 
-                        kategori_id = kategori.id, 
-                        harga = form.produk.harga 
+                    var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO
+                    {
+                        nama = form.produk.nama,
+                        kategori_id = kategori.id,
+                        harga = form.produk.harga
                     };
                     await _produkApi.Edit(data.Id, request);
                     await TampilkanData();
@@ -153,11 +204,6 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                     MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
-        }
-
-        private async void btnSetTex_Click(object sender, EventArgs e)
-        {
-            await TampilkanData();
         }
 
         private async Task TampilkanData()
@@ -175,36 +221,12 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                 MessageBox.Show($"Gagal memuat data produk: {ex.Message}");
             }
 
-            dgvProduk.DataSource = null;
-            dgvProduk.Columns.Clear(); 
+            dgvProduk.DataSource = _cache.DaftarProduk;
 
-            var list = _cache.DaftarProduk;
+            if (_cache.DaftarProduk != null && _cache.DaftarProduk.Count > 0)
+                dgvProduk.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
-            if (list == null || list.Count == 0)
-            {
-                return;
-            }
-
-            // 2. Masukkan data (Sistem akan membuat ulang kolom Nama, Kategori, Harga secara urut)
-            dgvProduk.DataSource = list;
-
-            // Sembunyikan kolom Id jika ada di modelmu
-            if (dgvProduk.Columns.Contains("Id"))
-            {
-                dgvProduk.Columns["Id"].Visible = false;
-            }
-            if (dgvProduk.Columns.Contains("id"))
-            {
-                dgvProduk.Columns["id"].Visible = false;
-            }
-            // Sembunyikan kolom KategoriId
-            if (dgvProduk.Columns.Contains("KategoriId"))
-            {
-                dgvProduk.Columns["KategoriId"].Visible = false;
-            }
-
-            // 3. Pasang tombolnya (Karena tabelnya baru, tombol pasti dipasang di paling kanan!)
-            TambahKolomButton();
+            SesuaikanUkuranGrid();
         }
 
         private void ClearInput()
@@ -213,7 +235,6 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             cmbKategoriProduk.SelectedIndex = -1;
             tbHargaProduk.Text = "";
         }
-
 
         private async void dgvProduk_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -226,7 +247,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
             var data = _cache.DaftarProduk[e.RowIndex];
             var modelData = new ProdukModels { id = data.Id, nama = data.Nama, Kategori = new KategoriModels { id = data.KategoriId, nama = data.NamaKategori }, harga = data.Harga };
 
-            if (dgvProduk.Columns[e.ColumnIndex].Name == "Edit")
+            if (dgvProduk.Columns[e.ColumnIndex].Name == KolomEdit)
             {
                 var categories = _cache.DaftarKategori?.Select(k => k.nama).ToList();
                 FormEditProduk form = new FormEditProduk(modelData, categories);
@@ -238,11 +259,11 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                         var kategori = _cache.DaftarKategori.FirstOrDefault(k => k.nama == form.produk.Kategori?.nama);
                         if (kategori == null) throw new Exception("Kategori tidak valid!");
 
-                        var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO 
-                        { 
-                            nama = form.produk.nama, 
-                            kategori_id = kategori.id, 
-                            harga = form.produk.harga 
+                        var request = new TugasBesar.Core.DTO.Request.ProdukRequestDTO
+                        {
+                            nama = form.produk.nama,
+                            kategori_id = kategori.id,
+                            harga = form.produk.harga
                         };
                         await _produkApi.Edit(data.Id, request);
                         MessageBox.Show("Produk berhasil diubah!", "Sukses", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -254,7 +275,7 @@ namespace TugasBesar.App.Views.Pegawai.Produk
                     }
                 }
             }
-            else if (dgvProduk.Columns[e.ColumnIndex].Name == "Hapus")
+            else if (dgvProduk.Columns[e.ColumnIndex].Name == KolomHapus)
             {
                 var confirm = MessageBox.Show(
                     "Yakin mau menghapus produk ini?",

@@ -11,13 +11,18 @@ using System.Windows.Forms;
 using TugasBesar.Core.Models;
 using TugasBesar.Core.Services;
 using TugasBesar.Core.Controllers;
-using TugasBesar.Localization; 
+using TugasBesar.Localization;
 using KategoriModel = TugasBesar.Core.Models.KategoriModels;
 
 namespace TugasBesar.App.Views.Pegawai.Kategori
 {
     public partial class ViewKategori : UserControl
     {
+        private const string KolomId = "id";
+        private const string KolomNama = "Nama";
+        private const string KolomEdit = "Edit";
+        private const string KolomHapus = "Hapus";
+
         private readonly IKategoriApi _kategoriApi;
         private readonly MasterDataCacheService _cache;
         int selectedIndex = -1;
@@ -28,9 +33,13 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
             _kategoriApi = kategoriApi;
             _cache = cache;
 
-            ApplyLanguage();
-
+            dgvKategori.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvKategori.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvKategori.CellClick += dgvKategori_CellClick;
+
+            ApplyLanguage();
+            BuatKolomTetap();
+
             this.Load += ViewKategori_Load;
         }
 
@@ -42,46 +51,73 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
         public void ApplyLanguage()
         {
             btnTambahKategori.Text = LocalizationService.GetString("btn_tambah");
-            btnSetText.Text = LocalizationService.GetString("btn_refresh");
             label1.Text = LocalizationService.GetString("lbl_nama_kategori");
             label2.Text = LocalizationService.GetString("lbl_nama_kategori");
 
+            if (dgvKategori.Columns.Contains(KolomEdit))
+                dgvKategori.Columns[KolomEdit].HeaderText = "Aksi";
 
-            if (dgvKategori.Columns.Contains("Edit"))
-            {
-                dgvKategori.Columns["Edit"].HeaderText = LocalizationService.GetString("btn_edit");
-            }
-            if (dgvKategori.Columns.Contains("Hapus"))
-            {
-                dgvKategori.Columns["Hapus"].HeaderText = LocalizationService.GetString("btn_hapus");
-            }
+            if (dgvKategori.Columns.Contains(KolomHapus))
+                dgvKategori.Columns[KolomHapus].HeaderText = LocalizationService.GetString("btn_hapus");
         }
-
-        private void TambahKolomButton()
+        private void BuatKolomTetap()
         {
-            if (!dgvKategori.Columns.Contains("Edit"))
+            dgvKategori.AutoGenerateColumns = false;
+            dgvKategori.Columns.Clear();
+
+            dgvKategori.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataGridViewButtonColumn btnEdit = new DataGridViewButtonColumn();
-                btnEdit.Name = "Edit";
-                btnEdit.HeaderText = LocalizationService.GetString("btn_edit");
-                btnEdit.Text = LocalizationService.GetString("btn_edit");
-                btnEdit.UseColumnTextForButtonValue = true;
+                Name = KolomId,
+                DataPropertyName = "id",
+                HeaderText = "id",
+                Visible = false
+            });
 
-                dgvKategori.Columns.Add(btnEdit);
-            }
-
-            if (!dgvKategori.Columns.Contains("Hapus"))
+            dgvKategori.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataGridViewButtonColumn btnHapus = new DataGridViewButtonColumn();
-                btnHapus.Name = "Hapus";
-                btnHapus.HeaderText = LocalizationService.GetString("btn_hapus");
-                btnHapus.Text = LocalizationService.GetString("btn_hapus");
-                btnHapus.UseColumnTextForButtonValue = true;
+                Name = KolomNama,
+                DataPropertyName = "nama",
+                HeaderText = "Nama"
+            });
 
-                dgvKategori.Columns.Add(btnHapus);
-            }
+            dgvKategori.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomEdit,
+                HeaderText = "Aksi",
+                Text = LocalizationService.GetString("btn_edit"),
+                UseColumnTextForButtonValue = true
+            });
+
+            dgvKategori.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomHapus,
+                HeaderText = LocalizationService.GetString("btn_hapus"),
+                Text = LocalizationService.GetString("btn_hapus"),
+                UseColumnTextForButtonValue = true
+            });
+
+            SesuaikanUkuranGrid();
         }
 
+        private void SesuaikanUkuranGrid()
+        {
+            int lebarTotal = dgvKategori.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in dgvKategori.Columns)
+            {
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
+            }
+
+            int tinggiTotal = dgvKategori.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in dgvKategori.Rows)
+            {
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
+            }
+
+            dgvKategori.Width = lebarTotal + 2;
+            dgvKategori.Height = tinggiTotal + 2;
+        }
 
         private async void btnTambahKategori_Click(object sender, EventArgs e)
         {
@@ -106,7 +142,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 MessageBox.Show(LocalizationService.GetString("msg_pilih_data"));
                 return;
             }
-            
+
             try
             {
                 int id = _cache.DaftarKategori[selectedIndex].id;
@@ -151,13 +187,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 MessageBox.Show(ex.Message, "Peringatan", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
-        private async void btnSetText_Click(object sender, EventArgs e)
-        {
-            await TampilkanData();
-        }
-
-
         private async Task TampilkanData()
         {
             try
@@ -173,51 +202,14 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 MessageBox.Show($"Gagal memuat data kategori dari server: {ex.Message}");
             }
 
-            dgvKategori.Columns.Clear();
+            dgvKategori.DataSource = _cache.DaftarKategori;
 
-            dgvKategori.DataSource = null;
+            if (_cache.DaftarKategori != null && _cache.DaftarKategori.Count > 0)
+                dgvKategori.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
 
-            var list = _cache.DaftarKategori;
-
-            if (list == null || list.Count == 0)
-            {
-                dgvKategori.DataSource = null;
-                return;
-            }
-
-            dgvKategori.DataSource = list;
-
-            if (dgvKategori.Columns.Contains("id"))
-            {
-                dgvKategori.Columns["id"].Visible = false;
-            }
-
-            TambahKolomButton();
-
-            if (dgvKategori.Columns.Contains("Edit"))
-                dgvKategori.Columns["Edit"].DisplayIndex = dgvKategori.Columns.Count - 2;
-
-            if (dgvKategori.Columns.Contains("Hapus"))
-                dgvKategori.Columns["Hapus"].DisplayIndex = dgvKategori.Columns.Count - 1;
+            SesuaikanUkuranGrid();
 
             selectedIndex = -1;
-
-            if (dgvKategori.Columns.Contains("Nama"))
-            {
-                dgvKategori.Columns["Nama"].DisplayIndex = 0;
-            }
-
-            // 2. Paksa tombol Edit (Ubah) berada di sebelah kanannya Nama
-            if (dgvKategori.Columns.Contains("Edit"))
-            {
-                dgvKategori.Columns["Edit"].DisplayIndex = 1;
-            }
-
-            // 3. Paksa tombol Hapus berada di urutan paling akhir (paling kanan)
-            if (dgvKategori.Columns.Contains("Hapus"))
-            {
-                dgvKategori.Columns["Hapus"].DisplayIndex = 2;
-            }
         }
 
         private async void dgvKategori_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -227,10 +219,9 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
 
             var data = _cache.DaftarKategori[e.RowIndex];
 
-            // Map response DTO back to Model for the edit form
             var modelData = new KategoriModels { id = data.id, nama = data.nama };
 
-            if (dgvKategori.Columns[e.ColumnIndex].Name == "Edit")
+            if (dgvKategori.Columns[e.ColumnIndex].Name == KolomEdit)
             {
                 FormEditKategori form = new FormEditKategori(modelData);
 
@@ -248,7 +239,7 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                     }
                 }
             }
-            else if (dgvKategori.Columns[e.ColumnIndex].Name == "Hapus")
+            else if (dgvKategori.Columns[e.ColumnIndex].Name == KolomHapus)
             {
                 var confirm = MessageBox.Show(
                     "Yakin mau menghapus kategori ini?",
@@ -272,7 +263,6 @@ namespace TugasBesar.App.Views.Pegawai.Kategori
                 }
             }
         }
-
 
     }
 }

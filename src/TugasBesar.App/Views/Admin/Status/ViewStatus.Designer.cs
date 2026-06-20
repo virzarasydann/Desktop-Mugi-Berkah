@@ -33,77 +33,90 @@
             TbNamaStatus = new TextBox();
             LabelNamaStatus = new Label();
             BtnTambahStatus = new Button();
+            panel2 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvStatus).BeginInit();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
+            panel1.Controls.Add(panel2);
             panel1.Controls.Add(DgvStatus);
-            panel1.Controls.Add(TbNamaStatus);
-            panel1.Controls.Add(LabelNamaStatus);
-            panel1.Controls.Add(BtnTambahStatus);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
-            panel1.Margin = new Padding(2);
+            panel1.Margin = new Padding(2, 3, 2, 3);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1123, 692);
+            panel1.Size = new Size(1283, 923);
             panel1.TabIndex = 5;
             // 
             // DgvStatus
             // 
             DgvStatus.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvStatus.Location = new Point(269, 280);
-            DgvStatus.Margin = new Padding(2);
+            DgvStatus.Location = new Point(533, 285);
+            DgvStatus.Margin = new Padding(2, 3, 2, 3);
             DgvStatus.Name = "DgvStatus";
             DgvStatus.RowHeadersWidth = 51;
             DgvStatus.RowTemplate.Height = 24;
-            DgvStatus.Size = new Size(588, 314);
+            DgvStatus.Size = new Size(672, 419);
             DgvStatus.TabIndex = 9;
             DgvStatus.CellClick += DgvStatus_CellClick;
             // 
             // TbNamaStatus
             // 
-            TbNamaStatus.Location = new Point(50, 128);
-            TbNamaStatus.Margin = new Padding(2);
+            TbNamaStatus.Location = new Point(29, 121);
+            TbNamaStatus.Margin = new Padding(2, 3, 2, 3);
             TbNamaStatus.Multiline = true;
             TbNamaStatus.Name = "TbNamaStatus";
-            TbNamaStatus.Size = new Size(180, 34);
+            TbNamaStatus.Size = new Size(205, 44);
             TbNamaStatus.TabIndex = 7;
             // 
             // LabelNamaStatus
             // 
             LabelNamaStatus.AutoSize = true;
             LabelNamaStatus.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LabelNamaStatus.Location = new Point(47, 109);
+            LabelNamaStatus.Location = new Point(29, 83);
             LabelNamaStatus.Margin = new Padding(2, 0, 2, 0);
             LabelNamaStatus.Name = "LabelNamaStatus";
-            LabelNamaStatus.Size = new Size(100, 17);
+            LabelNamaStatus.Size = new Size(117, 20);
             LabelNamaStatus.TabIndex = 5;
             LabelNamaStatus.Text = "Nama Status";
             // 
             // BtnTambahStatus
             // 
             BtnTambahStatus.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            BtnTambahStatus.Location = new Point(574, 234);
-            BtnTambahStatus.Margin = new Padding(2);
+            BtnTambahStatus.Location = new Point(84, 226);
+            BtnTambahStatus.Margin = new Padding(2, 3, 2, 3);
             BtnTambahStatus.Name = "BtnTambahStatus";
-            BtnTambahStatus.Size = new Size(170, 26);
+            BtnTambahStatus.Size = new Size(194, 35);
             BtnTambahStatus.TabIndex = 0;
             BtnTambahStatus.Text = "Tambah";
             BtnTambahStatus.UseVisualStyleBackColor = true;
             BtnTambahStatus.Click += BtnTambahStatus_Click;
             // 
+            // panel2
+            // 
+            panel2.BackColor = SystemColors.GradientInactiveCaption;
+            panel2.Controls.Add(BtnTambahStatus);
+            panel2.Controls.Add(TbNamaStatus);
+            panel2.Controls.Add(LabelNamaStatus);
+            panel2.Location = new Point(67, 344);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(358, 310);
+            panel2.TabIndex = 10;
+            // 
             // ViewStatus
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panel1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "ViewStatus";
-            Size = new Size(1123, 692);
+            Size = new Size(1283, 923);
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DgvStatus).EndInit();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -114,5 +127,6 @@
         private TextBox TbNamaStatus;
         private Label LabelNamaStatus;
         private Button BtnTambahStatus;
+        private Panel panel2;
     }
 }
