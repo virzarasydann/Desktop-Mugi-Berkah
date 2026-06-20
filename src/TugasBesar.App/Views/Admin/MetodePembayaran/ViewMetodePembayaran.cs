@@ -13,6 +13,11 @@ namespace TugasBesar.App.Views.Admin.MetodePembayaran
 {
     public partial class ViewMetodePembayaran : UserControl
     {
+        private const string KolomId = "IdMetodePembayaran";
+        private const string KolomNama = "NamaMetode";
+        private const string KolomEdit = "Edit";
+        private const string KolomHapus = "Hapus";
+
         private readonly IMetodePembayaranApi _metodePembayaranApi;
         private readonly MasterDataCacheService _cache;
 
@@ -21,6 +26,14 @@ namespace TugasBesar.App.Views.Admin.MetodePembayaran
             _metodePembayaranApi = metodePembayaranApi;
             _cache = cache;
             InitializeComponent();
+
+            DgvMetodePembayaran.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DgvMetodePembayaran.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            DgvMetodePembayaran.AllowUserToAddRows = false;
+            DgvMetodePembayaran.ReadOnly = true;
+            DgvMetodePembayaran.AutoGenerateColumns = false;
+
+            BuatKolomTetap();
 
             this.Load += ViewMetodePembayaran_Load;
         }
@@ -67,54 +80,77 @@ namespace TugasBesar.App.Views.Admin.MetodePembayaran
             }
         }
 
-        private void BindDataToGrid(IEnumerable<MetodePembayaranResponseDTO> data)
+        private void BuatKolomTetap()
         {
             DgvMetodePembayaran.Columns.Clear();
-            DgvMetodePembayaran.DataSource = null;
-
-            var list = data.ToList();
-            DgvMetodePembayaran.AllowUserToAddRows = false; 
-            DgvMetodePembayaran.ReadOnly = true;
-            DgvMetodePembayaran.AutoGenerateColumns = false;
 
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn
             {
-                Name = "IdMetodePembayaran",
-                DataPropertyName = "IdMetodePembayaran",
+                Name = KolomId,
+                DataPropertyName = KolomId,
                 Visible = false
             };
             DgvMetodePembayaran.Columns.Add(idColumn);
 
             DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn
             {
-                Name = "NamaMetode",
-                DataPropertyName = "NamaMetode",
-                HeaderText = "Nama Metode",
-                Width = 200
+                Name = KolomNama,
+                DataPropertyName = KolomNama,
+                HeaderText = "Nama Metode"
             };
             DgvMetodePembayaran.Columns.Add(nameColumn);
 
             DataGridViewButtonColumn editButton = new DataGridViewButtonColumn
             {
-                Name = "Edit",
-                HeaderText = "",
+                Name = KolomEdit,
+                HeaderText = "Aksi",
                 Text = "Edit",
-                UseColumnTextForButtonValue = true,
-                Width = 60
+                UseColumnTextForButtonValue = true
             };
             DgvMetodePembayaran.Columns.Add(editButton);
 
             DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn
             {
-                Name = "Hapus",
-                HeaderText = "",
+                Name = KolomHapus,
+                HeaderText = "Hapus",
                 Text = "Hapus",
-                UseColumnTextForButtonValue = true,
-                Width = 60
+                UseColumnTextForButtonValue = true
             };
             DgvMetodePembayaran.Columns.Add(deleteButton);
 
+            SesuaikanUkuranGrid();
+        }
+
+        private void BindDataToGrid(IEnumerable<MetodePembayaranResponseDTO> data)
+        {
+            var list = data?.ToList() ?? new List<MetodePembayaranResponseDTO>();
+
             DgvMetodePembayaran.DataSource = list;
+
+            if (list.Count > 0)
+                DgvMetodePembayaran.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            SesuaikanUkuranGrid();
+        }
+
+        private void SesuaikanUkuranGrid()
+        {
+            int lebarTotal = DgvMetodePembayaran.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in DgvMetodePembayaran.Columns)
+            {
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
+            }
+
+            int tinggiTotal = DgvMetodePembayaran.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in DgvMetodePembayaran.Rows)
+            {
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
+            }
+
+            DgvMetodePembayaran.Width = lebarTotal + 2;
+            DgvMetodePembayaran.Height = tinggiTotal + 2;
         }
 
         private async void BtnTambahMetode_Click(object sender, EventArgs e)
@@ -156,14 +192,14 @@ namespace TugasBesar.App.Views.Admin.MetodePembayaran
             var grid = sender as DataGridView;
             string columnName = grid.Columns[e.ColumnIndex].Name;
 
-            if (columnName != "Edit" && columnName != "Hapus")
+            if (columnName != KolomEdit && columnName != KolomHapus)
                 return;
 
             var row = grid.Rows[e.RowIndex];
-            var id = (int)row.Cells["IdMetodePembayaran"].Value;
-            var namaMetode = row.Cells["NamaMetode"].Value?.ToString() ?? string.Empty;
+            var id = (int)row.Cells[KolomId].Value;
+            var namaMetode = row.Cells[KolomNama].Value?.ToString() ?? string.Empty;
 
-            if (columnName == "Edit")
+            if (columnName == KolomEdit)
             {
                 var editForm = new FormEditMetodePembayaran(id, namaMetode, _metodePembayaranApi);
                 var result = editForm.ShowDialog();
@@ -174,7 +210,7 @@ namespace TugasBesar.App.Views.Admin.MetodePembayaran
                     await LoadData();
                 }
             }
-            else if (columnName == "Hapus")
+            else if (columnName == KolomHapus)
             {
                 var confirm = MessageBox.Show($"Apakah Anda yakin ingin menghapus metode pembayaran '{namaMetode}'?",
                                                "Konfirmasi Hapus",

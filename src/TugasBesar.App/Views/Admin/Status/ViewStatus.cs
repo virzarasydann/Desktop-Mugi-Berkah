@@ -13,6 +13,11 @@ namespace TugasBesar.App.Views.Admin.Status
 {
     public partial class ViewStatus : UserControl
     {
+        private const string KolomId = "IdStatus";
+        private const string KolomNama = "NamaStatus";
+        private const string KolomEdit = "Edit";
+        private const string KolomHapus = "Hapus";
+
         private readonly IStatusApi _statusApi;
         private readonly MasterDataCacheService _cache;
 
@@ -21,6 +26,14 @@ namespace TugasBesar.App.Views.Admin.Status
             _statusApi = statusApi;
             _cache = cache;
             InitializeComponent();
+
+            DgvStatus.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            DgvStatus.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            DgvStatus.AllowUserToAddRows = false;
+            DgvStatus.ReadOnly = true;
+            DgvStatus.AutoGenerateColumns = false;
+
+            BuatKolomTetap();
 
             this.Load += ViewStatus_Load;
         }
@@ -67,55 +80,77 @@ namespace TugasBesar.App.Views.Admin.Status
             }
         }
 
-        private void BindDataToGrid(IEnumerable<StatusResponseDTO> data)
+        private void BuatKolomTetap()
         {
             DgvStatus.Columns.Clear();
-            DgvStatus.DataSource = null;
-
-            var list = data.ToList();
-
-            DgvStatus.AllowUserToAddRows = false;
-            DgvStatus.ReadOnly = true;
-            DgvStatus.AutoGenerateColumns = false;
 
             DataGridViewTextBoxColumn idColumn = new DataGridViewTextBoxColumn
             {
-                Name = "IdStatus",
-                DataPropertyName = "IdStatus",
+                Name = KolomId,
+                DataPropertyName = KolomId,
                 Visible = false
             };
             DgvStatus.Columns.Add(idColumn);
 
             DataGridViewTextBoxColumn nameColumn = new DataGridViewTextBoxColumn
             {
-                Name = "NamaStatus",
-                DataPropertyName = "NamaStatus",
-                HeaderText = "Nama Status",
-                Width = 200
+                Name = KolomNama,
+                DataPropertyName = KolomNama,
+                HeaderText = "Nama Status"
             };
             DgvStatus.Columns.Add(nameColumn);
 
             DataGridViewButtonColumn editButton = new DataGridViewButtonColumn
             {
-                Name = "Edit",
-                HeaderText = "",
+                Name = KolomEdit,
+                HeaderText = "Aksi",
                 Text = "Edit",
-                UseColumnTextForButtonValue = true,
-                Width = 60
+                UseColumnTextForButtonValue = true
             };
             DgvStatus.Columns.Add(editButton);
 
             DataGridViewButtonColumn deleteButton = new DataGridViewButtonColumn
             {
-                Name = "Hapus",
-                HeaderText = "",
+                Name = KolomHapus,
+                HeaderText = "Hapus",
                 Text = "Hapus",
-                UseColumnTextForButtonValue = true,
-                Width = 60
+                UseColumnTextForButtonValue = true
             };
             DgvStatus.Columns.Add(deleteButton);
 
+            SesuaikanUkuranGrid();
+        }
+
+        private void BindDataToGrid(IEnumerable<StatusResponseDTO> data)
+        {
+            var list = data?.ToList() ?? new List<StatusResponseDTO>();
+
             DgvStatus.DataSource = list;
+
+            if (list.Count > 0)
+                DgvStatus.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            SesuaikanUkuranGrid();
+        }
+
+        private void SesuaikanUkuranGrid()
+        {
+            int lebarTotal = DgvStatus.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in DgvStatus.Columns)
+            {
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
+            }
+
+            int tinggiTotal = DgvStatus.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in DgvStatus.Rows)
+            {
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
+            }
+
+            DgvStatus.Width = lebarTotal + 2;
+            DgvStatus.Height = tinggiTotal + 2;
         }
 
         private async void BtnTambahStatus_Click(object sender, EventArgs e)
@@ -157,14 +192,14 @@ namespace TugasBesar.App.Views.Admin.Status
             var grid = sender as DataGridView;
             string columnName = grid.Columns[e.ColumnIndex].Name;
 
-            if (columnName != "Edit" && columnName != "Hapus")
+            if (columnName != KolomEdit && columnName != KolomHapus)
                 return;
 
             var row = grid.Rows[e.RowIndex];
-            var id = (int)row.Cells["IdStatus"].Value;
-            var namaStatus = row.Cells["NamaStatus"].Value?.ToString() ?? string.Empty;
+            var id = (int)row.Cells[KolomId].Value;
+            var namaStatus = row.Cells[KolomNama].Value?.ToString() ?? string.Empty;
 
-            if (columnName == "Edit")
+            if (columnName == KolomEdit)
             {
                 var editForm = new FormEditStatus(id, namaStatus, _statusApi);
                 var result = editForm.ShowDialog();
@@ -175,7 +210,7 @@ namespace TugasBesar.App.Views.Admin.Status
                     await LoadData();
                 }
             }
-            else if (columnName == "Hapus")
+            else if (columnName == KolomHapus)
             {
                 var confirm = MessageBox.Show($"Apakah Anda yakin ingin menghapus status '{namaStatus}'?",
                                                "Konfirmasi Hapus",

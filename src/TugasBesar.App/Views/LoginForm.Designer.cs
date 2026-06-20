@@ -45,39 +45,39 @@ namespace TugasBesar.App.Views
             // 
             // textBoxUsername
             // 
-            textBoxUsername.Location = new Point(91, 4);
-            textBoxUsername.Margin = new Padding(4);
+            textBoxUsername.Location = new Point(104, 5);
+            textBoxUsername.Margin = new Padding(5, 5, 5, 5);
             textBoxUsername.Name = "textBoxUsername";
-            textBoxUsername.Size = new Size(210, 23);
+            textBoxUsername.Size = new Size(239, 27);
             textBoxUsername.TabIndex = 1;
             textBoxUsername.Text = "Masukkan Username";
             // 
             // textBoxPassword
             // 
-            textBoxPassword.Location = new Point(91, 50);
-            textBoxPassword.Margin = new Padding(4);
+            textBoxPassword.Location = new Point(104, 67);
+            textBoxPassword.Margin = new Padding(5, 5, 5, 5);
             textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(210, 23);
+            textBoxPassword.Size = new Size(239, 27);
             textBoxPassword.TabIndex = 2;
             textBoxPassword.Text = "Masukkan Password";
             // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(4, 20);
-            pictureBox1.Margin = new Padding(4);
+            pictureBox1.Location = new Point(5, 27);
+            pictureBox1.Margin = new Padding(5, 5, 5, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(414, 283);
+            pictureBox1.Size = new Size(473, 377);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 3;
             pictureBox1.TabStop = false;
             // 
             // button1
             // 
-            button1.Location = new Point(91, 97);
-            button1.Margin = new Padding(4);
+            button1.Location = new Point(104, 129);
+            button1.Margin = new Padding(5, 5, 5, 5);
             button1.Name = "button1";
-            button1.Size = new Size(210, 45);
+            button1.Size = new Size(240, 60);
             button1.TabIndex = 0;
             button1.Text = "Login";
             button1.UseVisualStyleBackColor = true;
@@ -90,23 +90,23 @@ namespace TugasBesar.App.Views
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tableLayoutPanel1.Controls.Add(panel1, 0, 0);
             tableLayoutPanel1.Controls.Add(panel2, 0, 1);
-            tableLayoutPanel1.Location = new Point(270, 28);
-            tableLayoutPanel1.Margin = new Padding(4);
+            tableLayoutPanel1.Location = new Point(309, 37);
+            tableLayoutPanel1.Margin = new Padding(5, 5, 5, 5);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 313F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 23F));
-            tableLayoutPanel1.Size = new Size(428, 466);
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 417F));
+            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 31F));
+            tableLayoutPanel1.Size = new Size(489, 621);
             tableLayoutPanel1.TabIndex = 4;
             // 
             // panel1
             // 
             panel1.Controls.Add(pictureBox1);
             panel1.Dock = DockStyle.Fill;
-            panel1.Location = new Point(4, 4);
-            panel1.Margin = new Padding(4);
+            panel1.Location = new Point(5, 5);
+            panel1.Margin = new Padding(5, 5, 5, 5);
             panel1.Name = "panel1";
-            panel1.Size = new Size(420, 305);
+            panel1.Size = new Size(479, 407);
             panel1.TabIndex = 0;
             // 
             // panel2
@@ -115,31 +115,31 @@ namespace TugasBesar.App.Views
             panel2.Controls.Add(textBoxPassword);
             panel2.Controls.Add(button1);
             panel2.Dock = DockStyle.Fill;
-            panel2.Location = new Point(4, 317);
-            panel2.Margin = new Padding(4);
+            panel2.Location = new Point(5, 422);
+            panel2.Margin = new Padding(5, 5, 5, 5);
             panel2.Name = "panel2";
-            panel2.Size = new Size(420, 145);
+            panel2.Size = new Size(479, 194);
             panel2.TabIndex = 1;
             // 
             // cmbLanguage
             // 
             cmbLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbLanguage.FormattingEnabled = true;
-            cmbLanguage.Location = new Point(731, 51);
-            cmbLanguage.Margin = new Padding(4);
+            cmbLanguage.Location = new Point(835, 68);
+            cmbLanguage.Margin = new Padding(5, 5, 5, 5);
             cmbLanguage.Name = "cmbLanguage";
-            cmbLanguage.Size = new Size(140, 23);
+            cmbLanguage.Size = new Size(159, 28);
             cmbLanguage.TabIndex = 5;
             cmbLanguage.SelectedIndexChanged += cmbLanguage_SelectedIndexChanged;
             // 
             // LoginForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(934, 519);
+            ClientSize = new Size(1067, 692);
             Controls.Add(cmbLanguage);
             Controls.Add(tableLayoutPanel1);
-            Margin = new Padding(4);
+            Margin = new Padding(5, 5, 5, 5);
             Name = "LoginForm";
             Text = "LoginForm";
             WindowState = FormWindowState.Maximized;
