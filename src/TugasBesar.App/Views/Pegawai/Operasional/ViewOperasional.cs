@@ -34,7 +34,8 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             _operasionalApi = operasionalApi;
             _cache = cache;
 
-            dgvOperasional.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvOperasional.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dgvOperasional.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvOperasional.CellClick += dgvOperasional_CellClick;
             dgvOperasional.AllowUserToAddRows = false;
 
@@ -48,6 +49,7 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             };
 
             ApplyLanguage();
+            BuatKolomTetap();
             _ = TampilkanData();
         }
 
@@ -99,32 +101,62 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
             btnTambahOperasional.Text = LocalizationService.GetString("btn_tambah");
 
             if (dgvOperasional.Columns.Contains(KolomEdit))
-                dgvOperasional.Columns[KolomEdit].HeaderText = LocalizationService.GetString("btn_edit");
+                dgvOperasional.Columns[KolomEdit].HeaderText = "Aksi";
 
             if (dgvOperasional.Columns.Contains(KolomHapus))
-                dgvOperasional.Columns[KolomHapus].HeaderText = LocalizationService.GetString("btn_hapus");
+                dgvOperasional.Columns[KolomHapus].HeaderText = "Aksi";
         }
 
-        private void TambahKolomAksi()
+        private void BuatKolomTetap()
         {
-            TambahKolomButtonJikaBelumAda(KolomEdit, "btn_edit");
-            TambahKolomButtonJikaBelumAda(KolomHapus, "btn_hapus");
-        }
+            dgvOperasional.AutoGenerateColumns = false;
+            dgvOperasional.Columns.Clear();
 
-        private void TambahKolomButtonJikaBelumAda(string namaKolom, string localizationKey)
-        {
-            if (dgvOperasional.Columns.Contains(namaKolom))
-                return;
-
-            var kolom = new DataGridViewButtonColumn
+            dgvOperasional.Columns.Add(new DataGridViewTextBoxColumn
             {
-                Name = namaKolom,
-                HeaderText = LocalizationService.GetString(localizationKey),
-                Text = LocalizationService.GetString(localizationKey),
-                UseColumnTextForButtonValue = true
-            };
+                Name = KolomId,
+                DataPropertyName = KolomId,
+                HeaderText = "id"
+            });
 
-            dgvOperasional.Columns.Add(kolom);
+            dgvOperasional.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomNamaUser,
+                DataPropertyName = KolomNamaUser,
+                HeaderText = "Diinput Oleh"
+            });
+
+            dgvOperasional.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomNama,
+                DataPropertyName = KolomNama,
+                HeaderText = "Nama"
+            });
+
+            dgvOperasional.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                Name = KolomHarga,
+                DataPropertyName = KolomHarga,
+                HeaderText = "Harga"
+            });
+
+            dgvOperasional.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomEdit,
+                HeaderText = "Aksi",
+                Text = LocalizationService.GetString("btn_edit"),
+                UseColumnTextForButtonValue = true
+            });
+
+            dgvOperasional.Columns.Add(new DataGridViewButtonColumn
+            {
+                Name = KolomHapus,
+                HeaderText = "Aksi",
+                Text = LocalizationService.GetString("btn_hapus"),
+                UseColumnTextForButtonValue = true
+            });
+
+            SesuaikanUkuranGrid();
         }
 
         private async Task TampilkanData()
@@ -147,36 +179,32 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
 
         private void RefreshGrid()
         {
-            dgvOperasional.DataSource = null;
-
-            if (_daftarOperasional.Count == 0)
-            {
-                dgvOperasional.Columns.Clear();
-                return;
-            }
-
-            dgvOperasional.AutoGenerateColumns = true;
             dgvOperasional.DataSource = _daftarOperasional;
 
-            TambahKolomAksi();
-            AturUrutanKolom();
+            if (_daftarOperasional.Count > 0)
+                dgvOperasional.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+
+            SesuaikanUkuranGrid();
         }
 
-        private void AturUrutanKolom()
+        private void SesuaikanUkuranGrid()
         {
-            var urutan = new[] { KolomId, KolomNamaUser, KolomNama, KolomHarga, KolomEdit, KolomHapus };
-
-            for (int i = 0; i < urutan.Length; i++)
+            int lebarTotal = dgvOperasional.RowHeadersWidth;
+            foreach (DataGridViewColumn kolom in dgvOperasional.Columns)
             {
-                if (dgvOperasional.Columns.Contains(urutan[i]))
-                    dgvOperasional.Columns[urutan[i]].DisplayIndex = i;
+                if (kolom.Visible)
+                    lebarTotal += kolom.Width;
             }
 
-            if (dgvOperasional.Columns.Contains("IdUser"))
-                dgvOperasional.Columns["IdUser"].Visible = false;
+            int tinggiTotal = dgvOperasional.ColumnHeadersHeight;
+            foreach (DataGridViewRow baris in dgvOperasional.Rows)
+            {
+                if (baris.Visible)
+                    tinggiTotal += baris.Height;
+            }
 
-            if (dgvOperasional.Columns.Contains(KolomNamaUser))
-                dgvOperasional.Columns[KolomNamaUser].HeaderText = "Diinput Oleh";
+            dgvOperasional.Width = lebarTotal + 2;
+            dgvOperasional.Height = tinggiTotal + 2;
         }
 
         private async void btnTambahOperasional_Click(object sender, EventArgs e)
@@ -260,7 +288,9 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
                 return false;
             }
 
-            if (!int.TryParse(hargaText, out harga))
+            var angkaSaja = AmbilAngkaSaja(hargaText);
+
+            if (!int.TryParse(angkaSaja, out harga))
             {
                 MessageBox.Show("Harga harus berupa angka.");
                 return false;
@@ -314,7 +344,30 @@ namespace TugasBesar.App.Views.Pegawai.Operasional
         private void label5_Click(object sender, EventArgs e) { }
         private void label6_Click(object sender, EventArgs e) { }
         private void tbNamaOperasional_TextChanged(object sender, EventArgs e) { }
-        private void tbHargaOperasional_TextChanged(object sender, EventArgs e) { }
+        private void tbHargaOperasional_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(tbHargaOperasional.Text)) return;
+
+            string angkaSaja = AmbilAngkaSaja(tbHargaOperasional.Text);
+
+            if (string.IsNullOrEmpty(angkaSaja))
+            {
+                return;
+            }
+
+            if (decimal.TryParse(angkaSaja, out decimal harga))
+            {
+                tbHargaOperasional.TextChanged -= tbHargaOperasional_TextChanged;
+                tbHargaOperasional.Text = "Rp " + harga.ToString("N0", new System.Globalization.CultureInfo("id-ID"));
+                tbHargaOperasional.SelectionStart = tbHargaOperasional.Text.Length;
+                tbHargaOperasional.TextChanged += tbHargaOperasional_TextChanged;
+            }
+        }
+
+        private static string AmbilAngkaSaja(string teks)
+        {
+            return new string(teks.Where(char.IsDigit).ToArray());
+        }
         private void panel1_Paint(object sender, PaintEventArgs e) { }
         private void dgvOperasional_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
     }

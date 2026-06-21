@@ -45,16 +45,18 @@
             flowLayoutPanel1.Controls.Add(buttonKategori);
             flowLayoutPanel1.Controls.Add(buttonOperasional);
             flowLayoutPanel1.Controls.Add(cmbLanguageUtama);
-            flowLayoutPanel1.Location = new Point(72, 12);
+            flowLayoutPanel1.Location = new Point(90, 15);
+            flowLayoutPanel1.Margin = new Padding(4, 4, 4, 4);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(626, 64);
+            flowLayoutPanel1.Size = new Size(782, 80);
             flowLayoutPanel1.TabIndex = 0;
             // 
             // buttonTransaksi
             // 
-            buttonTransaksi.Location = new Point(3, 3);
+            buttonTransaksi.Location = new Point(4, 4);
+            buttonTransaksi.Margin = new Padding(4, 4, 4, 4);
             buttonTransaksi.Name = "buttonTransaksi";
-            buttonTransaksi.Size = new Size(122, 23);
+            buttonTransaksi.Size = new Size(152, 29);
             buttonTransaksi.TabIndex = 3;
             buttonTransaksi.Text = "Menu Transaksi";
             buttonTransaksi.UseVisualStyleBackColor = true;
@@ -62,9 +64,10 @@
             // 
             // buttonProduk
             // 
-            buttonProduk.Location = new Point(131, 3);
+            buttonProduk.Location = new Point(164, 4);
+            buttonProduk.Margin = new Padding(4, 4, 4, 4);
             buttonProduk.Name = "buttonProduk";
-            buttonProduk.Size = new Size(106, 23);
+            buttonProduk.Size = new Size(132, 29);
             buttonProduk.TabIndex = 0;
             buttonProduk.Text = "Menu Produk";
             buttonProduk.UseVisualStyleBackColor = true;
@@ -72,9 +75,10 @@
             // 
             // buttonKategori
             // 
-            buttonKategori.Location = new Point(243, 3);
+            buttonKategori.Location = new Point(304, 4);
+            buttonKategori.Margin = new Padding(4, 4, 4, 4);
             buttonKategori.Name = "buttonKategori";
-            buttonKategori.Size = new Size(95, 23);
+            buttonKategori.Size = new Size(119, 29);
             buttonKategori.TabIndex = 1;
             buttonKategori.Text = "Menu Kategori";
             buttonKategori.UseVisualStyleBackColor = true;
@@ -82,9 +86,10 @@
             // 
             // buttonOperasional
             // 
-            buttonOperasional.Location = new Point(344, 3);
+            buttonOperasional.Location = new Point(431, 4);
+            buttonOperasional.Margin = new Padding(4, 4, 4, 4);
             buttonOperasional.Name = "buttonOperasional";
-            buttonOperasional.Size = new Size(122, 23);
+            buttonOperasional.Size = new Size(152, 29);
             buttonOperasional.TabIndex = 2;
             buttonOperasional.Text = "Menu Operasional";
             buttonOperasional.UseVisualStyleBackColor = true;
@@ -94,28 +99,32 @@
             // 
             cmbLanguageUtama.FormattingEnabled = true;
             cmbLanguageUtama.Items.AddRange(new object[] { "Indonesia", "English" });
-            cmbLanguageUtama.Location = new Point(472, 3);
+            cmbLanguageUtama.Location = new Point(591, 4);
+            cmbLanguageUtama.Margin = new Padding(4, 4, 4, 4);
             cmbLanguageUtama.Name = "cmbLanguageUtama";
-            cmbLanguageUtama.Size = new Size(121, 23);
+            cmbLanguageUtama.Size = new Size(150, 28);
             cmbLanguageUtama.TabIndex = 2;
+            cmbLanguageUtama.Text = "Pilih Bahasa";
             cmbLanguageUtama.SelectedIndexChanged += cmbLanguageUtama_SelectedIndexChanged;
             // 
             // panelContent
             // 
             panelContent.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            panelContent.Location = new Point(0, 82);
+            panelContent.Location = new Point(0, 102);
+            panelContent.Margin = new Padding(4, 4, 4, 4);
             panelContent.Name = "panelContent";
-            panelContent.Size = new Size(800, 366);
+            panelContent.Size = new Size(1000, 458);
             panelContent.TabIndex = 1;
             panelContent.Paint += panelContent_Paint;
             // 
             // BaseFormPegawai
             // 
-            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1000, 562);
             Controls.Add(panelContent);
             Controls.Add(flowLayoutPanel1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "BaseFormPegawai";
             Text = "NavbarForm";
             WindowState = FormWindowState.Maximized;

@@ -36,8 +36,12 @@
             label3 = new Label();
             label2 = new Label();
             btnTambahOperasional = new Button();
+            panel2 = new Panel();
+            panel3 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOperasional).BeginInit();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -54,12 +58,8 @@
             // 
             // panel1
             // 
-            panel1.Controls.Add(dgvOperasional);
-            panel1.Controls.Add(tbHargaOperasional);
-            panel1.Controls.Add(tbNamaOperasional);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(label2);
-            panel1.Controls.Add(btnTambahOperasional);
+            panel1.Controls.Add(panel3);
+            panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(2);
@@ -71,28 +71,27 @@
             // dgvOperasional
             // 
             dgvOperasional.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvOperasional.Location = new Point(276, 422);
+            dgvOperasional.Location = new Point(38, 254);
             dgvOperasional.Name = "dgvOperasional";
             dgvOperasional.RowHeadersWidth = 51;
             dgvOperasional.RowTemplate.Height = 24;
-            dgvOperasional.Size = new Size(891, 297);
+            dgvOperasional.Size = new Size(801, 297);
             dgvOperasional.TabIndex = 8;
             dgvOperasional.CellContentClick += dgvOperasional_CellContentClick;
             // 
             // tbHargaOperasional
             // 
-            tbHargaOperasional.Location = new Point(81, 228);
+            tbHargaOperasional.Location = new Point(32, 215);
             tbHargaOperasional.Margin = new Padding(2);
             tbHargaOperasional.Multiline = true;
             tbHargaOperasional.Name = "tbHargaOperasional";
             tbHargaOperasional.Size = new Size(296, 46);
             tbHargaOperasional.TabIndex = 6;
-            tbHargaOperasional.Text = "Rp. ";
             tbHargaOperasional.TextChanged += tbHargaOperasional_TextChanged;
             // 
             // tbNamaOperasional
             // 
-            tbNamaOperasional.Location = new Point(81, 112);
+            tbNamaOperasional.Location = new Point(35, 104);
             tbNamaOperasional.Margin = new Padding(2);
             tbNamaOperasional.Multiline = true;
             tbNamaOperasional.Name = "tbNamaOperasional";
@@ -104,7 +103,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(78, 202);
+            label3.Location = new Point(35, 183);
             label3.Margin = new Padding(2, 0, 2, 0);
             label3.Name = "label3";
             label3.Size = new Size(167, 20);
@@ -116,7 +115,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(78, 89);
+            label2.Location = new Point(38, 67);
             label2.Margin = new Padding(2, 0, 2, 0);
             label2.Name = "label2";
             label2.Size = new Size(164, 20);
@@ -127,7 +126,7 @@
             // btnTambahOperasional
             // 
             btnTambahOperasional.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnTambahOperasional.Location = new Point(914, 344);
+            btnTambahOperasional.Location = new Point(72, 360);
             btnTambahOperasional.Margin = new Padding(2);
             btnTambahOperasional.Name = "btnTambahOperasional";
             btnTambahOperasional.Size = new Size(204, 40);
@@ -135,6 +134,27 @@
             btnTambahOperasional.Text = "Tambah Operasional";
             btnTambahOperasional.UseVisualStyleBackColor = true;
             btnTambahOperasional.Click += btnTambahOperasional_Click;
+            // 
+            // panel2
+            // 
+            panel2.Controls.Add(dgvOperasional);
+            panel2.Location = new Point(531, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(873, 865);
+            panel2.TabIndex = 9;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = SystemColors.GradientActiveCaption;
+            panel3.Controls.Add(btnTambahOperasional);
+            panel3.Controls.Add(tbHargaOperasional);
+            panel3.Controls.Add(label2);
+            panel3.Controls.Add(tbNamaOperasional);
+            panel3.Controls.Add(label3);
+            panel3.Location = new Point(104, 156);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(363, 437);
+            panel3.TabIndex = 10;
             // 
             // ViewOperasional
             // 
@@ -146,8 +166,10 @@
             Name = "ViewOperasional";
             Size = new Size(1404, 865);
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvOperasional).EndInit();
+            panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -163,5 +185,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnTambahOperasional;
         private System.Windows.Forms.DataGridView dgvOperasional;
+        private Panel panel2;
+        private Panel panel3;
     }
 }

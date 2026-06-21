@@ -33,42 +33,44 @@
             TbNamaMetode = new TextBox();
             LabelNamaMetode = new Label();
             BtnTambahMetode = new Button();
+            panel2 = new Panel();
+            panel3 = new Panel();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)DgvMetodePembayaran).BeginInit();
+            panel2.SuspendLayout();
+            panel3.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
-            panel1.Controls.Add(DgvMetodePembayaran);
-            panel1.Controls.Add(TbNamaMetode);
-            panel1.Controls.Add(LabelNamaMetode);
-            panel1.Controls.Add(BtnTambahMetode);
+            panel1.Controls.Add(panel3);
+            panel1.Controls.Add(panel2);
             panel1.Dock = DockStyle.Fill;
             panel1.Location = new Point(0, 0);
             panel1.Margin = new Padding(2);
             panel1.Name = "panel1";
-            panel1.Size = new Size(1123, 692);
+            panel1.Size = new Size(1404, 865);
             panel1.TabIndex = 4;
             // 
             // DgvMetodePembayaran
             // 
             DgvMetodePembayaran.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            DgvMetodePembayaran.Location = new Point(269, 280);
+            DgvMetodePembayaran.Location = new Point(66, 276);
             DgvMetodePembayaran.Margin = new Padding(2);
             DgvMetodePembayaran.Name = "DgvMetodePembayaran";
             DgvMetodePembayaran.RowHeadersWidth = 51;
             DgvMetodePembayaran.RowTemplate.Height = 24;
-            DgvMetodePembayaran.Size = new Size(588, 314);
+            DgvMetodePembayaran.Size = new Size(735, 392);
             DgvMetodePembayaran.TabIndex = 9;
             DgvMetodePembayaran.CellClick += DgvMetodePembayaran_CellClick;
             // 
             // TbNamaMetode
             // 
-            TbNamaMetode.Location = new Point(50, 128);
+            TbNamaMetode.Location = new Point(42, 98);
             TbNamaMetode.Margin = new Padding(2);
             TbNamaMetode.Multiline = true;
             TbNamaMetode.Name = "TbNamaMetode";
-            TbNamaMetode.Size = new Size(180, 34);
+            TbNamaMetode.Size = new Size(224, 42);
             TbNamaMetode.TabIndex = 7;
             TbNamaMetode.TextChanged += TbNamaMetode_TextChanged;
             // 
@@ -76,35 +78,57 @@
             // 
             LabelNamaMetode.AutoSize = true;
             LabelNamaMetode.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            LabelNamaMetode.Location = new Point(47, 109);
+            LabelNamaMetode.Location = new Point(42, 58);
             LabelNamaMetode.Margin = new Padding(2, 0, 2, 0);
             LabelNamaMetode.Name = "LabelNamaMetode";
-            LabelNamaMetode.Size = new Size(202, 17);
+            LabelNamaMetode.Size = new Size(233, 20);
             LabelNamaMetode.TabIndex = 5;
             LabelNamaMetode.Text = "Nama Metode Pembayaran";
             // 
             // BtnTambahMetode
             // 
             BtnTambahMetode.Font = new Font("Microsoft Sans Serif", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            BtnTambahMetode.Location = new Point(574, 234);
+            BtnTambahMetode.Location = new Point(54, 201);
             BtnTambahMetode.Margin = new Padding(2);
             BtnTambahMetode.Name = "BtnTambahMetode";
-            BtnTambahMetode.Size = new Size(170, 26);
+            BtnTambahMetode.Size = new Size(212, 32);
             BtnTambahMetode.TabIndex = 0;
             BtnTambahMetode.Text = "Tambah";
             BtnTambahMetode.UseVisualStyleBackColor = true;
             BtnTambahMetode.Click += BtnTambahMetode_Click;
             // 
+            // panel2
+            // 
+            panel2.Controls.Add(DgvMetodePembayaran);
+            panel2.Location = new Point(552, 0);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(852, 862);
+            panel2.TabIndex = 10;
+            // 
+            // panel3
+            // 
+            panel3.BackColor = SystemColors.GradientActiveCaption;
+            panel3.Controls.Add(BtnTambahMetode);
+            panel3.Controls.Add(TbNamaMetode);
+            panel3.Controls.Add(LabelNamaMetode);
+            panel3.Location = new Point(77, 218);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(340, 322);
+            panel3.TabIndex = 11;
+            // 
             // ViewMetodePembayaran
             // 
-            AutoScaleDimensions = new SizeF(96F, 96F);
+            AutoScaleDimensions = new SizeF(120F, 120F);
             AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(panel1);
+            Margin = new Padding(4, 4, 4, 4);
             Name = "ViewMetodePembayaran";
-            Size = new Size(1123, 692);
+            Size = new Size(1404, 865);
             panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)DgvMetodePembayaran).EndInit();
+            panel2.ResumeLayout(false);
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -115,5 +139,7 @@
         private TextBox TbNamaMetode;
         private Label LabelNamaMetode;
         private Button BtnTambahMetode;
+        private Panel panel3;
+        private Panel panel2;
     }
 }
