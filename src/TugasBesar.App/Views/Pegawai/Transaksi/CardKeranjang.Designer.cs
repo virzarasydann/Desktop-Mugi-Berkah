@@ -28,52 +28,57 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelNamaProduk = new System.Windows.Forms.Label();
-            this.labelHarga = new System.Windows.Forms.Label();
-            this.labelJumlah = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            labelNamaProduk = new Label();
+            labelHarga = new Label();
+            labelJumlah = new Label();
+            SuspendLayout();
             // 
             // labelNamaProduk
             // 
-            this.labelNamaProduk.AutoSize = true;
-            this.labelNamaProduk.Location = new System.Drawing.Point(42, 69);
-            this.labelNamaProduk.Name = "labelNamaProduk";
-            this.labelNamaProduk.Size = new System.Drawing.Size(35, 13);
-            this.labelNamaProduk.TabIndex = 0;
-            this.labelNamaProduk.Text = "Nama";
+            labelNamaProduk.AutoSize = true;
+            labelNamaProduk.Location = new Point(49, 29);
+            labelNamaProduk.Margin = new Padding(4, 0, 4, 0);
+            labelNamaProduk.Name = "labelNamaProduk";
+            labelNamaProduk.Size = new Size(39, 15);
+            labelNamaProduk.TabIndex = 0;
+            labelNamaProduk.Text = "Nama";
             // 
             // labelHarga
             // 
-            this.labelHarga.AutoSize = true;
-            this.labelHarga.Location = new System.Drawing.Point(42, 22);
-            this.labelHarga.Name = "labelHarga";
-            this.labelHarga.Size = new System.Drawing.Size(36, 13);
-            this.labelHarga.TabIndex = 1;
-            this.labelHarga.Text = "Harga";
-            this.labelHarga.Click += new System.EventHandler(this.labelHarga_Click);
+            labelHarga.AutoSize = true;
+            labelHarga.Location = new Point(49, 77);
+            labelHarga.Margin = new Padding(4, 0, 4, 0);
+            labelHarga.Name = "labelHarga";
+            labelHarga.Size = new Size(39, 15);
+            labelHarga.TabIndex = 1;
+            labelHarga.Text = "Harga";
+            labelHarga.Click += labelHarga_Click;
             // 
             // labelJumlah
             // 
-            this.labelJumlah.AutoSize = true;
-            this.labelJumlah.Location = new System.Drawing.Point(42, 109);
-            this.labelJumlah.Name = "labelJumlah";
-            this.labelJumlah.Size = new System.Drawing.Size(40, 13);
-            this.labelJumlah.TabIndex = 2;
-            this.labelJumlah.Text = "Jumlah";
-            this.labelJumlah.Click += new System.EventHandler(this.labelJumlah_Click);
+            labelJumlah.AutoSize = true;
+            labelJumlah.Location = new Point(49, 126);
+            labelJumlah.Margin = new Padding(4, 0, 4, 0);
+            labelJumlah.Name = "labelJumlah";
+            labelJumlah.Size = new Size(45, 15);
+            labelJumlah.TabIndex = 2;
+            labelJumlah.Text = "Jumlah";
+            labelJumlah.Click += labelJumlah_Click;
             // 
             // CardKeranjang
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.Highlight;
-            this.Controls.Add(this.labelJumlah);
-            this.Controls.Add(this.labelHarga);
-            this.Controls.Add(this.labelNamaProduk);
-            this.Name = "CardKeranjang";
-            this.Load += new System.EventHandler(this.CardKeranjang_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.Highlight;
+            Controls.Add(labelJumlah);
+            Controls.Add(labelHarga);
+            Controls.Add(labelNamaProduk);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "CardKeranjang";
+            Size = new Size(175, 173);
+            Load += CardKeranjang_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 

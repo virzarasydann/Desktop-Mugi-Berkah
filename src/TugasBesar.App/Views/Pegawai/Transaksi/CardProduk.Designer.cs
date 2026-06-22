@@ -28,40 +28,43 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblHarga = new System.Windows.Forms.Label();
-            this.lblNama = new System.Windows.Forms.Label();
-            this.SuspendLayout();
+            lblHarga = new Label();
+            lblNama = new Label();
+            SuspendLayout();
             // 
             // lblHarga
             // 
-            this.lblHarga.AutoSize = true;
-            this.lblHarga.Location = new System.Drawing.Point(25, 43);
-            this.lblHarga.Name = "lblHarga";
-            this.lblHarga.Size = new System.Drawing.Size(36, 13);
-            this.lblHarga.TabIndex = 0;
-            this.lblHarga.Text = "Harga";
+            lblHarga.AutoSize = true;
+            lblHarga.Location = new Point(41, 79);
+            lblHarga.Margin = new Padding(4, 0, 4, 0);
+            lblHarga.Name = "lblHarga";
+            lblHarga.Size = new Size(39, 15);
+            lblHarga.TabIndex = 0;
+            lblHarga.Text = "Harga";
             // 
             // lblNama
             // 
-            this.lblNama.AutoSize = true;
-            this.lblNama.Location = new System.Drawing.Point(28, 85);
-            this.lblNama.Name = "lblNama";
-            this.lblNama.Size = new System.Drawing.Size(35, 13);
-            this.lblNama.TabIndex = 1;
-            this.lblNama.Text = "Nama";
+            lblNama.AutoSize = true;
+            lblNama.Location = new Point(41, 26);
+            lblNama.Margin = new Padding(4, 0, 4, 0);
+            lblNama.Name = "lblNama";
+            lblNama.Size = new Size(39, 15);
+            lblNama.TabIndex = 1;
+            lblNama.Text = "Nama";
             // 
             // CardProduk
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.Controls.Add(this.lblNama);
-            this.Controls.Add(this.lblHarga);
-            this.Name = "CardProduk";
-            this.Size = new System.Drawing.Size(155, 123);
-            this.Load += new System.EventHandler(this.CardProduk_Load);
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
+            Controls.Add(lblNama);
+            Controls.Add(lblHarga);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "CardProduk";
+            Size = new Size(181, 142);
+            Load += CardProduk_Load;
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
